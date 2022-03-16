@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Coffee App</string>
+    <string name="beans_menu">Beans</string>
+    <string name="recipes_menu">Recipes</string>
+    <string name="home_menu">Home</string>
+    <string name="coffee_log_menu">Coffee Log</string>
+    <string name="map_menu">Cafe Finder</string>
+
+    <string name="beans_heading">Beans List</string>
+    <string name="home_heading">Home</string>
+    <string name="recipes_heading">Recipes</string>
+    <string name="coffee_log_heading">Coffee Journal</string>
+
+</resources>

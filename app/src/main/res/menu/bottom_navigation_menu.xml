@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/beans_menu"
+        android:enabled="true"
+        android:icon="@mipmap/ic_coffee_beans"
+        android:title="@string/beans_menu"
+        />
+
+    <item
+        android:id="@+id/recipes_menu"
+        android:enabled="true"
+        android:icon="@mipmap/ic_recipes"
+        android:title="@string/recipes_menu"
+        />
+
+    <item
+        android:id="@+id/home_menu"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home_menu"
+        />
+
+    <item
+        android:id="@+id/coffee_log_menu"
+        android:enabled="true"
+        android:icon="@mipmap/ic_coffee_cup"
+        android:title="@string/coffee_log_menu"
+        />
+
+    <item
+        android:id="@+id/map_menu"
+        android:enabled="true"
+        android:icon="@mipmap/ic_map"
+        android:title="@string/map_menu"
+        />
+</menu>
