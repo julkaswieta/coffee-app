@@ -39,7 +39,7 @@ public class RecipesList extends AppCompatActivity {
         recipes.add(new Recipe(new Date(), "Americano with soy milk"));
 
         // create a recipe RecView adapter and pass it to the RecView
-        RecipesRecViewAdapter adapter = new RecipesRecViewAdapter();
+        RecipesRecViewAdapter adapter = new RecipesRecViewAdapter(this);
         adapter.setRecipes(recipes);
         recipesRecView.setAdapter(adapter);
         // set layout manager for the RecView - display the items linearly

@@ -9,13 +9,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipes_rec_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_bar_recipes"
+        android:layout_height="655dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BeansListHeading"
-        app:layout_constraintVertical_bias="0.0"
-        android:padding="10dp"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/BeansListHeading"

@@ -1,12 +1,15 @@
 package com.example.coffeeapp;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -17,8 +20,10 @@ import java.util.ArrayList;
 public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAdapter.ViewHolder> {
 
     private ArrayList<Recipe> recipes = new ArrayList<>();
+    private Context context;
 
-    public RecipesRecViewAdapter() {
+    public RecipesRecViewAdapter(Context context) {
+        this.context = context;
     }
 
     @NonNull
@@ -38,12 +43,20 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
 
     @Override
     /**
-     * Can be used to modify the properties of the item
+     * Used to modify the properties of the card in the RecView list
      * @param position position of the item in the RecView, can be used to get data from the recipes ArrayList
      */
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // changes the text in the textview to the name of the recipe at the right position
+        // set the values of the elements inside the card view
         holder.txtName.setText(recipes.get(position).getName());
+        holder.txtDateAdded.setText(recipes.get(position).getDateAdded().toString());
+        // create an onClickListener for when the item is clicked
+        holder.recipeParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, recipes.get(holder.getAdapterPosition()).getName() + " Selected", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -60,13 +73,14 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
     // inner class for holding a view for every item in the recycler view
     public class ViewHolder extends RecyclerView.ViewHolder {
         // elements inside each list item
-        private TextView txtName;
-        private RelativeLayout recipeParent;
+        private TextView txtName, txtDateAdded;
+        private CardView recipeParent;
 
         // constructor
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
+            txtDateAdded = itemView.findViewById(R.id.txtDateAdded);
             recipeParent = itemView.findViewById(R.id.recipe_parent);
         }
     }
