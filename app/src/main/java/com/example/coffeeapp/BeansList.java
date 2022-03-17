@@ -11,14 +11,14 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BeansList extends AppCompatActivity {
-    BottomNavigationView bottomBar;
+    private BottomNavigationView bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beans_list);
 
-        // create the bottom bar, set a listener and signify that we're in the home screen
+        // create the bottom bar, set a listener and signify that we're in the bean screen
         bottomBar = findViewById(R.id.bottom_bar_beans);
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

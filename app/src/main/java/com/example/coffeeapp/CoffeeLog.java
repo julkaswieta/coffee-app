@@ -11,14 +11,14 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CoffeeLog extends AppCompatActivity {
-    BottomNavigationView bottomBar;
+    private BottomNavigationView bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_log);
 
-        // create the bottom bar, set a listener and signify that we're in the home screen
+        // create the bottom bar, set a listener and signify that we're in the coffee log screen
         bottomBar = findViewById(R.id.bottom_bar_log);
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

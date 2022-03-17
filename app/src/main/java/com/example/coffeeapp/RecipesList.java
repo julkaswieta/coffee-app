@@ -2,6 +2,8 @@ package com.example.coffeeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +12,41 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class RecipesList extends AppCompatActivity {
-    BottomNavigationView bottomBar;
+    private BottomNavigationView bottomBar;
+    private RecyclerView recipesRecView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes_list);
-        // create the bottom bar, set a listener and signify that we're in the home screen
+
+        // initialise attributes
         bottomBar = findViewById(R.id.bottom_bar_recipes);
+        recipesRecView = findViewById(R.id.recipes_rec_view);
+
+        // initialise the ArrayList of recipes
+        ArrayList<Recipe> recipes = new ArrayList<>();
+
+        // set some test Recipe objects to test teh RecView
+        recipes.add(new Recipe(new Date(), "Cold Brew"));
+        recipes.add(new Recipe(new Date(), "Oat Latte"));
+        recipes.add(new Recipe(new Date(), "Cappuccino"));
+        recipes.add(new Recipe(new Date(), "Americano with soy milk"));
+
+        // create a recipe RecView adapter and pass it to the RecView
+        RecipesRecViewAdapter adapter = new RecipesRecViewAdapter();
+        adapter.setRecipes(recipes);
+        recipesRecView.setAdapter(adapter);
+        // set layout manager for the RecView - display the items linearly
+        recipesRecView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        // set a listener for the bottom bar and signify that we're in the recipes screen
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
