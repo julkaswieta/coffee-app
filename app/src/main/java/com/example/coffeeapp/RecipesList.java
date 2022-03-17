@@ -2,12 +2,14 @@ package com.example.coffeeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,6 +20,8 @@ import java.util.Date;
 public class RecipesList extends AppCompatActivity {
     private BottomNavigationView bottomBar;
     private RecyclerView recipesRecView;
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
 
 
     @Override
@@ -28,6 +32,14 @@ public class RecipesList extends AppCompatActivity {
         // initialise attributes
         bottomBar = findViewById(R.id.bottom_bar_recipes);
         recipesRecView = findViewById(R.id.recipes_rec_view);
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+
+        // set the toolbar as the action bar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle.setText("Recipes");
+
 
         // initialise the ArrayList of recipes
         ArrayList<Recipe> recipes = new ArrayList<>();

@@ -10,5 +10,6 @@
     <string name="home_heading">Home</string>
     <string name="recipes_heading">Recipes</string>
     <string name="coffee_log_heading">Coffee Journal</string>
+    <string name="add_recipe_heading">Add new recipe</string>
 
 </resources>

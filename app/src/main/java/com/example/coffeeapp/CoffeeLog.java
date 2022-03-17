@@ -2,21 +2,35 @@ package com.example.coffeeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CoffeeLog extends AppCompatActivity {
     private BottomNavigationView bottomBar;
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_log);
+
+        //initialise attributes
+        bottomBar = findViewById(R.id.bottom_bar_beans);
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+
+        // set the toolbar as the action bar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle.setText("Coffee Journal");
 
         // create the bottom bar, set a listener and signify that we're in the coffee log screen
         bottomBar = findViewById(R.id.bottom_bar_log);

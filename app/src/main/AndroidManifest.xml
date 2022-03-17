@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoffeeApp">
         <activity
+            android:name=".AddRecipe"
+            android:exported="false" />
+        <activity
             android:name=".BeansList"
             android:exported="false" />
         <activity
@@ -17,8 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".RecipesList"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
