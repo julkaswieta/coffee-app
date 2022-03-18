@@ -6,11 +6,100 @@
     android:layout_height="match_parent"
     tools:context=".AddRecipe">
 
-    <TextView
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/add_recipe_header"
-        android:text="@string/add_recipe_heading"
-        />
+        android:layout_marginTop="72dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtRecipeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ar_name"
+                android:textColor="@color/red" />
+
+            <EditText
+                android:id="@+id/inputRecipeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="@string/h_name" />
+
+            <TextView
+                android:id="@+id/txtBeans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ar_beans"
+                android:textColor="@color/red"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/beansSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="90"
+                    android:layout_margin="5dp" />
+
+                <Button
+                    android:id="@+id/btnAddBeans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="10"
+                    android:layout_margin="5dp"
+                    android:text="Add beans"/>
+
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:rowCount="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="50"
+            android:layout_gravity="center_horizontal"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="50"
+            android:layout_gravity="center_horizontal"
+            android:text="Save" />
+
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

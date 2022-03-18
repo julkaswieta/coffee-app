@@ -22,6 +22,9 @@ public class Recipe {
     private int rating;
     private String photo;
 
+    // default empty constructor
+    public Recipe(){}
+
     public Recipe(Date dateAdded, String name) {
         this.dateAdded = dateAdded;
         this.name = name;

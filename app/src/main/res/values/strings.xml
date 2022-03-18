@@ -6,10 +6,24 @@
     <string name="coffee_log_menu">Coffee Log</string>
     <string name="map_menu">Cafe Finder</string>
 
-    <string name="beans_heading">Beans List</string>
-    <string name="home_heading">Home</string>
-    <string name="recipes_heading">Recipes</string>
-    <string name="coffee_log_heading">Coffee Journal</string>
-    <string name="add_recipe_heading">Add new recipe</string>
+    <!-- AddRecipe field names -->
+    <string name="ar_name">Name</string>
+    <string name="ar_beans">Beans</string>
+    <string name="ar_amount">Amount of coffee</string>
+    <string name="ar_prep_method">Preparation method</string>
+    <string name="ar_grind_settings">Grind settings</string>
+    <string name="ar_grind_notes">Grind notes</string>
+    <string name="ar_brew_time">Brewing time</string>
+    <string name="ar_extras">Extras</string>
+    <string name="ar_rating">Rating</string>
+    <string name="ar_notes">Notes (e.g. recipe steps)</string>
+
+    <!-- AddRecipe fields hints -->
+    <string name="h_name">Recipe Name</string>
+
+
+    <!-- Dialog -->
+    <string name="dialog_discard_draft">Discard the draft?</string>
+    <string name="dialog_check_mandatory">Recipe name, beans and preparation have to be specified</string>
 
 </resources>

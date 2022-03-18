@@ -2,12 +2,15 @@ package com.example.coffeeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,5 +100,24 @@ public class RecipesList extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         bottomBar.setSelectedItemId(R.id.recipes_menu);
+    }
+
+    // Adds the menu options to the toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_menu, menu);
+        return true;
+    }
+
+    // Gets the user to the add recipe activity to add a new recipe
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add_option) {
+            Intent newRecipeIntent = new Intent(this, AddRecipe.class);
+            startActivity(newRecipeIntent);
+            return true;
+        }
+        return false;
     }
 }
