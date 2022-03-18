@@ -20,6 +20,7 @@
 
     <!-- AddRecipe fields hints -->
     <string name="h_name">Recipe Name</string>
+    <string name="h_amount">Amount of ground coffee in grams</string>
 
 
     <!-- Dialog -->

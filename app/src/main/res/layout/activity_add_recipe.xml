@@ -26,49 +26,134 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtRecipeName"
+            <!-- Name card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/ar_name"
-                android:textColor="@color/red" />
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
 
-            <EditText
-                android:id="@+id/inputRecipeName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="@string/h_name" />
-
-            <TextView
-                android:id="@+id/txtBeans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ar_beans"
-                android:textColor="@color/red"/>
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/beansSpinner"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="90"
-                    android:layout_margin="5dp" />
+                    android:padding="7dp">
 
-                <Button
-                    android:id="@+id/btnAddBeans"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/txtRecipeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ar_name"
+                        android:textColor="@color/red"
+                        android:layout_margin="4dp"
+                        android:textSize="20sp"/>
+
+                    <EditText
+                        android:id="@+id/inputRecipeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/h_name"
+                        android:inputType="textPersonName"
+                        android:padding="4dp"
+                        android:layout_below="@id/txtRecipeName"
+                        android:textSize="22sp"/>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Beans card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="10"
-                    android:layout_margin="5dp"
-                    android:text="Add beans"/>
+                    android:padding="7dp">
 
-            </GridLayout>
+                    <TextView
+                        android:id="@+id/txtBeans"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ar_beans"
+                        android:textColor="@color/red"
+                        android:layout_margin="7dp"
+                        android:textSize="20dp"/>
+
+                    <!-- Choose beans panels -->
+                    <GridLayout
+                        android:id="@+id/bean_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:orientation="horizontal"
+                        android:layout_below="@id/txtBeans">
+
+                        <Spinner
+                            android:id="@+id/beansSpinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="80"
+                            android:layout_margin="7dp" />
+
+                        <Button
+                            android:id="@+id/btnAddBeans"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="20"
+                            android:layout_margin="5dp"
+                            android:text="New beans" />
+                    </GridLayout>
+
+                    <TextView
+                        android:id="@+id/txtCoffeeAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ar_amount"
+                        android:textColor="@color/red"
+                        android:textSize="20dp"
+                        android:layout_below="@id/bean_grid"/>
+
+                    <!-- Pick amount of coffee panel -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtCoffeeAmount">
+
+                        <NumberPicker
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/gram_picker1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="."
+                            android:layout_margin="7dp"
+                            android:textStyle="bold"/>
+                        <NumberPicker
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/gram_picker2" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="grams"
+                            android:layout_margin="7dp"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
 
         </LinearLayout>
     </ScrollView>
