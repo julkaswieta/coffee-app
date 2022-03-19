@@ -10,16 +10,18 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+    <!-- TODO: add asterisks to the required fields + explanation -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_height="0dp"
         android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/gridLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,26 +39,34 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="7dp">
+                    android:padding="7dp"
+                    android:id="@+id/nameLayout">
 
                     <TextView
                         android:id="@+id/txtRecipeName"
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="4dp"
                         android:text="@string/ar_name"
                         android:textColor="@color/red"
-                        android:layout_margin="4dp"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
+
+                    <ImageButton
+                        android:src="@drawable/ic_add_photo"
+                        android:layout_height="70dp"
+                        android:layout_width="70dp"
+                        android:layout_alignParentEnd="true"/>
+
 
                     <EditText
                         android:id="@+id/inputRecipeName"
-                        android:layout_width="match_parent"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/h_name"
+                        android:hint="@string/hint_name"
                         android:inputType="textPersonName"
                         android:padding="4dp"
-                        android:layout_below="@id/txtRecipeName"
-                        android:textSize="22sp"/>
+                        android:textSize="22sp"
+                        android:layout_below="@id/txtRecipeName"/>
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -78,19 +88,19 @@
                         android:id="@+id/txtBeans"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
                         android:text="@string/ar_beans"
                         android:textColor="@color/red"
-                        android:layout_margin="7dp"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp" />
 
                     <!-- Choose beans panels -->
                     <GridLayout
                         android:id="@+id/bean_grid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/txtBeans"
                         android:columnCount="2"
-                        android:orientation="horizontal"
-                        android:layout_below="@id/txtBeans">
+                        android:orientation="horizontal">
 
                         <Spinner
                             android:id="@+id/beansSpinner"
@@ -112,46 +122,325 @@
                         android:id="@+id/txtCoffeeAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/bean_grid"
+                        android:layout_margin="5dp"
                         android:text="@string/ar_amount"
-                        android:textColor="@color/red"
-                        android:textSize="20dp"
-                        android:layout_below="@id/bean_grid"/>
+                        android:textSize="20dp" />
 
                     <!-- Pick amount of coffee panel -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/txtCoffeeAmount">
+                        android:layout_below="@id/txtCoffeeAmount"
+                        android:layout_margin="5dp">
 
                         <NumberPicker
+                            android:id="@+id/gram_picker1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/gram_picker1"/>
+                            android:layout_height="wrap_content" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="."
                             android:layout_margin="7dp"
-                            android:textStyle="bold"/>
+                            android:text="."
+                            android:textStyle="bold" />
+
                         <NumberPicker
+                            android:id="@+id/gram_picker2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/gram_picker2" />
+                            android:layout_height="wrap_content" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="grams"
-                            android:layout_margin="7dp"/>
+                            android:layout_margin="7dp"
+                            android:text="grams" />
                     </LinearLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Prep card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/txtPrepMethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_prep_method"
+                        android:textColor="@color/red"
+                        android:textSize="20dp" />
+
+                    <EditText
+                        android:id="@+id/inputPrepMethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtPrepMethod"
+                        android:hint="@string/hint_method"
+                        android:inputType="textPersonName"
+                        android:padding="4dp"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/txtBrewTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/inputPrepMethod"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_brew_time"
+                        android:textSize="20dp" />
+
+                    <!-- Pick amount of coffee panel -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtBrewTime"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp">
+
+                        <NumberPicker
+                            android:id="@+id/hour_picker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="7dp"
+                            android:text="h"
+                            android:textStyle="bold" />
+
+                        <NumberPicker
+                            android:id="@+id/minutes_picker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="7dp"
+                            android:text="min"
+                            android:textStyle="bold" />
+
+                        <NumberPicker
+                            android:id="@+id/seconds_picker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="7dp"
+                            android:text="sec"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Grind card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/txtGrind"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_grind_settings"
+                        android:textSize="20dp" />
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtGrind"
+                        android:id="@+id/chckGround"
+                        android:text="Bought ground"/>
+
+                    <TextView
+                        android:id="@+id/txtGrindScale"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_grind_scale"
+                        android:textSize="18dp"
+                        android:layout_below="@+id/chckGround"/>
+
+                    <com.google.android.material.slider.Slider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtGrindScale"
+                        android:id="@+id/grindSlider"
+                        android:valueFrom="0"
+                        android:valueTo="5"
+                        android:stepSize="1" />
+
+                    <EditText
+                        android:id="@+id/inputGrindSettings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/grindSlider"
+                        android:hint="@string/hint_grind"
+                        android:inputType="textPersonName"
+                        android:padding="4dp"
+                        android:textSize="22sp" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Extras card -->
+            <!-- TODO: in the grid layout, when too long text is input, layout breaks -->
+            <!-- TODO: ml/g in the suffix label in the textbox -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
 
+                    <TextView
+                        android:id="@+id/txtExtras"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_extras"
+                        android:textSize="20dp" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3"
+                        android:rowCount="3"
+                        android:layout_below="@+id/txtExtras"
+                        android:alignmentMode="alignBounds">
+
+                        <CheckBox
+                            android:layout_columnWeight="4"
+                            android:text="Milk"/>
+                        <EditText
+                            android:layout_columnWeight="4"
+                            android:hint="@string/hint_milk"/>
+                        <EditText
+                            android:layout_columnWeight="2"
+                            android:hint="@string/hint_amount_ml"/>
+
+                        <CheckBox
+                            android:layout_columnWeight="4"
+                            android:text="Syrup/Sauce"/>
+                        <EditText
+                            android:layout_columnWeight="4"
+                            android:hint="@string/hint_syrup"/>
+                        <EditText
+                            android:layout_columnWeight="2"
+                            android:hint="@string/hint_amount_ml"/>
+
+                        <CheckBox
+                            android:layout_columnWeight="4"
+                            android:text="Sugar"/>
+                        <EditText
+                            android:layout_columnWeight="4"
+                            android:hint="@string/hint_sugar"/>
+                        <EditText
+                            android:layout_columnWeight="2"
+                            android:hint="@string/hint_amount_g"/>
+
+                    </GridLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Rating card -->
+            <!-- TODO: add visual stars for the rating -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/txtRating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_rating"
+                        android:textSize="20dp" />
+
+                    <com.google.android.material.slider.Slider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtRating"
+                        android:id="@+id/ratingSlider"
+                        android:valueFrom="0"
+                        android:valueTo="5"
+                        android:stepSize="1" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/txtNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_notes"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minLines="3"
+                        android:layout_below="@id/txtNotes"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
 
 
@@ -164,7 +453,6 @@
         android:layout_height="wrap_content"
         android:columnCount="2"
         android:orientation="horizontal"
-        android:rowCount="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

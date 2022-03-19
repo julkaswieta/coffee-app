@@ -9,18 +9,24 @@
     <!-- AddRecipe field names -->
     <string name="ar_name">Name</string>
     <string name="ar_beans">Beans</string>
-    <string name="ar_amount">Amount of coffee</string>
+    <string name="ar_amount">Amount of coffee [g]</string>
     <string name="ar_prep_method">Preparation method</string>
     <string name="ar_grind_settings">Grind settings</string>
-    <string name="ar_grind_notes">Grind notes</string>
+    <string name="ar_grind_scale">Grind scale</string>
     <string name="ar_brew_time">Brewing time</string>
     <string name="ar_extras">Extras</string>
     <string name="ar_rating">Rating</string>
     <string name="ar_notes">Notes (e.g. recipe steps)</string>
 
     <!-- AddRecipe fields hints -->
-    <string name="h_name">Recipe Name</string>
-    <string name="h_amount">Amount of ground coffee in grams</string>
+    <string name="hint_name">Recipe Name</string>
+    <string name="hint_method">E.g. drip, french press, etc.</string>
+    <string name="hint_grind">Grind notes, e.g. grinder model.</string>
+    <string name="hint_milk">Kind of milk</string>
+    <string name="hint_amount_ml">Amount [ml]</string>
+    <string name="hint_amount_g">Amount [g]</string>
+    <string name="hint_syrup">Flavour</string>
+    <string name="hint_sugar">Kind of sugar</string>
 
 
     <!-- Dialog -->

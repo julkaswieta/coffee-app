@@ -32,6 +32,9 @@ public class AddRecipe extends AppCompatActivity {
     private AlertDialog dialog;
     private NumberPicker gramPicker1;
     private NumberPicker gramPicker2;
+    private NumberPicker hourPicker;
+    private NumberPicker minutesPicker;
+    private NumberPicker secondsPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class AddRecipe extends AppCompatActivity {
         dialogBuilder = new MaterialAlertDialogBuilder(this);
         gramPicker1 = findViewById(R.id.gram_picker1);
         gramPicker2 = findViewById(R.id.gram_picker2);
+        hourPicker = findViewById(R.id.hour_picker);
+        minutesPicker = findViewById(R.id.minutes_picker);
+        secondsPicker = findViewById(R.id.seconds_picker);
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -67,13 +73,17 @@ public class AddRecipe extends AppCompatActivity {
         beansSpinner.setAdapter(beansAdapter);
         // TODO: add a hint to the spinner instead of displaying the first item
 
-        // setup the number pickers for selecting number of grams
+        // setup the number pickers for selecting number of grams and brewing time
         gramPicker1.setMinValue(0);
         gramPicker1.setMaxValue(99);
         gramPicker2.setMinValue(0);
-        gramPicker2.setMaxValue(99);
-
-
+        gramPicker2.setMaxValue(9);
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(24);
+        minutesPicker.setMinValue(0);
+        minutesPicker.setMaxValue(59);
+        secondsPicker.setMinValue(0);
+        secondsPicker.setMaxValue(59);
 
         // onClickListener for the Cancel button - check if the user is sure to go back
         cancelButton.setOnClickListener(new View.OnClickListener() {
