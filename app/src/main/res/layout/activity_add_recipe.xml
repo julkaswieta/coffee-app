@@ -277,11 +277,11 @@
                         android:textSize="20dp" />
 
                     <CheckBox
+                        android:id="@+id/chckGround"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txtGrind"
-                        android:id="@+id/chckGround"
-                        android:text="Bought ground"/>
+                        android:text="Bought ground" />
 
                     <TextView
                         android:id="@+id/txtGrindScale"
@@ -302,7 +302,7 @@
                         android:stepSize="1" />
 
                     <EditText
-                        android:id="@+id/inputGrindSettings"
+                        android:id="@+id/inputGrindNotes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/grindSlider"
@@ -346,32 +346,41 @@
                         android:alignmentMode="alignBounds">
 
                         <CheckBox
+                            android:id="@+id/chckMilk"
                             android:layout_columnWeight="4"
                             android:text="Milk"/>
                         <EditText
+                            android:id="@+id/txtMilkKind"
                             android:layout_columnWeight="4"
                             android:hint="@string/hint_milk"/>
                         <EditText
+                            android:id="@+id/txtMilkAmount"
                             android:layout_columnWeight="2"
                             android:hint="@string/hint_amount_ml"/>
 
                         <CheckBox
+                            android:id="@+id/chckSyrup"
                             android:layout_columnWeight="4"
                             android:text="Syrup/Sauce"/>
                         <EditText
+                            android:id="@+id/txtSyrupFlavour"
                             android:layout_columnWeight="4"
                             android:hint="@string/hint_syrup"/>
                         <EditText
+                            android:id="@+id/txtSyrupAmount"
                             android:layout_columnWeight="2"
                             android:hint="@string/hint_amount_ml"/>
 
                         <CheckBox
+                            android:id="@+id/chckSugar"
                             android:layout_columnWeight="4"
                             android:text="Sugar"/>
                         <EditText
+                            android:id="@+id/txtSugarKind"
                             android:layout_columnWeight="4"
                             android:hint="@string/hint_sugar"/>
                         <EditText
+                            android:id="@+id/txtSugarAmount"
                             android:layout_columnWeight="2"
                             android:hint="@string/hint_amount_g"/>
 
@@ -434,6 +443,7 @@
                         android:textSize="20sp" />
 
                     <EditText
+                        android:id="@+id/inputNotes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minLines="3"

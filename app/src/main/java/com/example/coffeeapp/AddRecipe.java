@@ -1,5 +1,7 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.RecipesList.recipesList;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
@@ -16,16 +19,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.slider.Slider;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddRecipe extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView toolbarTitle;
     private EditText recipeName;
+    private EditText prepMethod;
     private Spinner beansSpinner;
-    private Button btnAddBeans;
+    private Button btnAddBeans; // TODO: allow selection from the gallery or taking a photo
     private Button cancelButton;
     private Button saveButton;
     private MaterialAlertDialogBuilder dialogBuilder;
@@ -35,6 +41,20 @@ public class AddRecipe extends AppCompatActivity {
     private NumberPicker hourPicker;
     private NumberPicker minutesPicker;
     private NumberPicker secondsPicker;
+    private CheckBox boughtGround;
+    private Slider grindScale;
+    private EditText grindNotes;
+    private CheckBox milk;
+    private CheckBox syrup;
+    private CheckBox sugar;
+    private EditText milkKind;
+    private EditText milkAmount;
+    private EditText syrupFlavour;
+    private EditText syrupAmount;
+    private EditText sugarKind;
+    private EditText sugarAmount;
+    private Slider rating;
+    private EditText notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +65,7 @@ public class AddRecipe extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
         recipeName = findViewById(R.id.inputRecipeName);
+        prepMethod = findViewById(R.id.inputPrepMethod);
         beansSpinner = findViewById(R.id.beansSpinner);
         btnAddBeans = findViewById(R.id.btnAddBeans);
         cancelButton = findViewById(R.id.cancel_button);
@@ -55,6 +76,20 @@ public class AddRecipe extends AppCompatActivity {
         hourPicker = findViewById(R.id.hour_picker);
         minutesPicker = findViewById(R.id.minutes_picker);
         secondsPicker = findViewById(R.id.seconds_picker);
+        boughtGround = findViewById(R.id.chckGround);
+        grindScale = findViewById(R.id.grindSlider);
+        grindNotes = findViewById(R.id.inputGrindNotes);
+        milk = findViewById(R.id.chckMilk);
+        syrup = findViewById(R.id.chckSyrup);
+        sugar = findViewById(R.id.chckSugar);
+        milkKind = findViewById(R.id.txtMilkKind);
+        milkAmount = findViewById(R.id.txtMilkAmount);
+        syrupFlavour = findViewById(R.id.txtSyrupFlavour);
+        syrupAmount = findViewById(R.id.txtSyrupAmount);
+        sugarKind = findViewById(R.id.txtSugarKind);
+        sugarAmount = findViewById(R.id.txtSugarAmount);
+        rating = findViewById(R.id.ratingSlider);
+        notes = findViewById(R.id.inputNotes);
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -108,30 +143,36 @@ public class AddRecipe extends AppCompatActivity {
             }
         });
 
-        // onClickListener for the Save button
+        // onClickListener for the Save button - create a new recipe object
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: create a new Recipe object and assign all attributes
-                createRecipe();
+                Recipe recipe = createRecipe();
+                recipesList.add(recipe);
                 // TODO: display a snackbar/toast that the recipe has been created
             }
         });
     }
 
-    // goes back to the recipes screen when the top back button pressed
+    // handles the top back button
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
+    /**
+     * Gathers all data from the views and assigns it to the recipe object. If name, beans and method not specified, displays a dialog.
+     * @return Recipe object created
+     */
     private Recipe createRecipe() {
         Recipe recipe = new Recipe();
-        // TODO: check if name, beans and method are specified
-        if(recipeName.getText().toString().isEmpty() || beansSpinner.getSelectedItem() == null) {
+        // check if name, beans and method are specified
+        if(recipeName.getText().toString().isEmpty() || beansSpinner.getSelectedItem() == null || prepMethod.getText().toString().isEmpty()) {
             dialog = dialogBuilder.create();
             dialogBuilder
-                    .setTitle(R.string.dialog_check_mandatory)
+                    .setTitle(R.string.dialog_check_title)
+                    .setMessage(R.string.dialog_check_mandatory)
                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -142,7 +183,24 @@ public class AddRecipe extends AppCompatActivity {
         // proceed with creating the recipe
         else {
             recipe.setName(recipeName.getText().toString());
+            recipe.setDateAdded(new Date());
+            // TODO: fix set beans to work properly
+            recipe.setBeansUsed(new Bean(beansSpinner.getSelectedItem().toString().split(",")[0], beansSpinner.getSelectedItem().toString().split(",")[1]));
+            String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
+            float amount= Float.parseFloat(tempAmount);
+            recipe.setAmountOfCoffee(amount);
+            recipe.setMethodOfBrewing(prepMethod.getText().toString());
+            recipe.setBrewingTime(Integer.toString(hourPicker.getValue()) + "," + Integer.toString(minutesPicker.getValue()) + "," + Integer.toString(secondsPicker.getValue()));
+            recipe.setBoughtGround(boughtGround.isChecked());
+            recipe.setGrindScale((int)grindScale.getValue());
+            recipe.setGrindNotes(grindNotes.getText().toString());
+            if(milk.isChecked()) { recipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString()); }
+            if(syrup.isChecked()) { recipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString()); }
+            if(sugar.isChecked()) { recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString()); }
+            recipe.setRating((int)rating.getValue());
+            recipe.setNotes(notes.getText().toString());
             Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
+            finish();
         }
         return recipe;
     }

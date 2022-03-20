@@ -12,7 +12,11 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class BeansList extends AppCompatActivity {
+    static ArrayList<Bean> beansList = new ArrayList<>();
+
     private BottomNavigationView bottomBar;
     private Toolbar toolbar;
     private TextView toolbarTitle;

@@ -31,6 +31,7 @@
 
     <!-- Dialog -->
     <string name="dialog_discard_draft">Discard the draft?</string>
-    <string name="dialog_check_mandatory">Recipe name, beans and preparation have to be specified</string>
+    <string name="dialog_check_title">Specify mandatory fields</string>
+    <string name="dialog_check_mandatory">Recipe name, beans and preparation method have to be specified to save a recipe.</string>
 
 </resources>

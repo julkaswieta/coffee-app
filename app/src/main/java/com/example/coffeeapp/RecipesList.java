@@ -21,11 +21,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class RecipesList extends AppCompatActivity {
+    static ArrayList<Recipe> recipesList = new ArrayList<>();
+
     private BottomNavigationView bottomBar;
     private RecyclerView recipesRecView;
     private Toolbar toolbar;
     private TextView toolbarTitle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +45,16 @@ public class RecipesList extends AppCompatActivity {
         toolbarTitle.setText("Recipes");
 
 
-        // initialise the ArrayList of recipes
-        ArrayList<Recipe> recipes = new ArrayList<>();
-
         // set some test Recipe objects to test teh RecView
-        recipes.add(new Recipe(new Date(), "Cold Brew"));
-        recipes.add(new Recipe(new Date(), "Oat Latte"));
-        recipes.add(new Recipe(new Date(), "Cappuccino"));
-        recipes.add(new Recipe(new Date(), "Americano with soy milk"));
+        recipesList.add(new Recipe(new Date(), "Cold Brew"));
+        recipesList.add(new Recipe(new Date(), "Soy latte"));
+        recipesList.add(new Recipe(new Date(), "Cappuccino"));
+        recipesList.add(new Recipe(new Date(), "Americano with soy milk"));
+
 
         // create a recipe RecView adapter and pass it to the RecView
         RecipesRecViewAdapter adapter = new RecipesRecViewAdapter(this);
-        adapter.setRecipes(recipes);
+        adapter.setRecipes(recipesList);
         recipesRecView.setAdapter(adapter);
         // set layout manager for the RecView - display the items linearly
         recipesRecView.setLayoutManager(new LinearLayoutManager(this));

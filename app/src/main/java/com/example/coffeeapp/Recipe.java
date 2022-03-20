@@ -1,6 +1,5 @@
 package com.example.coffeeapp;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -12,11 +11,11 @@ public class Recipe {
     private Bean beansUsed;
     private float amountOfCoffee;
     private String methodOfBrewing;
-    private String brewingNotes;
+    private String brewingNotes;    // so far not used
+    private String brewingTime;
     private boolean boughtGround;
     private int grindScale;
     private String grindNotes;
-    private int brewingTime;
     private String milk;
     private String syrup;
     private String sugar;
@@ -99,11 +98,11 @@ public class Recipe {
         this.grindScale = grindScale;
     }
 
-    public int getBrewingTime() {
+    public String getBrewingTime() {
         return brewingTime;
     }
 
-    public void setBrewingTime(int brewingTime) {
+    public void setBrewingTime(String brewingTime) {
         this.brewingTime = brewingTime;
     }
 
