@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +76,7 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         // elements inside each list item
         private TextView txtName, txtDateAdded;
         private CardView recipeParent;
+        private ImageView recipePhoto;
 
         // constructor
         public ViewHolder(@NonNull View itemView) {
@@ -82,6 +84,7 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
             txtName = itemView.findViewById(R.id.txtName);
             txtDateAdded = itemView.findViewById(R.id.txtDateAdded);
             recipeParent = itemView.findViewById(R.id.recipe_parent);
+            recipePhoto = itemView.findViewById(R.id.recipe_image);
         }
     }
 }

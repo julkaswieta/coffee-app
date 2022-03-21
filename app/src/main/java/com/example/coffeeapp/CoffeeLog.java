@@ -39,25 +39,20 @@ public class CoffeeLog extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
                     case R.id.beans_menu:
-                        Toast.makeText(CoffeeLog.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                         Intent beansIntent = new Intent(CoffeeLog.this, BeansList.class);
                         startActivity(beansIntent);
                         return true;
                     case R.id.recipes_menu:
-                        Toast.makeText(CoffeeLog.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                         Intent recipesIntent = new Intent(CoffeeLog.this, RecipesList.class);
                         startActivity(recipesIntent);
                         return true;
                     case R.id.home_menu:
-                        Toast.makeText(CoffeeLog.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                         Intent homeIntent = new Intent(CoffeeLog.this, MainActivity.class);
                         startActivity(homeIntent);
                         return true;
                     case R.id.coffee_log_menu:
-                        Toast.makeText(CoffeeLog.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.map_menu:
-                        Toast.makeText(CoffeeLog.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                         return true;
                     default:
                         Toast.makeText(CoffeeLog.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();

@@ -30,6 +30,7 @@
             android:text="Date Added" />
 
         <ImageView
+            android:id="@+id/recipe_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_below="@id/txtDateAdded"

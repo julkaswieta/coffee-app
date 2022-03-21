@@ -39,24 +39,20 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setOnNavigationItemSelectedListener(item -> {
             switch(item.getItemId()) {
                 case R.id.beans_menu:
-                    Toast.makeText(MainActivity.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                     Intent beansIntent = new Intent(MainActivity.this, BeansList.class);
                     startActivity(beansIntent);
                     return true;
                 case R.id.recipes_menu:
-                    Toast.makeText(MainActivity.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                     Intent recipesIntent = new Intent(MainActivity.this, RecipesList.class);
                     startActivity(recipesIntent);
                     return true;
                 case R.id.home_menu:
                     return true;
                 case R.id.coffee_log_menu:
-                    Toast.makeText(MainActivity.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
-                    Intent coffeLogIntent = new Intent(MainActivity.this, CoffeeLog.class);
-                    startActivity(coffeLogIntent);
+                    Intent coffeeLogIntent = new Intent(MainActivity.this, CoffeeLog.class);
+                    startActivity(coffeeLogIntent);
                     return true;
                 case R.id.map_menu:
-                    Toast.makeText(MainActivity.this, item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
                     Toast.makeText(MainActivity.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();

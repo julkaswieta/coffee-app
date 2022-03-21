@@ -2,17 +2,22 @@ package com.example.coffeeapp;
 
 import static com.example.coffeeapp.RecipesList.recipesList;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AddRecipe extends AppCompatActivity {
+    private static final int GALLERY_REQUEST_CODE = 5;
+    private static final int CAMERA_REQUEST_CODE = 6;
 
     private Toolbar toolbar;
     private TextView toolbarTitle;
@@ -35,7 +42,9 @@ public class AddRecipe extends AppCompatActivity {
     private Button cancelButton;
     private Button saveButton;
     private MaterialAlertDialogBuilder dialogBuilder;
-    private AlertDialog dialog;
+    private AlertDialog dialogBack;
+    private AlertDialog dialogSave;
+    private AlertDialog dialogPhoto;
     private NumberPicker gramPicker1;
     private NumberPicker gramPicker2;
     private NumberPicker hourPicker;
@@ -55,6 +64,8 @@ public class AddRecipe extends AppCompatActivity {
     private EditText sugarAmount;
     private Slider rating;
     private EditText notes;
+    private ImageButton btnAddPhoto;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +101,7 @@ public class AddRecipe extends AppCompatActivity {
         sugarAmount = findViewById(R.id.txtSugarAmount);
         rating = findViewById(R.id.ratingSlider);
         notes = findViewById(R.id.inputNotes);
+        btnAddPhoto = findViewById(R.id.add_photo_btn);
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -124,22 +136,7 @@ public class AddRecipe extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Display a dialog to confirm the user wants to discard the new recipe
-                dialog = dialogBuilder.create();
-                dialogBuilder
-                        .setTitle(R.string.dialog_discard_draft)
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        }).show();
+                onBackPressed();
             }
         });
 
@@ -151,6 +148,31 @@ public class AddRecipe extends AppCompatActivity {
                 Recipe recipe = createRecipe();
                 recipesList.add(recipe);
                 // TODO: display a snackbar/toast that the recipe has been created
+            }
+        });
+
+        btnAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogPhoto = dialogBuilder.create();
+                dialogBuilder
+                        .setTitle(R.string.dialog_camera_gallery)
+                        .setNegativeButton("Open camera", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // TODO: open camera
+                            }
+                        })
+                        .setPositiveButton("Open gallery", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // TODO: open gallery
+                                // launches the gallery
+                                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
+
+                            }
+                        }).show();
             }
         });
     }
@@ -169,14 +191,14 @@ public class AddRecipe extends AppCompatActivity {
         Recipe recipe = new Recipe();
         // check if name, beans and method are specified
         if(recipeName.getText().toString().isEmpty() || beansSpinner.getSelectedItem() == null || prepMethod.getText().toString().isEmpty()) {
-            dialog = dialogBuilder.create();
+            dialogSave = dialogBuilder.create();
             dialogBuilder
                     .setTitle(R.string.dialog_check_title)
                     .setMessage(R.string.dialog_check_mandatory)
                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dialog.dismiss();
+                            dialogBack.dismiss();
                         }
                     }).show();
         }
@@ -199,6 +221,7 @@ public class AddRecipe extends AppCompatActivity {
             if(sugar.isChecked()) { recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString()); }
             recipe.setRating((int)rating.getValue());
             recipe.setNotes(notes.getText().toString());
+            recipe.setPhotoUri(imageUri);
             Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -208,13 +231,14 @@ public class AddRecipe extends AppCompatActivity {
     // Don't let the user just quit without saving or confirming to leave
     @Override
     public void onBackPressed() {
-        dialog = dialogBuilder.create();
+        dialogBack = dialogBuilder.create();
         dialogBuilder
                 .setTitle(R.string.dialog_discard_draft)
+                .setMessage(R.string.dialog_discard_message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
+                        dialogBack.dismiss();
                     }
                 })
                 .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
@@ -223,5 +247,17 @@ public class AddRecipe extends AppCompatActivity {
                         finish();
                     }
                 }).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && data != null) {
+            if(requestCode == GALLERY_REQUEST_CODE) {
+                Uri imageChosen = data.getData();
+                btnAddPhoto.setImageURI(imageChosen);
+                imageUri = imageChosen;
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.coffeeapp;
 
+import android.net.Uri;
+
 import java.util.Date;
 
 /**
@@ -23,7 +25,7 @@ public class Recipe {
     // syrups/sauce + flavour, brand, amount
     // sugar - white/brown + amount
     private int rating; // scale from 0-5
-    private String photo;
+    private Uri photoUri;
     private String notes;
 
     // default empty constructor
@@ -114,12 +116,12 @@ public class Recipe {
         this.rating = rating;
     }
 
-    public String getPhoto() {
-        return photo;
+    public Uri getPhotoUri() {
+        return photoUri;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhotoUri(Uri photoUri) {
+        this.photoUri = photoUri;
     }
 
     public String getGrindNotes() {
@@ -179,7 +181,7 @@ public class Recipe {
                 ", syrup='" + syrup + '\'' +
                 ", sugar='" + sugar + '\'' +
                 ", rating=" + rating +
-                ", photo='" + photo + '\'' +
+                ", photo='" + photoUri + '\'' +
                 ", notes='" + notes + '\'' +
                 '}';
     }
