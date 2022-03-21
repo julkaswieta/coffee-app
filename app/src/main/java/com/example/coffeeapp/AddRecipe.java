@@ -48,7 +48,9 @@ public class AddRecipe extends AppCompatActivity {
     private Button btnAddBeans;
     private Button cancelButton;
     private Button saveButton;
-    private MaterialAlertDialogBuilder dialogBuilder;
+    private MaterialAlertDialogBuilder backDialogBuilder;
+    private MaterialAlertDialogBuilder saveDialogBuilder;
+    private MaterialAlertDialogBuilder photoDialogBuilder;
     private AlertDialog dialogBack;
     private AlertDialog dialogSave;
     private AlertDialog dialogPhoto;
@@ -89,7 +91,9 @@ public class AddRecipe extends AppCompatActivity {
         btnAddBeans = findViewById(R.id.btnAddBeans);
         cancelButton = findViewById(R.id.cancel_button);
         saveButton = findViewById(R.id.save_button);
-        dialogBuilder = new MaterialAlertDialogBuilder(this);
+        backDialogBuilder = new MaterialAlertDialogBuilder(this);
+        saveDialogBuilder = new MaterialAlertDialogBuilder(this);
+        photoDialogBuilder = new MaterialAlertDialogBuilder(this);
         gramPicker1 = findViewById(R.id.gram_picker1);
         gramPicker2 = findViewById(R.id.gram_picker2);
         hourPicker = findViewById(R.id.hour_picker);
@@ -160,8 +164,8 @@ public class AddRecipe extends AppCompatActivity {
         btnAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogPhoto = dialogBuilder.create();
-                dialogBuilder
+                dialogPhoto = photoDialogBuilder.create();
+                photoDialogBuilder
                         .setTitle(R.string.dialog_camera_gallery)
                         .setNegativeButton("Open camera", new DialogInterface.OnClickListener() {
                             @Override
@@ -203,8 +207,8 @@ public class AddRecipe extends AppCompatActivity {
         Recipe recipe = new Recipe();
         // check if name, beans and method are specified
         if(recipeName.getText().toString().isEmpty() || beansSpinner.getSelectedItem() == null || prepMethod.getText().toString().isEmpty()) {
-            dialogSave = dialogBuilder.create();
-            dialogBuilder
+            dialogSave = saveDialogBuilder.create();
+            saveDialogBuilder
                     .setTitle(R.string.dialog_check_title)
                     .setMessage(R.string.dialog_check_mandatory)
                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
@@ -243,8 +247,8 @@ public class AddRecipe extends AppCompatActivity {
     // Don't let the user just quit without saving or confirming to leave
     @Override
     public void onBackPressed() {
-        dialogBack = dialogBuilder.create();
-        dialogBuilder
+        dialogBack = backDialogBuilder.create();
+        backDialogBuilder
                 .setTitle(R.string.dialog_discard_draft)
                 .setMessage(R.string.dialog_discard_message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
