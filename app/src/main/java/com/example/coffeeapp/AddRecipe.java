@@ -2,13 +2,19 @@ package com.example.coffeeapp;
 
 import static com.example.coffeeapp.RecipesList.recipesList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,13 +38,14 @@ import java.util.Date;
 public class AddRecipe extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 5;
     private static final int CAMERA_REQUEST_CODE = 6;
+    private static final int CAMERA_PERMISSION_CODE = 7;
 
     private Toolbar toolbar;
     private TextView toolbarTitle;
     private EditText recipeName;
     private EditText prepMethod;
     private Spinner beansSpinner;
-    private Button btnAddBeans; // TODO: allow selection from the gallery or taking a photo
+    private Button btnAddBeans;
     private Button cancelButton;
     private Button saveButton;
     private MaterialAlertDialogBuilder dialogBuilder;
@@ -66,6 +73,7 @@ public class AddRecipe extends AppCompatActivity {
     private EditText notes;
     private ImageButton btnAddPhoto;
     private Uri imageUri;
+    private Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,10 +152,8 @@ public class AddRecipe extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: create a new Recipe object and assign all attributes
                 Recipe recipe = createRecipe();
                 recipesList.add(recipe);
-                // TODO: display a snackbar/toast that the recipe has been created
             }
         });
 
@@ -160,13 +166,19 @@ public class AddRecipe extends AppCompatActivity {
                         .setNegativeButton("Open camera", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                // TODO: open camera
+                                // check if the user has granted permissions to use the camera - if yes, open it, if no, ask for them
+                                if(ContextCompat.checkSelfPermission(AddRecipe.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                                    startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+                                }
+                                else {
+                                    ActivityCompat.requestPermissions(AddRecipe.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+                                }
+
                             }
                         })
                         .setPositiveButton("Open gallery", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                // TODO: open gallery
                                 // launches the gallery
                                 Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
@@ -249,6 +261,7 @@ public class AddRecipe extends AppCompatActivity {
                 }).show();
     }
 
+    // handles results from intents launched - gallery & camera
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -257,6 +270,26 @@ public class AddRecipe extends AppCompatActivity {
                 Uri imageChosen = data.getData();
                 btnAddPhoto.setImageURI(imageChosen);
                 imageUri = imageChosen;
+            }
+            else if(requestCode == CAMERA_REQUEST_CODE) {
+                if(!data.getExtras().isEmpty()) {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    btnAddPhoto.setImageBitmap(photo);
+                }
+            }
+        }
+    }
+
+    // check if Camera permission is granted, if so, open the camera
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == CAMERA_REQUEST_CODE) {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+            }
+            else{
+                Toast.makeText(this, "Access to camera denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
             }
         }
     }
