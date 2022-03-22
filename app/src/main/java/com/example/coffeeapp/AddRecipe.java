@@ -5,6 +5,7 @@ import static com.example.coffeeapp.RecipesList.recipesList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,10 +19,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,7 +39,7 @@ import com.google.android.material.slider.Slider;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class AddRecipe extends AppCompatActivity {
@@ -163,10 +164,11 @@ public class AddRecipe extends AppCompatActivity {
 
         // onClickListener for the Save button - create a new recipe object
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                Recipe recipe = createRecipe();
-                recipesList.add(recipe);
+                createRecipe();
+                //recipesList.add(recipe);
             }
         });
 
@@ -219,8 +221,9 @@ public class AddRecipe extends AppCompatActivity {
      * Gathers all data from the views and assigns it to the recipe object. If name, beans and method not specified, displays a dialog.
      * @return Recipe object created
      */
-    private Recipe createRecipe() {
-        Recipe recipe = new Recipe();
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createRecipe() {
+        //Recipe recipe = new Recipe();
         // check if name, beans and method are specified
         if(recipeName.getText().toString().isEmpty() || beansSpinner.getSelectedItem() == null || prepMethod.getText().toString().isEmpty()) {
             dialogSave = saveDialogBuilder.create();
@@ -236,7 +239,7 @@ public class AddRecipe extends AppCompatActivity {
         }
         // proceed with creating the recipe
         else {
-            recipe.setName(recipeName.getText().toString());
+            /*recipe.setName(recipeName.getText().toString());
             recipe.setDateAdded(new Date());
             // TODO: fix set beans to work properly
             recipe.setBeansUsed(new Bean(beansSpinner.getSelectedItem().toString().split(",")[0], beansSpinner.getSelectedItem().toString().split(",")[1]));
@@ -266,9 +269,29 @@ public class AddRecipe extends AppCompatActivity {
             }
 
             Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
+
+             */
+
+            com.example.coffeeapp.db.Recipe recipe = new com.example.coffeeapp.db.Recipe();
+            recipe.name = recipeName.getText().toString();
+            recipe.dateAdded = new Date();
+            // TODO: fix set beans to work properly
+            recipe.beansUsedId = 1;
+            String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
+            float amount= Float.parseFloat(tempAmount);
+            recipe.amountOfCoffee = amount;
+            recipe.methodOfBrewing = prepMethod.getText().toString();
+            recipe.brewingTime = LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue());
+            recipe.boughtGround = boughtGround.isChecked();
+            recipe.grindScale = (int)grindScale.getValue();
+            recipe.grindNotes = grindNotes.getText().toString();
+            if(milk.isChecked()) { recipe.milk = (milkKind.getText().toString() + "," + milkAmount.getText().toString()); }
+            if(syrup.isChecked()) { recipe.syrup = (syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString()); }
+            if(sugar.isChecked()) { recipe.sugar = (sugarKind.getText().toString() + "," + sugarAmount.getText().toString()); }
+            recipe.rating = (int)rating.getValue();
+            recipe.notes = notes.getText().toString();
             finish();
         }
-        return recipe;
     }
 
     // Don't let the user just quit without saving or confirming to leave
