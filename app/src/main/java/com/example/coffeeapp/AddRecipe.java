@@ -1,5 +1,6 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.BeansList.beansList;
 import static com.example.coffeeapp.RecipesList.recipesList;
 
 import androidx.annotation.NonNull;
@@ -15,9 +16,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +36,8 @@ import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -39,6 +45,7 @@ public class AddRecipe extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 5;
     private static final int CAMERA_REQUEST_CODE = 6;
     private static final int CAMERA_PERMISSION_CODE = 7;
+    private static final int GALLERY_PERMISSION_CODE = 8;
 
     private Toolbar toolbar;
     private TextView toolbarTitle;
@@ -75,7 +82,10 @@ public class AddRecipe extends AppCompatActivity {
     private EditText notes;
     private ImageButton btnAddPhoto;
     private Uri imageUri;
+    private Bitmap photo;
+    private boolean fromGallery;
     private Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,11 +134,10 @@ public class AddRecipe extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // add options to the Beans Spinner
-        ArrayList<String> beans = new ArrayList<>();
-        beans.add("Brazylia Santos, Agifa");
-        beans.add("Vanilla&Hazelnut, Agifa");
+        beansList.add(new Bean("Brazylia Santos","Agifa"));
+        beansList.add(new Bean("Vanilla&Hazelnut", "Agifa"));
         // create the adapter for the spinner
-        ArrayAdapter<String> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beans);
+        ArrayAdapter<Bean> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
         beansSpinner.setAdapter(beansAdapter);
         // TODO: add a hint to the spinner instead of displaying the first item
 
@@ -173,6 +182,7 @@ public class AddRecipe extends AppCompatActivity {
                                 // check if the user has granted permissions to use the camera - if yes, open it, if no, ask for them
                                 if(ContextCompat.checkSelfPermission(AddRecipe.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                                     startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+                                    fromGallery = false;
                                 }
                                 else {
                                     ActivityCompat.requestPermissions(AddRecipe.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
@@ -184,8 +194,14 @@ public class AddRecipe extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // launches the gallery
-                                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                if(ContextCompat.checkSelfPermission(AddRecipe.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                                 startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
+                                fromGallery = true;
+                                }
+                                else {
+                                    ActivityCompat.requestPermissions(AddRecipe.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSION_CODE);
+                                }
+
 
                             }
                         }).show();
@@ -237,7 +253,18 @@ public class AddRecipe extends AppCompatActivity {
             if(sugar.isChecked()) { recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString()); }
             recipe.setRating((int)rating.getValue());
             recipe.setNotes(notes.getText().toString());
-            recipe.setPhotoUri(imageUri);
+            try {
+                if (fromGallery) {
+                    recipe.setPhoto(getBitmapFromUri(imageUri));
+                }
+                else if (!fromGallery) {
+                    recipe.setPhoto(photo);
+                }
+            }
+            catch (IOException ex) {
+                Log.e(this.getClass().toString(), "Couldn't save image");
+            }
+
             Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -277,7 +304,7 @@ public class AddRecipe extends AppCompatActivity {
             }
             else if(requestCode == CAMERA_REQUEST_CODE) {
                 if(!data.getExtras().isEmpty()) {
-                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    photo = (Bitmap) data.getExtras().get("data");
                     btnAddPhoto.setImageBitmap(photo);
                 }
             }
@@ -291,10 +318,28 @@ public class AddRecipe extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE) {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+                fromGallery = false;
             }
             else{
                 Toast.makeText(this, "Access to camera denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
             }
         }
+        else if(requestCode == GALLERY_REQUEST_CODE) {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
+                fromGallery = true;
+            }
+            else{
+                Toast.makeText(this, "Access to gallery denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
     }
 }

@@ -1,6 +1,11 @@
 package com.example.coffeeapp;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -51,6 +57,9 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         // set the values of the elements inside the card view
         holder.txtName.setText(recipes.get(position).getName());
         holder.txtDateAdded.setText(recipes.get(position).getDateAdded().toString());
+        if(recipes.get(position).getPhoto() != null) {
+            holder.recipePhoto.setImageBitmap(recipes.get(position).getPhoto());
+        }
         // create an onClickListener for when the item is clicked
         holder.recipeParent.setOnClickListener(new View.OnClickListener() {
             @Override

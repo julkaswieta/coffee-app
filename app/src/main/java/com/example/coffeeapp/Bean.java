@@ -98,4 +98,9 @@ public class Bean {
     public void setCostPerKg(float costPerKg) {
         this.costPerKg = costPerKg;
     }
+
+    @Override
+    public String toString() {
+        return name + ", " + roaster;
+    }
 }

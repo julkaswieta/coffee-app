@@ -1,5 +1,6 @@
 package com.example.coffeeapp;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import java.util.Date;
@@ -26,6 +27,7 @@ public class Recipe {
     // sugar - white/brown + amount
     private int rating; // scale from 0-5
     private Uri photoUri;
+    private Bitmap photo;
     private String notes;
 
     // default empty constructor
@@ -162,6 +164,14 @@ public class Recipe {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Bitmap getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
     }
 
     @Override
