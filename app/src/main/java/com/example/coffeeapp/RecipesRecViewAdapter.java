@@ -1,10 +1,12 @@
 package com.example.coffeeapp;
 
+import static androidx.core.content.ContextCompat.startActivity;
 import static com.example.coffeeapp.RecipesList.recipesFromDB;
 import static com.example.coffeeapp.RecipesList.recipesList;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +77,8 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, recipes.get(holder.getAdapterPosition()).getName() + " Selected", Toast.LENGTH_SHORT).show();
+                Intent displayRecipe = new Intent(context, RecipeDetails.class);
+                context.startActivity(displayRecipe);
             }
         });
         // create an onClickListener for the delete recipe button
