@@ -27,6 +27,7 @@ import java.util.List;
 
 public class RecipesList extends AppCompatActivity {
     static ArrayList<Recipe> recipesList = new ArrayList<>();
+    static List<RecipeDB> recipesFromDB;
 
     private BottomNavigationView bottomBar;
     private RecyclerView recipesRecView;
@@ -51,7 +52,7 @@ public class RecipesList extends AppCompatActivity {
 
         // get persisted recipes
         RecipesDatabase db = RecipesDatabase.getDatabase(this.getApplicationContext());
-        List<RecipeDB> recipesFromDB = db.recipeDao().getAllRecipes();
+        recipesFromDB = db.recipeDao().getAllRecipes();
         if(recipesList.size() < 1) {
             for(RecipeDB rDB : recipesFromDB) {
                 recipesList.add(createRecipeFromDatabase(rDB));

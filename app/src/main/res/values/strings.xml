@@ -35,5 +35,14 @@
     <string name="dialog_check_title">Specify mandatory fields</string>
     <string name="dialog_check_mandatory">Recipe name, beans and preparation method have to be specified to save a recipeDB.</string>
     <string name="dialog_camera_gallery">Take a new photo or choose an image from gallery?</string>
+    <string name="dialog_delete_recipe_title">Delete this recipe?</string>
+    <string name="dialog_delete_recipe_mess">This operation cannot be reversed.</string>
+
+    <!-- Recipe Card View -->
+    <string name="rec_cv_name">Recipe Name</string>
+    <string name="rec_cv_date">Date Added</string>
+    <string name="rec_cv_beans">Beans used</string>
+    <string name="rec_cv_method">Preparation method</string>
+    <string name="rec_cv_rating">No rating provided</string>
 
 </resources>

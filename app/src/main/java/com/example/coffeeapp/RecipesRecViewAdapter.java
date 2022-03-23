@@ -1,24 +1,28 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.RecipesList.recipesFromDB;
+import static com.example.coffeeapp.RecipesList.recipesList;
+
 import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
+import android.content.DialogInterface;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
+import com.example.coffeeapp.db.RecipeDB;
+import com.example.coffeeapp.db.RecipesDatabase;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 
 /**
@@ -56,7 +60,13 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // set the values of the elements inside the card view
         holder.txtName.setText(recipes.get(position).getName());
-        holder.txtDateAdded.setText(recipes.get(position).getDateAdded().toString());
+        DateFormat df = new DateFormat();
+        holder.txtDateAdded.setText(df.format("yyyy-MM-dd hh:mm", recipes.get(position).getDateAdded()));
+        //holder.txtBeansUsed.setText("Beans: " + recipes.get(position).getBeansUsed().getName() + ", " + recipes.get(position).getBeansUsed().getRoaster());
+        holder.txtMethod.setText("Method: " + recipes.get(position).getMethodOfBrewing());
+        if(recipes.get(position).getRating() != 0) {
+            holder.txtRating.setText("Rating: " + recipes.get(position).getRating());
+        }
         if(recipes.get(position).getPhoto() != null) {
             holder.recipePhoto.setImageBitmap(recipes.get(position).getPhoto());
         }
@@ -65,6 +75,38 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, recipes.get(holder.getAdapterPosition()).getName() + " Selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // create an onClickListener for the delete recipe button
+        holder.deleteRecipeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(context);
+                AlertDialog deleteDialog = dialogBuilder.create();
+                dialogBuilder
+                        .setTitle(R.string.dialog_delete_recipe_title)
+                        .setMessage(R.string.dialog_delete_recipe_mess)
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteDialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                RecipesDatabase db = RecipesDatabase.getDatabase(context.getApplicationContext());
+                                for (RecipeDB recipe : recipesFromDB) {
+                                    if (recipes.get(holder.getAdapterPosition()).getId() == recipe.recipeId) {
+                                        db.recipeDao().deleteRecipe(recipe);
+                                        break;
+                                    }
+                                }
+                                recipesList.remove(recipes.get(holder.getAdapterPosition()));
+                                recipesFromDB.remove(recipesFromDB.get(holder.getAdapterPosition()));
+                                notifyDataSetChanged();
+                            }
+                        }).show();
             }
         });
     }
@@ -83,9 +125,10 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
     // inner class for holding a view for every item in the recycler view
     public class ViewHolder extends RecyclerView.ViewHolder {
         // elements inside each list item
-        private TextView txtName, txtDateAdded;
+        private TextView txtName, txtDateAdded, txtBeansUsed, txtMethod, txtRating;
         private CardView recipeParent;
         private ImageView recipePhoto;
+        private ImageButton deleteRecipeBtn;
 
         // constructor
         public ViewHolder(@NonNull View itemView) {
@@ -94,6 +137,10 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
             txtDateAdded = itemView.findViewById(R.id.txtDateAdded);
             recipeParent = itemView.findViewById(R.id.recipe_parent);
             recipePhoto = itemView.findViewById(R.id.recipe_image);
+            txtBeansUsed = itemView.findViewById(R.id.txtBeansUsed);
+            txtMethod  = itemView.findViewById(R.id.txtMethod);
+            txtRating = itemView.findViewById(R.id.txtRating);
+            deleteRecipeBtn = itemView.findViewById(R.id.deleteRecipeBtn);
         }
     }
 }
