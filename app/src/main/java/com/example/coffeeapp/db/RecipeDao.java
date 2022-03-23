@@ -11,7 +11,7 @@ import java.util.List;
 public interface RecipeDao {
 
     @Insert
-    void insertRecipe(RecipeDB... recipeDBS);
+    void insertRecipe(RecipeDB... recipes);
 
     @Delete
     void deleteRecipe(RecipeDB recipeDB);
@@ -21,6 +21,9 @@ public interface RecipeDao {
 
     @Query("SELECT * FROM recipes WHERE recipeId = :id")
     RecipeDB getRecipeById(int id);
+
+    @Query("SELECT MAX(recipeId) FROM recipes")
+    int getBiggestRecipeId();
 
     /*@Transaction
     @Query("SELECT * FROM beans")

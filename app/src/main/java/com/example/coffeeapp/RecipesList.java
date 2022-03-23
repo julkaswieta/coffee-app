@@ -1,5 +1,7 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.Recipe.idCounter;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -48,13 +50,27 @@ public class RecipesList extends AppCompatActivity {
         toolbarTitle.setText("Recipes");
 
         // get persisted recipes
-        RecipesDatabase db = RecipesDatabase.getDatabase(this);
+        RecipesDatabase db = RecipesDatabase.getDatabase(this.getApplicationContext());
         List<RecipeDB> recipesFromDB = db.recipeDao().getAllRecipes();
-        for (RecipeDB rDB : recipesFromDB) {
-            for (Recipe r : recipesList) {
-                // TODO: check if the id is not already in the list, if not - add it to the list for display
+        if(recipesList.size() < 1) {
+            for(RecipeDB rDB : recipesFromDB) {
+                recipesList.add(createRecipeFromDatabase(rDB));
             }
         }
+        else {
+            for (RecipeDB rDB : recipesFromDB) {
+                for (Recipe r : recipesList) {
+                    // TODO: check if the id is not already in the list, if not add to list for display
+                    if(rDB.recipeId != r.getId()) {
+                        recipesList.add(createRecipeFromDatabase(rDB));
+                    }
+                    else {
+                        continue;
+                    }
+                }
+            }
+        }
+
 
 
         // create a recipe RecView adapter and pass it to the RecView
@@ -118,5 +134,26 @@ public class RecipesList extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private Recipe createRecipeFromDatabase(RecipeDB rDB) {
+        Recipe recipe = new Recipe();
+        recipe.setId(rDB.recipeId);
+        recipe.setName(rDB.name);
+        recipe.setDateAdded(rDB.dateAdded);
+        // TODO: fix beans - will need to query beansList for ID
+        // recipe.setBeansUsed();
+        recipe.setAmountOfCoffee(rDB.amountOfCoffee);
+        recipe.setMethodOfBrewing(rDB.methodOfBrewing);
+        recipe.setBrewingTime(rDB.brewingTime);
+        recipe.setBoughtGround(rDB.boughtGround);
+        recipe.setGrindScale(rDB.grindScale);
+        recipe.setGrindNotes(rDB.grindNotes);
+        recipe.setMilk(rDB.milk);
+        recipe.setSyrup(rDB.syrup);
+        recipe.setSugar(rDB.sugar);
+        recipe.setRating(rDB.rating);
+        recipe.setNotes(rDB.notes);
+        return recipe;
     }
 }

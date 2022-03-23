@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity(tableName = "recipes")
 public class RecipeDB {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int recipeId;
     public Date dateAdded;
     public String name;

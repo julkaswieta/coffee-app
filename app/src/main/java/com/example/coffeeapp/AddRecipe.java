@@ -1,6 +1,8 @@
 package com.example.coffeeapp;
 
 import static com.example.coffeeapp.BeansList.beansList;
+import static com.example.coffeeapp.Recipe.idCounter;
+import static com.example.coffeeapp.RecipesList.recipesList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +51,8 @@ public class AddRecipe extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 6;
     private static final int CAMERA_PERMISSION_CODE = 7;
     private static final int GALLERY_PERMISSION_CODE = 8;
+    private static final int FROM_GALLERY = 100;
+    private static final int FROM_CAMERA = 101;
 
     private Toolbar toolbar;
     private TextView toolbarTitle;
@@ -86,7 +90,7 @@ public class AddRecipe extends AppCompatActivity {
     private ImageButton btnAddPhoto;
     private Uri imageUri;
     private Bitmap photo;
-    private boolean fromGallery;
+    private int photoSource;
     private Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -186,7 +190,7 @@ public class AddRecipe extends AppCompatActivity {
                                 // check if the user has granted permissions to use the camera - if yes, open it, if no, ask for them
                                 if(ContextCompat.checkSelfPermission(AddRecipe.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                                     startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
-                                    fromGallery = false;
+                                    photoSource = FROM_CAMERA;
                                 }
                                 else {
                                     ActivityCompat.requestPermissions(AddRecipe.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
@@ -200,7 +204,7 @@ public class AddRecipe extends AppCompatActivity {
                                 // launches the gallery
                                 if(ContextCompat.checkSelfPermission(AddRecipe.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                                 startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
-                                fromGallery = true;
+                                photoSource = FROM_GALLERY;
                                 }
                                 else {
                                     ActivityCompat.requestPermissions(AddRecipe.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSION_CODE);
@@ -242,6 +246,15 @@ public class AddRecipe extends AppCompatActivity {
         // proceed with creating the recipe
         else {
             Recipe recipe = new Recipe();
+            // get the biggest available recipeId so that the new ones are not replicated
+            RecipesDatabase db = RecipesDatabase.getDatabase(AddRecipe.this.getApplicationContext());
+            if(db.recipeDao().getAllRecipes().size() > 0) {
+                idCounter = db.recipeDao().getBiggestRecipeId();
+            }
+            else {
+                idCounter = 0;
+            }
+            recipe.setId(Recipe.nextId());
             recipe.setName(recipeName.getText().toString());
             recipe.setDateAdded(new Date());
             // TODO: fix set beans to work properly
@@ -260,19 +273,21 @@ public class AddRecipe extends AppCompatActivity {
             recipe.setRating((int)rating.getValue());
             recipe.setNotes(notes.getText().toString());
             try {
-                if (fromGallery) {
+                if (photoSource == FROM_GALLERY) {
                     recipe.setPhoto(getBitmapFromUri(imageUri));
                 }
-                else if (!fromGallery) {
+                else if (photoSource == FROM_CAMERA) {
                     recipe.setPhoto(photo);
                 }
             }
             catch (IOException ex) {
                 Log.e(this.getClass().toString(), "Couldn't save image");
             }
+            recipesList.add(recipe);
 
             // persist the recipe
             RecipeDB recipeDB = new RecipeDB();
+            recipeDB.recipeId = recipe.getId();
             recipeDB.name = recipe.getName();
             recipeDB.dateAdded = recipe.getDateAdded();
             // TODO: fix set beans to work properly
@@ -288,7 +303,7 @@ public class AddRecipe extends AppCompatActivity {
             recipeDB.sugar = recipe.getSugar();
             recipeDB.rating = recipe.getRating();
             recipeDB.notes = recipe.getNotes();
-            RecipesDatabase db = RecipesDatabase.getDatabase(AddRecipe.this);
+
             db.recipeDao().insertRecipe(recipeDB);
             finish();
             Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
@@ -342,7 +357,7 @@ public class AddRecipe extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE) {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
-                fromGallery = false;
+                photoSource = FROM_CAMERA;
             }
             else{
                 Toast.makeText(this, "Access to camera denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
@@ -351,7 +366,7 @@ public class AddRecipe extends AppCompatActivity {
         else if(requestCode == GALLERY_REQUEST_CODE) {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
-                fromGallery = true;
+                photoSource =FROM_GALLERY;
             }
             else{
                 Toast.makeText(this, "Access to gallery denied. Allow it from settings.", Toast.LENGTH_SHORT).show();

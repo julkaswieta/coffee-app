@@ -3,13 +3,19 @@ package com.example.coffeeapp;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import com.example.coffeeapp.db.RecipesDatabase;
+
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class that deals with recipes added by the user
  */
 public class Recipe {
+    public static int idCounter = 0;
+
+    private int id;
     private Date dateAdded;
     private String name;
     private Bean beansUsed;
@@ -30,12 +36,26 @@ public class Recipe {
     private Bitmap photo;
     private String notes;
 
+
+    public static int nextId() {
+        return ++idCounter;
+    }
+
     // default empty constructor
-    public Recipe(){}
+    public Recipe(){
+    }
 
     public Recipe(Date dateAdded, String name) {
         this.dateAdded = dateAdded;
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDateAdded() {
