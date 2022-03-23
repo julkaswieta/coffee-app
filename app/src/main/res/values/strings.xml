@@ -16,7 +16,7 @@
     <string name="ar_brew_time">Brewing time</string>
     <string name="ar_extras">Extras</string>
     <string name="ar_rating">Rating</string>
-    <string name="ar_notes">Notes (e.g. recipe steps)</string>
+    <string name="ar_notes">Notes (e.g. recipeDB steps)</string>
 
     <!-- AddRecipe fields hints -->
     <string name="hint_name">Recipe Name</string>
@@ -31,9 +31,9 @@
 
     <!-- Dialog -->
     <string name="dialog_discard_draft">Discard the draft?</string>
-    <string name="dialog_discard_message">Your recipe will not be saved</string>
+    <string name="dialog_discard_message">Your recipeDB will not be saved</string>
     <string name="dialog_check_title">Specify mandatory fields</string>
-    <string name="dialog_check_mandatory">Recipe name, beans and preparation method have to be specified to save a recipe.</string>
+    <string name="dialog_check_mandatory">Recipe name, beans and preparation method have to be specified to save a recipeDB.</string>
     <string name="dialog_camera_gallery">Take a new photo or choose an image from gallery?</string>
 
 </resources>

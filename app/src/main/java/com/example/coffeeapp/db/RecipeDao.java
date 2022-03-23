@@ -5,23 +5,22 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
 public interface RecipeDao {
 
     @Insert
-    void insertRecipe(Recipe... recipes);
+    void insertRecipe(RecipeDB... recipeDBS);
 
     @Delete
-    void deleteRecipe(Recipe recipe);
+    void deleteRecipe(RecipeDB recipeDB);
 
     @Query("SELECT * FROM recipes")
-    List<Recipe> getAllRecipes();
+    List<RecipeDB> getAllRecipes();
 
     @Query("SELECT * FROM recipes WHERE recipeId = :id")
-    Recipe getRecipeById(int id);
+    RecipeDB getRecipeById(int id);
 
     /*@Transaction
     @Query("SELECT * FROM beans")

@@ -3,6 +3,7 @@ package com.example.coffeeapp;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 /**
@@ -14,8 +15,7 @@ public class Recipe {
     private Bean beansUsed;
     private float amountOfCoffee;
     private String methodOfBrewing;
-    private String brewingNotes;    // so far not used
-    private String brewingTime;
+    private LocalTime brewingTime;
     private boolean boughtGround;
     private int grindScale;
     private String grindNotes;
@@ -78,14 +78,6 @@ public class Recipe {
         this.methodOfBrewing = methodOfBrewing;
     }
 
-    public String getBrewingNotes() {
-        return brewingNotes;
-    }
-
-    public void setBrewingNotes(String brewingNotes) {
-        this.brewingNotes = brewingNotes;
-    }
-
     public boolean isBoughtGround() {
         return boughtGround;
     }
@@ -102,11 +94,11 @@ public class Recipe {
         this.grindScale = grindScale;
     }
 
-    public String getBrewingTime() {
+    public LocalTime getBrewingTime() {
         return brewingTime;
     }
 
-    public void setBrewingTime(String brewingTime) {
+    public void setBrewingTime(LocalTime brewingTime) {
         this.brewingTime = brewingTime;
     }
 
@@ -182,7 +174,6 @@ public class Recipe {
                 ", beansUsed=" + beansUsed +
                 ", amountOfCoffee=" + amountOfCoffee +
                 ", methodOfBrewing='" + methodOfBrewing + '\'' +
-                ", brewingNotes='" + brewingNotes + '\'' +
                 ", boughtGround=" + boughtGround +
                 ", grindScale=" + grindScale +
                 ", grindNotes='" + grindNotes + '\'' +

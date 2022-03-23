@@ -1,7 +1,6 @@
 package com.example.coffeeapp;
 
 import static com.example.coffeeapp.BeansList.beansList;
-import static com.example.coffeeapp.RecipesList.recipesList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +34,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coffeeapp.db.RecipeDB;
+import com.example.coffeeapp.db.RecipesDatabase;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 
@@ -239,7 +241,8 @@ public class AddRecipe extends AppCompatActivity {
         }
         // proceed with creating the recipe
         else {
-            /*recipe.setName(recipeName.getText().toString());
+            Recipe recipe = new Recipe();
+            recipe.setName(recipeName.getText().toString());
             recipe.setDateAdded(new Date());
             // TODO: fix set beans to work properly
             recipe.setBeansUsed(new Bean(beansSpinner.getSelectedItem().toString().split(",")[0], beansSpinner.getSelectedItem().toString().split(",")[1]));
@@ -247,7 +250,7 @@ public class AddRecipe extends AppCompatActivity {
             float amount= Float.parseFloat(tempAmount);
             recipe.setAmountOfCoffee(amount);
             recipe.setMethodOfBrewing(prepMethod.getText().toString());
-            recipe.setBrewingTime(Integer.toString(hourPicker.getValue()) + "," + Integer.toString(minutesPicker.getValue()) + "," + Integer.toString(secondsPicker.getValue()));
+            recipe.setBrewingTime(LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue()));
             recipe.setBoughtGround(boughtGround.isChecked());
             recipe.setGrindScale((int)grindScale.getValue());
             recipe.setGrindNotes(grindNotes.getText().toString());
@@ -268,29 +271,27 @@ public class AddRecipe extends AppCompatActivity {
                 Log.e(this.getClass().toString(), "Couldn't save image");
             }
 
-            Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
-
-             */
-
-            com.example.coffeeapp.db.Recipe recipe = new com.example.coffeeapp.db.Recipe();
-            recipe.name = recipeName.getText().toString();
-            recipe.dateAdded = new Date();
+            // persist the recipe
+            RecipeDB recipeDB = new RecipeDB();
+            recipeDB.name = recipe.getName();
+            recipeDB.dateAdded = recipe.getDateAdded();
             // TODO: fix set beans to work properly
-            recipe.beansUsedId = 1;
-            String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
-            float amount= Float.parseFloat(tempAmount);
-            recipe.amountOfCoffee = amount;
-            recipe.methodOfBrewing = prepMethod.getText().toString();
-            recipe.brewingTime = LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue());
-            recipe.boughtGround = boughtGround.isChecked();
-            recipe.grindScale = (int)grindScale.getValue();
-            recipe.grindNotes = grindNotes.getText().toString();
-            if(milk.isChecked()) { recipe.milk = (milkKind.getText().toString() + "," + milkAmount.getText().toString()); }
-            if(syrup.isChecked()) { recipe.syrup = (syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString()); }
-            if(sugar.isChecked()) { recipe.sugar = (sugarKind.getText().toString() + "," + sugarAmount.getText().toString()); }
-            recipe.rating = (int)rating.getValue();
-            recipe.notes = notes.getText().toString();
+            recipeDB.beansUsedId = 1;   // just a placeholder now
+            recipeDB.amountOfCoffee = recipe.getAmountOfCoffee();
+            recipeDB.methodOfBrewing = recipe.getMethodOfBrewing();
+            recipeDB.brewingTime = recipe.getBrewingTime();
+            recipeDB.boughtGround = recipe.isBoughtGround();
+            recipeDB.grindScale = recipe.getGrindScale();
+            recipeDB.grindNotes = recipe.getGrindNotes();
+            recipeDB.milk = recipe.getMilk();
+            recipeDB.syrup = recipe.getSyrup();
+            recipeDB.sugar = recipe.getSugar();
+            recipeDB.rating = recipe.getRating();
+            recipeDB.notes = recipe.getNotes();
+            RecipesDatabase db = RecipesDatabase.getDatabase(AddRecipe.this);
+            db.recipeDao().insertRecipe(recipeDB);
             finish();
+            Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
         }
     }
 

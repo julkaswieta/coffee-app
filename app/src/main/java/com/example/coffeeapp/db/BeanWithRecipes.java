@@ -6,10 +6,10 @@ import androidx.room.Relation;
 import java.util.ArrayList;
 
 public class BeanWithRecipes {
-    @Embedded private Bean bean;
+    @Embedded private BeanDB bean;
     @Relation(
             parentColumn = "beansId",
             entityColumn = "beansUsedId"
     )
-    public ArrayList<Recipe> recipes;
+    public ArrayList<RecipeDB> recipeDBS;
 }

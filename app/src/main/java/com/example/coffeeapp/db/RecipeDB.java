@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 @Entity(tableName = "recipes")
-public class Recipe {
+public class RecipeDB {
     @PrimaryKey(autoGenerate = true)
     public int recipeId;
     public Date dateAdded;

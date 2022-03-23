@@ -15,10 +15,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coffeeapp.db.RecipeDB;
+import com.example.coffeeapp.db.RecipesDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class RecipesList extends AppCompatActivity {
     static ArrayList<Recipe> recipesList = new ArrayList<>();
@@ -44,12 +47,14 @@ public class RecipesList extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText("Recipes");
 
-
-        // set some test Recipe objects to test teh RecView
-        recipesList.add(new Recipe(new Date(), "Cold Brew"));
-        recipesList.add(new Recipe(new Date(), "Soy latte"));
-        recipesList.add(new Recipe(new Date(), "Cappuccino"));
-        recipesList.add(new Recipe(new Date(), "Americano with soy milk"));
+        // get persisted recipes
+        RecipesDatabase db = RecipesDatabase.getDatabase(this);
+        List<RecipeDB> recipesFromDB = db.recipeDao().getAllRecipes();
+        for (RecipeDB rDB : recipesFromDB) {
+            for (Recipe r : recipesList) {
+                // TODO: check if the id is not already in the list, if not - add it to the list for display
+            }
+        }
 
 
         // create a recipe RecView adapter and pass it to the RecView

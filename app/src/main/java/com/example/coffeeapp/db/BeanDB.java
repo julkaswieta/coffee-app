@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "beans")
-public class Bean {
+public class BeanDB {
     @PrimaryKey(autoGenerate = true)
     private int beansId;
     private String name;
