@@ -154,7 +154,7 @@ public class AddRecipe extends AppCompatActivity {
         gramPicker2.setMinValue(0);
         gramPicker2.setMaxValue(9);
         hourPicker.setMinValue(0);
-        hourPicker.setMaxValue(24);
+        hourPicker.setMaxValue(23);
         minutesPicker.setMinValue(0);
         minutesPicker.setMaxValue(59);
         secondsPicker.setMinValue(0);
