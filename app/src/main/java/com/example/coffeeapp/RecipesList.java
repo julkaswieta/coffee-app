@@ -1,10 +1,7 @@
 package com.example.coffeeapp;
 
-import static com.example.coffeeapp.Recipe.idCounter;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +19,6 @@ import com.example.coffeeapp.db.RecipesDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class RecipesList extends AppCompatActivity {
@@ -60,14 +56,16 @@ public class RecipesList extends AppCompatActivity {
         }
         else {
             for (RecipeDB rDB : recipesFromDB) {
+                boolean found = false;
                 for (Recipe r : recipesList) {
                     // TODO: check if the id is not already in the list, if not add to list for display
-                    if(rDB.recipeId != r.getId()) {
-                        recipesList.add(createRecipeFromDatabase(rDB));
+                    if(rDB.recipeId == r.getId()) {
+                        found = true;
+                        break;
                     }
-                    else {
-                        continue;
-                    }
+                }
+                if(!found) {
+                    recipesList.add(createRecipeFromDatabase(rDB));
                 }
             }
         }

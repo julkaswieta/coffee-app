@@ -16,7 +16,8 @@
     <string name="ar_brew_time">Brewing time</string>
     <string name="ar_extras">Extras</string>
     <string name="ar_rating">Rating</string>
-    <string name="ar_notes">Notes (e.g. recipeDB steps)</string>
+    <string name="ar_notes">Notes (e.g. recipe steps)</string>
+    <string name="ar_bought_ground">Bought ground</string>
 
     <!-- AddRecipe fields hints -->
     <string name="hint_name">Recipe Name</string>
@@ -31,7 +32,7 @@
 
     <!-- Dialog -->
     <string name="dialog_discard_draft">Discard the draft?</string>
-    <string name="dialog_discard_message">Your recipeDB will not be saved</string>
+    <string name="dialog_discard_message">Your recipe will not be saved</string>
     <string name="dialog_check_title">Specify mandatory fields</string>
     <string name="dialog_check_mandatory">Recipe name, beans and preparation method have to be specified to save a recipeDB.</string>
     <string name="dialog_camera_gallery">Take a new photo or choose an image from gallery?</string>
@@ -44,5 +45,20 @@
     <string name="rec_cv_beans">Beans used</string>
     <string name="rec_cv_method">Preparation method</string>
     <string name="rec_cv_rating">No rating provided</string>
+
+    <!-- Recipe Details -->
+    <string name="rd_time_not_set">Brewing time not set</string>
+    <string name="rd_amount_not_set">Amount of coffee not set</string>
+    <string name="rd_beans_used">beans used</string>
+    <string name="rd_date_added">Date added</string>
+    <string name="rd_rec_name">recipe name</string>
+    <string name="rd_rec_image">recipe image</string>
+    <string name="rd_grind_not_set">Grind scale not provided</string>
+    <string name="rd_grind_notes">Grind notes not provided</string>
+    <string name="rd_extras">No extras added</string>
+    <string name="rd_notes_not_set">No notes provided</string>
+    <string name="rd_notes">Notes</string>
+
+
 
 </resources>

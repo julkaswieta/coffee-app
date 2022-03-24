@@ -22,6 +22,6 @@ public class RecipeDB {
     public String milk;
     public String syrup;
     public String sugar;
-    public int rating;
+    public float rating;
     public String notes;
 }

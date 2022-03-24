@@ -63,7 +63,7 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         // set the values of the elements inside the card view
         holder.txtName.setText(recipes.get(position).getName());
         DateFormat df = new DateFormat();
-        holder.txtDateAdded.setText(df.format("yyyy-MM-dd hh:mm", recipes.get(position).getDateAdded()));
+        holder.txtDateAdded.setText(df.format("yyyy-MM-dd", recipes.get(position).getDateAdded()));
         //holder.txtBeansUsed.setText("Beans: " + recipes.get(position).getBeansUsed().getName() + ", " + recipes.get(position).getBeansUsed().getRoaster());
         holder.txtMethod.setText("Method: " + recipes.get(position).getMethodOfBrewing());
         if(recipes.get(position).getRating() != 0) {

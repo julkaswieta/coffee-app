@@ -3,11 +3,8 @@ package com.example.coffeeapp;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-import com.example.coffeeapp.db.RecipesDatabase;
-
 import java.time.LocalTime;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class that deals with recipes added by the user
@@ -31,7 +28,7 @@ public class Recipe {
     // e.g. milk + kind, temp, amount, steamed or not
     // syrups/sauce + flavour, brand, amount
     // sugar - white/brown + amount
-    private int rating; // scale from 0-5
+    private float rating; // scale from 0-5
     private Uri photoUri;
     private Bitmap photo;
     private String notes;
@@ -122,11 +119,11 @@ public class Recipe {
         this.brewingTime = brewingTime;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

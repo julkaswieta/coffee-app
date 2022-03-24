@@ -32,6 +32,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +86,7 @@ public class AddRecipe extends AppCompatActivity {
     private EditText syrupAmount;
     private EditText sugarKind;
     private EditText sugarAmount;
-    private Slider rating;
+    private RatingBar rating;
     private EditText notes;
     private ImageButton btnAddPhoto;
     private Uri imageUri;
@@ -128,7 +129,7 @@ public class AddRecipe extends AppCompatActivity {
         syrupAmount = findViewById(R.id.txtSyrupAmount);
         sugarKind = findViewById(R.id.txtSugarKind);
         sugarAmount = findViewById(R.id.txtSugarAmount);
-        rating = findViewById(R.id.ratingSlider);
+        rating = findViewById(R.id.ratingBarAR);
         notes = findViewById(R.id.inputNotes);
         btnAddPhoto = findViewById(R.id.add_photo_btn);
 
@@ -270,7 +271,7 @@ public class AddRecipe extends AppCompatActivity {
             if(milk.isChecked()) { recipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString()); }
             if(syrup.isChecked()) { recipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString()); }
             if(sugar.isChecked()) { recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString()); }
-            recipe.setRating((int)rating.getValue());
+            recipe.setRating(rating.getRating());
             recipe.setNotes(notes.getText().toString());
             try {
                 if (photoSource == FROM_GALLERY) {
