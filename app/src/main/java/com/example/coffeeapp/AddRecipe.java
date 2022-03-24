@@ -100,66 +100,7 @@ public class AddRecipe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
 
-        // initialise attributes
-        toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title);
-        recipeName = findViewById(R.id.inputRecipeName);
-        prepMethod = findViewById(R.id.inputPrepMethod);
-        beansSpinner = findViewById(R.id.beansSpinner);
-        btnAddBeans = findViewById(R.id.btnAddBeans);
-        cancelButton = findViewById(R.id.cancel_button);
-        saveButton = findViewById(R.id.save_button);
-        backDialogBuilder = new MaterialAlertDialogBuilder(this);
-        saveDialogBuilder = new MaterialAlertDialogBuilder(this);
-        photoDialogBuilder = new MaterialAlertDialogBuilder(this);
-        gramPicker1 = findViewById(R.id.gram_picker1);
-        gramPicker2 = findViewById(R.id.gram_picker2);
-        hourPicker = findViewById(R.id.hour_picker);
-        minutesPicker = findViewById(R.id.minutes_picker);
-        secondsPicker = findViewById(R.id.seconds_picker);
-        boughtGround = findViewById(R.id.chckGround);
-        grindScale = findViewById(R.id.grindSlider);
-        grindNotes = findViewById(R.id.inputGrindNotes);
-        milk = findViewById(R.id.chckMilk);
-        syrup = findViewById(R.id.chckSyrup);
-        sugar = findViewById(R.id.chckSugar);
-        milkKind = findViewById(R.id.txtMilkKind);
-        milkAmount = findViewById(R.id.txtMilkAmount);
-        syrupFlavour = findViewById(R.id.txtSyrupFlavour);
-        syrupAmount = findViewById(R.id.txtSyrupAmount);
-        sugarKind = findViewById(R.id.txtSugarKind);
-        sugarAmount = findViewById(R.id.txtSugarAmount);
-        rating = findViewById(R.id.ratingBarAR);
-        notes = findViewById(R.id.inputNotes);
-        btnAddPhoto = findViewById(R.id.add_photo_btn);
-
-        // set the toolbar as the action bar
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Add new recipe");
-        // add the back button to it
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        // add options to the Beans Spinner
-        beansList.add(new Bean("Brazylia Santos","Agifa"));
-        beansList.add(new Bean("Vanilla&Hazelnut", "Agifa"));
-        // create the adapter for the spinner
-        ArrayAdapter<Bean> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
-        beansSpinner.setAdapter(beansAdapter);
-        // TODO: add a hint to the spinner instead of displaying the first item
-
-        // setup the number pickers for selecting number of grams and brewing time
-        gramPicker1.setMinValue(0);
-        gramPicker1.setMaxValue(99);
-        gramPicker2.setMinValue(0);
-        gramPicker2.setMaxValue(9);
-        hourPicker.setMinValue(0);
-        hourPicker.setMaxValue(23);
-        minutesPicker.setMinValue(0);
-        minutesPicker.setMaxValue(59);
-        secondsPicker.setMinValue(0);
-        secondsPicker.setMaxValue(59);
+        initViews();
 
         // onClickListener for the Cancel button - check if the user is sure to go back
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +181,7 @@ public class AddRecipe extends AppCompatActivity {
                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogBack.dismiss();
+                            dialogSave.dismiss();
                         }
                     }).show();
         }
@@ -381,5 +322,68 @@ public class AddRecipe extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
         parcelFileDescriptor.close();
         return image;
+    }
+
+    private void initViews() {
+        // initialise attributes
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        recipeName = findViewById(R.id.inputRecipeName);
+        prepMethod = findViewById(R.id.inputPrepMethod);
+        beansSpinner = findViewById(R.id.beansSpinner);
+        btnAddBeans = findViewById(R.id.btnAddBeans);
+        cancelButton = findViewById(R.id.cancel_button);
+        saveButton = findViewById(R.id.save_button);
+        backDialogBuilder = new MaterialAlertDialogBuilder(this);
+        saveDialogBuilder = new MaterialAlertDialogBuilder(this);
+        photoDialogBuilder = new MaterialAlertDialogBuilder(this);
+        gramPicker1 = findViewById(R.id.gram_picker1);
+        gramPicker2 = findViewById(R.id.gram_picker2);
+        hourPicker = findViewById(R.id.hour_picker);
+        minutesPicker = findViewById(R.id.minutes_picker);
+        secondsPicker = findViewById(R.id.seconds_picker);
+        boughtGround = findViewById(R.id.chckGround);
+        grindScale = findViewById(R.id.grindSlider);
+        grindNotes = findViewById(R.id.inputGrindNotes);
+        milk = findViewById(R.id.chckMilk);
+        syrup = findViewById(R.id.chckSyrup);
+        sugar = findViewById(R.id.chckSugar);
+        milkKind = findViewById(R.id.txtMilkKind);
+        milkAmount = findViewById(R.id.txtMilkAmount);
+        syrupFlavour = findViewById(R.id.txtSyrupFlavour);
+        syrupAmount = findViewById(R.id.txtSyrupAmount);
+        sugarKind = findViewById(R.id.txtSugarKind);
+        sugarAmount = findViewById(R.id.txtSugarAmount);
+        rating = findViewById(R.id.ratingBarAR);
+        notes = findViewById(R.id.inputNotes);
+        btnAddPhoto = findViewById(R.id.add_photo_btn);
+
+        // set the toolbar as the action bar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle.setText("Add new recipe");
+        // add the back button to it
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // add options to the Beans Spinner
+        beansList.add(new Bean("Brazylia Santos","Agifa"));
+        beansList.add(new Bean("Vanilla&Hazelnut", "Agifa"));
+        // create the adapter for the spinner
+        ArrayAdapter<Bean> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
+        beansSpinner.setAdapter(beansAdapter);
+        // TODO: add a hint to the spinner instead of displaying the first item
+
+        // setup the number pickers for selecting number of grams and brewing time
+        gramPicker1.setMinValue(0);
+        gramPicker1.setMaxValue(99);
+        gramPicker2.setMinValue(0);
+        gramPicker2.setMaxValue(9);
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(23);
+        minutesPicker.setMinValue(0);
+        minutesPicker.setMaxValue(59);
+        secondsPicker.setMinValue(0);
+        secondsPicker.setMaxValue(59);
     }
 }

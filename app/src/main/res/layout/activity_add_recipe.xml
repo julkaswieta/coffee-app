@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar_add" />
 
     <!-- TODO: add asterisks to the required fields + explanation -->
     <ScrollView

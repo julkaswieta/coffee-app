@@ -1,6 +1,5 @@
 package com.example.coffeeapp;
 
-import static androidx.core.content.ContextCompat.startActivity;
 import static com.example.coffeeapp.RecipesList.recipesFromDB;
 import static com.example.coffeeapp.RecipesList.recipesList;
 
@@ -31,7 +30,7 @@ import java.util.ArrayList;
  * Adapter for the recycler view in the RecipesList Activity
  */
 public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAdapter.ViewHolder> {
-
+    public static final String RECIPE_ID_KEY = "recipeId";
     private ArrayList<Recipe> recipes = new ArrayList<>();
     private Context context;
 
@@ -78,6 +77,7 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
             public void onClick(View view) {
                 Toast.makeText(context, recipes.get(holder.getAdapterPosition()).getName() + " Selected", Toast.LENGTH_SHORT).show();
                 Intent displayRecipe = new Intent(context, RecipeDetails.class);
+                displayRecipe.putExtra(RECIPE_ID_KEY, recipes.get(holder.getAdapterPosition()).getId());
                 context.startActivity(displayRecipe);
             }
         });
