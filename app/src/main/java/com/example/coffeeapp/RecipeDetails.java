@@ -45,6 +45,36 @@ public class RecipeDetails extends AppCompatActivity {
 
         // initialise all views in the layout
         initViews();
+    }
+
+    /**
+     * Initialises the whole layout
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void initViews() {
+        //initialise attributes
+        toolbar = findViewById(R.id.rec_details_toolbar);
+        toolbarTitle = findViewById(R.id.edit_toolbar_title);
+        txtName = findViewById(R.id.rec_details_name);
+        txtDateAdded = findViewById(R.id.rec_details_date_added);
+        txtBeans = findViewById(R.id.rec_details_beans_used);
+        txtAmountCoffee = findViewById(R.id.rec_details_coffee_amount);
+        txtPrepMethod = findViewById(R.id.rec_details_prep_method);
+        txtBrewTime = findViewById(R.id.rec_details_brew_time);
+        chckBoughtGround = findViewById(R.id.rec_details_checkbox);
+        txtGrindScale = findViewById(R.id.rec_details_grind_scale);
+        txtGrindNotes = findViewById(R.id.rec_details_grind_notes);
+        txtExtras = findViewById(R.id.rec_details_extras);
+        txtNotes = findViewById(R.id.rec_details_notes);
+        ratingBar = findViewById(R.id.rec_details_rating_bar);
+
+        // set the toolbar as the action bar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle.setText("Recipe details");
+        // add the back button to it
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // get the recipe from the incoming intent
         Intent incomingRecipe = getIntent();
@@ -110,40 +140,9 @@ public class RecipeDetails extends AppCompatActivity {
         }
         if(recipe.getNotes() != null) {
             if(!recipe.getNotes().isEmpty()) {
-            txtNotes.setText(recipe.getNotes());
+                txtNotes.setText(recipe.getNotes());
             }
         }
-    }
-
-    /**
-     * Initialises the whole layout
-     */
-    private void initViews() {
-        //initialise attributes
-        toolbar = findViewById(R.id.rec_details_toolbar);
-        toolbarTitle = findViewById(R.id.edit_toolbar_title);
-        txtName = findViewById(R.id.rec_details_name);
-        txtDateAdded = findViewById(R.id.rec_details_date_added);
-        txtBeans = findViewById(R.id.rec_details_beans_used);
-        txtAmountCoffee = findViewById(R.id.rec_details_coffee_amount);
-        txtPrepMethod = findViewById(R.id.rec_details_prep_method);
-        txtBrewTime = findViewById(R.id.rec_details_brew_time);
-        chckBoughtGround = findViewById(R.id.rec_details_checkbox);
-        txtGrindScale = findViewById(R.id.rec_details_grind_scale);
-        txtGrindNotes = findViewById(R.id.rec_details_grind_notes);
-        txtExtras = findViewById(R.id.rec_details_extras);
-        txtNotes = findViewById(R.id.rec_details_notes);
-        ratingBar = findViewById(R.id.rec_details_rating_bar);
-
-        // set the toolbar as the action bar
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Recipe details");
-        // add the back button to it
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
     }
 
     /**
