@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recipe_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="7dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/txtDateAdded"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:src="@mipmap/beans" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rec_cv_name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:maxLines="2"/>
+
+            <TextView
+                android:id="@+id/txtDateAdded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtName"
+                android:layout_marginTop="7dp"
+                android:text="@string/rec_cv_date" />
+
+            <TextView
+                android:id="@+id/txtBeansUsed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtDateAdded"
+                android:layout_marginTop="7dp"
+                android:text="@string/rec_cv_beans"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/txtMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtBeansUsed"
+                android:layout_marginTop="7dp"
+                android:text="@string/rec_cv_method"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/txtRating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtMethod"
+                android:layout_marginTop="7dp"
+                android:text="@string/rec_cv_rating"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_delete"
+                android:id="@+id/deleteRecipeBtn"
+                android:background="@color/white"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

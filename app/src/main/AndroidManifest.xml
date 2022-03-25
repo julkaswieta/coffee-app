@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoffeeApp">
         <activity
+            android:name=".AddBeans"
+            android:exported="false" />
+        <activity
             android:name=".RecipeDetails"
             android:exported="false" />
         <activity
