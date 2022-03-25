@@ -1,6 +1,9 @@
 package com.example.coffeeapp;
 
 public class Bean {
+    public static int idCounter = 0;
+
+    private int id;
     private String name;
     private String roaster;
     private boolean isFlavoured;
@@ -17,6 +20,14 @@ public class Bean {
     public Bean(String name, String roaster) {
         this.name = name;
         this.roaster = roaster;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
