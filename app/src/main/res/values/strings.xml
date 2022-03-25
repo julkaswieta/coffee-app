@@ -6,6 +6,8 @@
     <string name="coffee_log_menu">Coffee Log</string>
     <string name="map_menu">Cafe Finder</string>
     <string name="add_photo">Add photo</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 
     <!-- AddRecipe field names -->
     <string name="ar_name">Name</string>
@@ -80,6 +82,8 @@
     <string name="ab_link_label">Link to store</string>
     <string name="ab_cost_label">Cost per kilogram</string>
     <string name="ab_rating_label">Rating</string>
+    <string name="ab_notes_label">Rating</string>
+
 
     <!-- Add beans hints -->
     <string name="ab_hint_name">Beans name</string>
@@ -87,6 +91,7 @@
     <string name="ab_hint_flavour">Flavour</string>
     <string name="ab_hint_url">URL to store</string>
     <string name="ab_hint_price">price</string>
+    <string name="ab_hint_notes">Add your Beans notes here.</string>
 
 
 

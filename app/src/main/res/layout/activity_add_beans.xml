@@ -267,87 +267,14 @@
                             android:hint="@string/ab_hint_price"
                             android:padding="4dp"
                             android:textSize="20sp"
-                            android:layout_columnWeight="1"/>
+                            android:layout_columnWeight="1"
+                            android:inputType="numberDecimal"/>
 
                         <Spinner
                             android:id="@+id/ab_currency_spinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"/>
-                    </GridLayout>
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Extras card -->
-            <!-- TODO: in the grid layout, when too long text is input, layout breaks -->
-            <!-- TODO: ml/g in the suffix label in the textbox -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="7dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="8dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="7dp">
-
-                    <TextView
-                        android:id="@+id/txtExtras"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="7dp"
-                        android:text="@string/ar_extras"
-                        android:textSize="20dp" />
-
-                    <GridLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:columnCount="3"
-                        android:rowCount="3"
-                        android:layout_below="@+id/txtExtras"
-                        android:alignmentMode="alignBounds">
-
-                        <CheckBox
-                            android:id="@+id/chckMilk"
-                            android:layout_columnWeight="4"
-                            android:text="Milk"/>
-                        <EditText
-                            android:id="@+id/txtMilkKind"
-                            android:layout_columnWeight="4"
-                            android:hint="@string/ar_hint_milk"/>
-                        <EditText
-                            android:id="@+id/txtMilkAmount"
-                            android:layout_columnWeight="2"
-                            android:hint="@string/ar_hint_amount_ml"/>
-
-                        <CheckBox
-                            android:id="@+id/chckSyrup"
-                            android:layout_columnWeight="4"
-                            android:text="Syrup/Sauce"/>
-                        <EditText
-                            android:id="@+id/txtSyrupFlavour"
-                            android:layout_columnWeight="4"
-                            android:hint="@string/ar_hint_syrup"/>
-                        <EditText
-                            android:id="@+id/txtSyrupAmount"
-                            android:layout_columnWeight="2"
-                            android:hint="@string/ar_hint_amount_ml"/>
-
-                        <CheckBox
-                            android:id="@+id/chckSugar"
-                            android:layout_columnWeight="4"
-                            android:text="Sugar"/>
-                        <EditText
-                            android:id="@+id/txtSugarKind"
-                            android:layout_columnWeight="4"
-                            android:hint="@string/ar_hint_sugar"/>
-                        <EditText
-                            android:id="@+id/txtSugarAmount"
-                            android:layout_columnWeight="2"
-                            android:hint="@string/ar_hint_amount_g"/>
-
                     </GridLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -367,18 +294,18 @@
                     android:padding="7dp">
 
                     <TextView
-                        android:id="@+id/txtRating"
+                        android:id="@+id/ab_rating_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="7dp"
-                        android:text="@string/ar_rating"
-                        android:textSize="20dp" />
+                        android:text="@string/ab_rating_label"
+                        android:textSize="24sp" />
 
                     <RatingBar
-                        android:id="@+id/ratingBarAR"
+                        android:id="@+id/ab_rating_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtRating"
+                        android:layout_below="@+id/ab_rating_label"
                         android:numStars="5"/>
 
                 </RelativeLayout>
@@ -397,11 +324,11 @@
                     android:padding="7dp">
 
                     <TextView
-                        android:id="@+id/txtNotes"
+                        android:id="@+id/ab_notes_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="7dp"
-                        android:text="@string/ar_notes"
+                        android:text="@string/ab_notes_label"
                         android:textSize="20sp" />
 
                     <EditText
@@ -409,12 +336,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minLines="3"
-                        android:layout_below="@id/txtNotes"/>
-
+                        android:hint="@string/ab_hint_notes"
+                        android:inputType="textMultiLine"
+                        android:layout_below="@id/ab_notes_label" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
-
-
 
         </LinearLayout>
     </ScrollView>
@@ -435,7 +361,7 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="50"
             android:layout_gravity="center_horizontal"
-            android:text="Cancel" />
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/save_button"
@@ -443,7 +369,7 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="50"
             android:layout_gravity="center_horizontal"
-            android:text="Save" />
+            android:text="@string/save" />
 
     </GridLayout>
 
