@@ -59,5 +59,12 @@
     <string name="rd_notes_not_set">No notes provided</string>
     <string name="rd_notes">Notes</string>
 
+    <!-- Beans Card View -->
+    <string name="bean_cv_name">Beans Name</string>
+    <string name="bean_cv_date">Date Added</string>
+    <string name="bean_cv_roaster">Roaster</string>
+    <string name="bean_cv_rating">No rating provided</string>
+    <string name="bean_cv_roaster_hint">No roaster provided</string>
+
 
 </resources>

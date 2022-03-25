@@ -38,11 +38,11 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         this.context = context;
     }
 
-    @NonNull
-    @Override
     /**
      * Creates an instance of the ViewHolder (specified below) for every item in the RecView list
      */
+    @NonNull
+    @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // initialise a view object
         // View Group --> parent of all layouts, used to group views inside this group
@@ -53,11 +53,11 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         return holder;
     }
 
-    @Override
     /**
      * Used to modify the properties of the card in the RecView list
      * @param position position of the item in the RecView, can be used to get data from the recipes ArrayList
      */
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // set the values of the elements inside the card view
         holder.txtName.setText(recipes.get(position).getName());

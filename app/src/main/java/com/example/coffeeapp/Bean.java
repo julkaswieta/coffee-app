@@ -14,6 +14,7 @@ public class Bean {
     private String photo;
     private String urlToShop;
     private float costPerKg;
+    private float rating;
 
     public Bean() {}
 
@@ -108,6 +109,14 @@ public class Bean {
 
     public void setCostPerKg(float costPerKg) {
         this.costPerKg = costPerKg;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     @Override

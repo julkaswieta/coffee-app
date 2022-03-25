@@ -91,6 +91,7 @@ public class BeansList extends AppCompatActivity {
         toolbarTitle.setText("Beans");
 
         initBottomBar();
+        loadBeans();
     }
 
     /**
@@ -129,6 +130,14 @@ public class BeansList extends AppCompatActivity {
 
 
     private void loadBeans() {
+        beansList.add(new Bean("Vanilla & Hazelnut", "Agifa"));
+        beansList.add(new Bean("Brazylia Santos", "Agifa"));
 
+        // create a recipe RecView adapter and pass it to the RecView
+        BeansRecViewAdapter adapter = new BeansRecViewAdapter(this);
+        adapter.setBeans(beansList);
+        beansRecView.setAdapter(adapter);
+        // set layout manager for the RecView - display the items linearly
+        beansRecView.setLayoutManager(new LinearLayoutManager(this));
     }
 }

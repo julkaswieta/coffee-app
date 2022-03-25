@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/recipe_parent"
+    android:id="@+id/bean_card_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="7dp"
@@ -15,13 +15,12 @@
         android:padding="7dp">
 
         <ImageView
-            android:id="@+id/recipe_image"
+            android:id="@+id/bl_beans_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_below="@id/txtDateAdded"
-            android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
-            android:src="@mipmap/beans" />
+            android:src="@mipmap/beans"
+            android:contentDescription="Beans image"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,61 +28,52 @@
             android:layout_marginEnd="5dp">
 
             <TextView
-                android:id="@+id/txtName"
+                android:id="@+id/bl_beans_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rec_cv_name"
+                android:maxLines="2"
+                android:text="@string/bean_cv_name"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:maxLines="2"/>
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtDateAdded"
+                android:id="@+id/bl_date_added"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtName"
+                android:layout_below="@id/bl_beans_name"
                 android:layout_marginTop="7dp"
-                android:text="@string/rec_cv_date" />
+                android:text="@string/bean_cv_date" />
 
             <TextView
-                android:id="@+id/txtBeansUsed"
+                android:id="@+id/bl_roaster_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtDateAdded"
+                android:layout_below="@id/bl_date_added"
                 android:layout_marginTop="7dp"
-                android:text="@string/rec_cv_beans"
-                android:textStyle="bold"
+                android:hint="@string/bean_cv_roaster_hint"
+                android:maxLines="2"
                 android:textSize="16sp"
-                android:maxLines="1"/>
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtMethod"
+                android:id="@+id/bl_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtBeansUsed"
-                android:layout_marginTop="7dp"
-                android:text="@string/rec_cv_method"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:maxLines="1"/>
-
-            <TextView
-                android:id="@+id/txtRating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtMethod"
+                android:layout_below="@id/bl_roaster_name"
                 android:layout_marginTop="7dp"
                 android:text="@string/rec_cv_rating"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <ImageButton
+                android:id="@+id/bl_delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
                 android:src="@drawable/ic_delete"
-                android:id="@+id/deleteRecipeBtn"
-                android:background="@color/white"/>
+                android:contentDescription="delete beans"/>
 
         </RelativeLayout>
     </LinearLayout>
