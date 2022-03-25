@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeeapp.db.RecipeDB;
-import com.example.coffeeapp.db.RecipesDatabase;
+import com.example.coffeeapp.db.CoffeeDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -149,7 +149,7 @@ public class RecipesList extends AppCompatActivity {
      */
     private void loadRecipes() {
         // get persisted recipes
-        RecipesDatabase db = RecipesDatabase.getDatabase(this.getApplicationContext());
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
         recipesFromDB = db.recipeDao().getAllRecipes();
         if(recipesList.size() < 1) {
             for(RecipeDB rDB : recipesFromDB) {

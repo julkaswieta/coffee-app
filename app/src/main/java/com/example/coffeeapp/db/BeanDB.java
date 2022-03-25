@@ -5,15 +5,16 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "beans")
 public class BeanDB {
-    @PrimaryKey(autoGenerate = true)
-    private int beansId;
-    private String name;
-    private String roaster;
-    private boolean isFlavoured;
-    private String flavour;
-    private boolean isBlend;
-    private int degreeOfRoast;
-    private boolean isDecaf;
-    private String urlToShop;
-    private float costPerKg;
+    @PrimaryKey
+    public int beansId;
+    public String name;
+    public String roaster;
+    public boolean isFlavoured;
+    public String flavour;
+    public boolean isBlend;
+    public int degreeOfRoast;
+    public boolean isDecaf;
+    public String urlToShop;
+    public float costPerKg;
+    public float rating;
 }

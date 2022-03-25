@@ -36,8 +36,6 @@ public class BeansList extends AppCompatActivity {
         setContentView(R.layout.activity_beans_list);
 
         initViews();
-
-
     }
 
     @Override

@@ -21,7 +21,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeapp.db.RecipeDB;
-import com.example.coffeeapp.db.RecipesDatabase;
+import com.example.coffeeapp.db.CoffeeDatabase;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -99,7 +99,7 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                RecipesDatabase db = RecipesDatabase.getDatabase(context.getApplicationContext());
+                                CoffeeDatabase db = CoffeeDatabase.getDatabase(context.getApplicationContext());
                                 for (RecipeDB recipe : recipesFromDB) {
                                     if (recipes.get(holder.getAdapterPosition()).getId() == recipe.recipeId) {
                                         db.recipeDao().deleteRecipe(recipe);

@@ -64,11 +64,11 @@
                         android:id="@+id/inputRecipeName"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_name"
+                        android:layout_below="@id/txtRecipeName"
+                        android:hint="@string/ar_hint_name"
                         android:inputType="textPersonName"
                         android:padding="4dp"
-                        android:textSize="22sp"
-                        android:layout_below="@id/txtRecipeName"/>
+                        android:textSize="22sp" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -191,7 +191,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txtPrepMethod"
-                        android:hint="@string/hint_method"
+                        android:hint="@string/ar_hint_method"
                         android:inputType="textPersonName"
                         android:padding="4dp"
                         android:textSize="22sp" />
@@ -311,7 +311,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/grindSlider"
-                        android:hint="@string/hint_grind"
+                        android:hint="@string/ar_hint_grind"
                         android:inputType="textPersonName"
                         android:padding="4dp"
                         android:textSize="22sp" />
@@ -357,11 +357,11 @@
                         <EditText
                             android:id="@+id/txtMilkKind"
                             android:layout_columnWeight="4"
-                            android:hint="@string/hint_milk"/>
+                            android:hint="@string/ar_hint_milk"/>
                         <EditText
                             android:id="@+id/txtMilkAmount"
                             android:layout_columnWeight="2"
-                            android:hint="@string/hint_amount_ml"/>
+                            android:hint="@string/ar_hint_amount_ml"/>
 
                         <CheckBox
                             android:id="@+id/chckSyrup"
@@ -370,11 +370,11 @@
                         <EditText
                             android:id="@+id/txtSyrupFlavour"
                             android:layout_columnWeight="4"
-                            android:hint="@string/hint_syrup"/>
+                            android:hint="@string/ar_hint_syrup"/>
                         <EditText
                             android:id="@+id/txtSyrupAmount"
                             android:layout_columnWeight="2"
-                            android:hint="@string/hint_amount_ml"/>
+                            android:hint="@string/ar_hint_amount_ml"/>
 
                         <CheckBox
                             android:id="@+id/chckSugar"
@@ -383,11 +383,11 @@
                         <EditText
                             android:id="@+id/txtSugarKind"
                             android:layout_columnWeight="4"
-                            android:hint="@string/hint_sugar"/>
+                            android:hint="@string/ar_hint_sugar"/>
                         <EditText
                             android:id="@+id/txtSugarAmount"
                             android:layout_columnWeight="2"
-                            android:hint="@string/hint_amount_g"/>
+                            android:hint="@string/ar_hint_amount_g"/>
 
                     </GridLayout>
                 </RelativeLayout>

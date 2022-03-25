@@ -7,8 +7,444 @@
     tools:context=".AddBeans">
 
     <include
-        android:id="@+id/bl_toolbar"
+        android:id="@+id/ab_toolbar"
         layout="@layout/toolbar_add"/>
 
+    <!-- TODO: add asterisks to the required fields + explanation -->
+    <ScrollView
+        android:id="@+id/ab_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/ab_bottom_buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ab_toolbar"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Name card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:id="@+id/ab_name_card">
+
+                    <TextView
+                        android:id="@+id/ab_beans_name_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/ab_name_label"
+                        android:textColor="@color/red"
+                        android:textSize="24sp" />
+
+                    <ImageButton
+                        android:id="@+id/ab_add_photo_btn"
+                        android:src="@drawable/ic_add_photo"
+                        android:layout_height="70dp"
+                        android:layout_width="70dp"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="@string/add_photo"/>
+
+
+                    <EditText
+                        android:id="@+id/ab_beans_name"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_beans_name_label"
+                        android:hint="@string/ab_hint_name"
+                        android:inputType="textPersonName"
+                        android:padding="4dp"
+                        android:textSize="22sp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Roaster Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/ab_roaster_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:text="@string/ab_roaster_label"
+                        android:textColor="@color/red"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/ab_roaster_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_roaster_label"
+                        android:layout_margin="5dp"
+                        android:text="@string/ab_hint_roaster"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ab_roast_degree"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_roaster_name"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:text="@string/ab_roast_degree_label"
+                        android:textSize="24sp" />
+
+                    <com.google.android.material.slider.Slider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ab_roast_degree"
+                        android:id="@+id/ab_roast_degree_slider"
+                        android:valueFrom="0"
+                        android:valueTo="5"
+                        android:stepSize="1" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Beans Specs Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/ab_beans_specs_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ab_beans_specs_label"
+                        android:textSize="24sp" />
+
+                    <CheckBox
+                        android:id="@+id/ab_check_decaf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_beans_specs_label"
+                        android:text="@string/ab_decaf_label"
+                        android:textSize="20sp"/>
+
+                    <CheckBox
+                        android:id="@+id/ab_check_flavour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_check_decaf"
+                        android:text="@string/ab_flavour_check_label"
+                        android:textSize="20sp"/>
+
+                    <EditText
+                        android:id="@+id/ab_flavour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_check_flavour"
+                        android:hint="@string/ab_hint_flavour"
+                        android:inputType="textPersonName"
+                        android:padding="4dp"
+                        android:textSize="20sp"
+                        android:enabled="false"/>
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_flavour"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ab_blend_label"
+                            android:textSize="20sp"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ab_single_origin_label"
+                            android:textSize="20sp"
+                            android:layout_marginStart="20dp"/>
+                    </RadioGroup>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Shopping card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/ab_shopping"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:text="@string/ab_shopping_label"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/ab_link_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ab_link_label"
+                        android:textSize="22sp"
+                        android:layout_below="@id/ab_shopping"/>
+
+                    <EditText
+                        android:id="@+id/ab_link_to_store"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_link_label"
+                        android:hint="@string/ab_hint_url"
+                        android:inputType="textPersonName"
+                        android:padding="4dp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ab_cost_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ab_cost_label"
+                        android:textSize="22sp"
+                        android:layout_below="@id/ab_link_to_store"/>
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:orientation="horizontal"
+                        android:layout_below="@id/ab_cost_label">
+
+                        <EditText
+                            android:id="@+id/ab_cost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/ab_hint_price"
+                            android:padding="4dp"
+                            android:textSize="20sp"
+                            android:layout_columnWeight="1"/>
+
+                        <Spinner
+                            android:id="@+id/ab_currency_spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"/>
+                    </GridLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Extras card -->
+            <!-- TODO: in the grid layout, when too long text is input, layout breaks -->
+            <!-- TODO: ml/g in the suffix label in the textbox -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/txtExtras"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_extras"
+                        android:textSize="20dp" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3"
+                        android:rowCount="3"
+                        android:layout_below="@+id/txtExtras"
+                        android:alignmentMode="alignBounds">
+
+                        <CheckBox
+                            android:id="@+id/chckMilk"
+                            android:layout_columnWeight="4"
+                            android:text="Milk"/>
+                        <EditText
+                            android:id="@+id/txtMilkKind"
+                            android:layout_columnWeight="4"
+                            android:hint="@string/ar_hint_milk"/>
+                        <EditText
+                            android:id="@+id/txtMilkAmount"
+                            android:layout_columnWeight="2"
+                            android:hint="@string/ar_hint_amount_ml"/>
+
+                        <CheckBox
+                            android:id="@+id/chckSyrup"
+                            android:layout_columnWeight="4"
+                            android:text="Syrup/Sauce"/>
+                        <EditText
+                            android:id="@+id/txtSyrupFlavour"
+                            android:layout_columnWeight="4"
+                            android:hint="@string/ar_hint_syrup"/>
+                        <EditText
+                            android:id="@+id/txtSyrupAmount"
+                            android:layout_columnWeight="2"
+                            android:hint="@string/ar_hint_amount_ml"/>
+
+                        <CheckBox
+                            android:id="@+id/chckSugar"
+                            android:layout_columnWeight="4"
+                            android:text="Sugar"/>
+                        <EditText
+                            android:id="@+id/txtSugarKind"
+                            android:layout_columnWeight="4"
+                            android:hint="@string/ar_hint_sugar"/>
+                        <EditText
+                            android:id="@+id/txtSugarAmount"
+                            android:layout_columnWeight="2"
+                            android:hint="@string/ar_hint_amount_g"/>
+
+                    </GridLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Rating card -->
+            <!-- TODO: add visual stars for the rating -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/txtRating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_rating"
+                        android:textSize="20dp" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBarAR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtRating"
+                        android:numStars="5"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:id="@+id/txtNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="@string/ar_notes"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/inputNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minLines="3"
+                        android:layout_below="@id/txtNotes"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <GridLayout
+        android:id="@+id/ab_bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="50"
+            android:layout_gravity="center_horizontal"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="50"
+            android:layout_gravity="center_horizontal"
+            android:text="Save" />
+
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

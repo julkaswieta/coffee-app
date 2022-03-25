@@ -37,8 +37,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coffeeapp.db.CoffeeDatabase;
 import com.example.coffeeapp.db.RecipeDB;
-import com.example.coffeeapp.db.RecipesDatabase;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 
@@ -159,7 +159,9 @@ public class AddRecipe extends AppCompatActivity {
         });
     }
 
-    // handles the top back button
+    /*
+     * Handles the top back button
+     */
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
@@ -189,7 +191,7 @@ public class AddRecipe extends AppCompatActivity {
         else {
             Recipe recipe = new Recipe();
             // get the biggest available recipeId so that the new ones are not replicated
-            RecipesDatabase db = RecipesDatabase.getDatabase(AddRecipe.this.getApplicationContext());
+            CoffeeDatabase db = CoffeeDatabase.getDatabase(AddRecipe.this.getApplicationContext());
             if(db.recipeDao().getAllRecipes().size() > 0) {
                 idCounter = db.recipeDao().getBiggestRecipeId();
             }
@@ -252,7 +254,9 @@ public class AddRecipe extends AppCompatActivity {
         }
     }
 
-    // Don't let the user just quit without saving or confirming to leave
+    /**
+     * Handles back button presses - asks to confirm to leave
+     */
     @Override
     public void onBackPressed() {
         dialogBack = backDialogBuilder.create();
