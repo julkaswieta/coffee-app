@@ -11,6 +11,7 @@
         layout="@layout/toolbar_add"/>
 
     <!-- TODO: add asterisks to the required fields + explanation -->
+
     <ScrollView
         android:id="@+id/ab_scroll_view"
         android:layout_width="match_parent"
@@ -37,10 +38,10 @@
                 app:cardElevation="8dp">
 
                 <RelativeLayout
+                    android:id="@+id/ab_name_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="7dp"
-                    android:id="@+id/ab_name_card">
+                    android:padding="7dp">
 
                     <TextView
                         android:id="@+id/ab_beans_name_label"
@@ -56,11 +57,11 @@
 
                     <ImageButton
                         android:id="@+id/ab_add_photo_btn"
-                        android:src="@drawable/ic_add_photo"
-                        android:layout_height="70dp"
                         android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="@string/add_photo"/>
+                        android:contentDescription="@string/add_photo"
+                        android:src="@drawable/ic_add_photo" />
 
 
                     <EditText
@@ -101,13 +102,16 @@
                         android:textColor="@color/red"
                         android:textSize="24sp" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/ab_roaster_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ab_roaster_label"
-                        android:layout_margin="5dp"
-                        android:text="@string/ab_hint_roaster"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:hint="@string/ab_hint_roaster"
                         android:textSize="20sp" />
 
                     <TextView
@@ -123,13 +127,13 @@
                         android:textSize="24sp" />
 
                     <com.google.android.material.slider.Slider
+                        android:id="@+id/ab_roast_degree_slider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ab_roast_degree"
-                        android:id="@+id/ab_roast_degree_slider"
+                        android:stepSize="1"
                         android:valueFrom="0"
-                        android:valueTo="5"
-                        android:stepSize="1" />
+                        android:valueTo="5" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -160,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ab_beans_specs_label"
                         android:text="@string/ab_decaf_label"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <CheckBox
                         android:id="@+id/ab_check_flavour"
@@ -168,35 +172,40 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ab_check_decaf"
                         android:text="@string/ab_flavour_check_label"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/ab_flavour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ab_check_flavour"
+                        android:enabled="false"
                         android:hint="@string/ab_hint_flavour"
                         android:inputType="textPersonName"
                         android:padding="4dp"
-                        android:textSize="20sp"
-                        android:enabled="false"/>
+                        android:textSize="20sp" />
 
                     <RadioGroup
+                        android:id="@+id/ab_blend_origin_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ab_flavour"
                         android:orientation="horizontal">
+
                         <RadioButton
+                            android:id="@+id/ab_blend_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/ab_blend_label"
-                            android:textSize="20sp"/>
+                            android:textSize="20sp" />
+
                         <RadioButton
+                            android:id="@+id/ab_single_origin_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
                             android:text="@string/ab_single_origin_label"
-                            android:textSize="20sp"
-                            android:layout_marginStart="20dp"/>
+                            android:textSize="20sp" />
                     </RadioGroup>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -229,10 +238,10 @@
                         android:id="@+id/ab_link_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_shopping"
                         android:layout_margin="7dp"
                         android:text="@string/ab_link_label"
-                        android:textSize="22sp"
-                        android:layout_below="@id/ab_shopping"/>
+                        android:textSize="22sp" />
 
                     <EditText
                         android:id="@+id/ab_link_to_store"
@@ -248,34 +257,31 @@
                         android:id="@+id/ab_cost_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/ab_link_to_store"
                         android:layout_margin="7dp"
                         android:text="@string/ab_cost_label"
-                        android:textSize="22sp"
-                        android:layout_below="@id/ab_link_to_store"/>
+                        android:textSize="22sp" />
 
-                    <GridLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:columnCount="2"
-                        android:orientation="horizontal"
-                        android:layout_below="@id/ab_cost_label">
+                        android:layout_below="@id/ab_cost_label"
+                        android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/ab_cost"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/ab_hint_price"
+                            android:inputType="numberDecimal"
                             android:padding="4dp"
-                            android:textSize="20sp"
-                            android:layout_columnWeight="1"
-                            android:inputType="numberDecimal"/>
+                            android:textSize="20sp" />
 
                         <Spinner
                             android:id="@+id/ab_currency_spinner"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"/>
-                    </GridLayout>
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -306,7 +312,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ab_rating_label"
-                        android:numStars="5"/>
+                        android:numStars="5" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -329,16 +335,16 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="7dp"
                         android:text="@string/ab_notes_label"
-                        android:textSize="20sp" />
+                        android:textSize="24sp" />
 
                     <EditText
-                        android:id="@+id/inputNotes"
+                        android:id="@+id/ab_notes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minLines="3"
+                        android:layout_below="@id/ab_notes_label"
                         android:hint="@string/ab_hint_notes"
                         android:inputType="textMultiLine"
-                        android:layout_below="@id/ab_notes_label" />
+                        android:minLines="3" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -356,7 +362,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/cancel_button"
+            android:id="@+id/ab_cancel_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="50"
@@ -364,7 +370,7 @@
             android:text="@string/cancel" />
 
         <Button
-            android:id="@+id/save_button"
+            android:id="@+id/ab_save_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="50"

@@ -7,10 +7,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {RecipeDB.class, BeanDB.class}, version = 1)
+@Database(entities = {RecipeDB.class, BeanDB.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class CoffeeDatabase extends RoomDatabase {
     public abstract RecipeDao recipeDao();
+    public abstract BeanDao beanDao();
 
     private static CoffeeDatabase INSTANCE;
 

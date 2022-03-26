@@ -38,6 +38,7 @@
     <string name="dialog_discard_message">Your recipe will not be saved</string>
     <string name="dialog_check_title">Specify mandatory fields</string>
     <string name="dialog_check_mandatory">Recipe name, beans and preparation method have to be specified to save a recipe.</string>
+    <string name="dialog_check_mandatory_beans">Beans name and Roaster must be specified to save Beans.</string>
     <string name="dialog_camera_gallery">Take a new photo or choose an image from gallery?</string>
     <string name="dialog_delete_recipe_title">Delete this recipe?</string>
     <string name="dialog_delete_recipe_mess">This operation cannot be reversed.</string>
@@ -82,7 +83,7 @@
     <string name="ab_link_label">Link to store</string>
     <string name="ab_cost_label">Cost per kilogram</string>
     <string name="ab_rating_label">Rating</string>
-    <string name="ab_notes_label">Rating</string>
+    <string name="ab_notes_label">Notes</string>
 
 
     <!-- Add beans hints -->

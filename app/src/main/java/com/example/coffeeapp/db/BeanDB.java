@@ -3,10 +3,13 @@ package com.example.coffeeapp.db;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "beans")
 public class BeanDB {
     @PrimaryKey
     public int beansId;
+    public Date dateAdded;
     public String name;
     public String roaster;
     public boolean isFlavoured;

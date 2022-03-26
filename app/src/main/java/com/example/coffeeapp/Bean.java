@@ -1,9 +1,12 @@
 package com.example.coffeeapp;
 
+import java.util.Date;
+
 public class Bean {
     public static int idCounter = 0;
 
     private int id;
+    private Date dateAdded;
     private String name;
     private String roaster;
     private boolean isFlavoured;
@@ -23,12 +26,24 @@ public class Bean {
         this.roaster = roaster;
     }
 
+    public static int nextId() {
+        return ++idCounter;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
     }
 
     public String getName() {

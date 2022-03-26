@@ -2,6 +2,7 @@ package com.example.coffeeapp;
 
 import static com.example.coffeeapp.BeansList.beansList;
 import static com.example.coffeeapp.Recipe.idCounter;
+import static com.example.coffeeapp.RecipesList.recipesFromDB;
 import static com.example.coffeeapp.RecipesList.recipesList;
 
 import androidx.annotation.NonNull;
@@ -93,7 +94,7 @@ public class AddRecipe extends AppCompatActivity {
     private Bitmap photo;
     private int photoSource;
     private Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+    private Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +116,22 @@ public class AddRecipe extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                createRecipe();
-                //recipesList.add(recipe);
+                // check if name, beans and method are specified
+                if(recipeName.getText().toString().isEmpty() || beansSpinner.getSelectedItem() == null || prepMethod.getText().toString().isEmpty()) {
+                    dialogSave = saveDialogBuilder.create();
+                    saveDialogBuilder
+                            .setTitle(R.string.dialog_check_title)
+                            .setMessage(R.string.dialog_check_mandatory)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogSave.dismiss();
+                                }
+                            }).show();
+                }
+                else {
+                    createRecipe();
+                }
             }
         });
 
@@ -173,85 +188,72 @@ public class AddRecipe extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createRecipe() {
-        //Recipe recipe = new Recipe();
-        // check if name, beans and method are specified
-        if(recipeName.getText().toString().isEmpty() || beansSpinner.getSelectedItem() == null || prepMethod.getText().toString().isEmpty()) {
-            dialogSave = saveDialogBuilder.create();
-            saveDialogBuilder
-                    .setTitle(R.string.dialog_check_title)
-                    .setMessage(R.string.dialog_check_mandatory)
-                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogSave.dismiss();
-                        }
-                    }).show();
+        Recipe recipe = new Recipe();
+        // get the biggest available recipeId so that the new ones are not replicated
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(AddRecipe.this.getApplicationContext());
+        if (db.recipeDao().getAllRecipes().size() > 0) {
+            idCounter = db.recipeDao().getBiggestRecipeId();
+        } else {
+            idCounter = 0;
         }
-        // proceed with creating the recipe
-        else {
-            Recipe recipe = new Recipe();
-            // get the biggest available recipeId so that the new ones are not replicated
-            CoffeeDatabase db = CoffeeDatabase.getDatabase(AddRecipe.this.getApplicationContext());
-            if(db.recipeDao().getAllRecipes().size() > 0) {
-                idCounter = db.recipeDao().getBiggestRecipeId();
-            }
-            else {
-                idCounter = 0;
-            }
-            recipe.setId(Recipe.nextId());
-            recipe.setName(recipeName.getText().toString());
-            recipe.setDateAdded(new Date());
-            // TODO: fix set beans to work properly
-            recipe.setBeansUsed(new Bean(beansSpinner.getSelectedItem().toString().split(",")[0], beansSpinner.getSelectedItem().toString().split(",")[1]));
-            String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
-            float amount= Float.parseFloat(tempAmount);
-            recipe.setAmountOfCoffee(amount);
-            recipe.setMethodOfBrewing(prepMethod.getText().toString());
-            recipe.setBrewingTime(LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue()));
-            recipe.setBoughtGround(boughtGround.isChecked());
-            recipe.setGrindScale((int)grindScale.getValue());
-            recipe.setGrindNotes(grindNotes.getText().toString());
-            if(milk.isChecked()) { recipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString()); }
-            if(syrup.isChecked()) { recipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString()); }
-            if(sugar.isChecked()) { recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString()); }
-            recipe.setRating(rating.getRating());
-            recipe.setNotes(notes.getText().toString());
-            try {
-                if (photoSource == FROM_GALLERY) {
-                    recipe.setPhoto(getBitmapFromUri(imageUri));
-                }
-                else if (photoSource == FROM_CAMERA) {
-                    recipe.setPhoto(photo);
-                }
-            }
-            catch (IOException ex) {
-                Log.e(this.getClass().toString(), "Couldn't save image");
-            }
-            recipesList.add(recipe);
-
-            // persist the recipe
-            RecipeDB recipeDB = new RecipeDB();
-            recipeDB.recipeId = recipe.getId();
-            recipeDB.name = recipe.getName();
-            recipeDB.dateAdded = recipe.getDateAdded();
-            // TODO: fix set beans to work properly
-            recipeDB.beansUsedId = 1;   // just a placeholder now
-            recipeDB.amountOfCoffee = recipe.getAmountOfCoffee();
-            recipeDB.methodOfBrewing = recipe.getMethodOfBrewing();
-            recipeDB.brewingTime = recipe.getBrewingTime();
-            recipeDB.boughtGround = recipe.isBoughtGround();
-            recipeDB.grindScale = recipe.getGrindScale();
-            recipeDB.grindNotes = recipe.getGrindNotes();
-            recipeDB.milk = recipe.getMilk();
-            recipeDB.syrup = recipe.getSyrup();
-            recipeDB.sugar = recipe.getSugar();
-            recipeDB.rating = recipe.getRating();
-            recipeDB.notes = recipe.getNotes();
-
-            db.recipeDao().insertRecipe(recipeDB);
-            finish();
-            Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
+        recipe.setId(Recipe.nextId());
+        recipe.setName(recipeName.getText().toString());
+        recipe.setDateAdded(new Date());
+        // TODO: fix set beans to work properly
+        recipe.setBeansUsed(new Bean(beansSpinner.getSelectedItem().toString().split(",")[0], beansSpinner.getSelectedItem().toString().split(",")[1]));
+        String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
+        float amount = Float.parseFloat(tempAmount);
+        recipe.setAmountOfCoffee(amount);
+        recipe.setMethodOfBrewing(prepMethod.getText().toString());
+        recipe.setBrewingTime(LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue()));
+        recipe.setBoughtGround(boughtGround.isChecked());
+        recipe.setGrindScale((int) grindScale.getValue());
+        recipe.setGrindNotes(grindNotes.getText().toString());
+        if (milk.isChecked()) {
+            recipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString());
         }
+        if (syrup.isChecked()) {
+            recipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString());
+        }
+        if (sugar.isChecked()) {
+            recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString());
+        }
+        recipe.setRating(rating.getRating());
+        recipe.setNotes(notes.getText().toString());
+        try {
+            if (photoSource == FROM_GALLERY) {
+                recipe.setPhoto(getBitmapFromUri(imageUri));
+            } else if (photoSource == FROM_CAMERA) {
+                recipe.setPhoto(photo);
+            }
+        } catch (IOException ex) {
+            Log.e(this.getClass().toString(), "Couldn't save image");
+        }
+        recipesList.add(recipe);
+
+        // persist the recipe
+        RecipeDB recipeDB = new RecipeDB();
+        recipeDB.recipeId = recipe.getId();
+        recipeDB.name = recipe.getName();
+        recipeDB.dateAdded = recipe.getDateAdded();
+        // TODO: fix set beans to work properly
+        recipeDB.beansUsedId = 1;   // just a placeholder now
+        recipeDB.amountOfCoffee = recipe.getAmountOfCoffee();
+        recipeDB.methodOfBrewing = recipe.getMethodOfBrewing();
+        recipeDB.brewingTime = recipe.getBrewingTime();
+        recipeDB.boughtGround = recipe.isBoughtGround();
+        recipeDB.grindScale = recipe.getGrindScale();
+        recipeDB.grindNotes = recipe.getGrindNotes();
+        recipeDB.milk = recipe.getMilk();
+        recipeDB.syrup = recipe.getSyrup();
+        recipeDB.sugar = recipe.getSugar();
+        recipeDB.rating = recipe.getRating();
+        recipeDB.notes = recipe.getNotes();
+
+        recipesFromDB.add(recipeDB);
+        db.recipeDao().insertRecipe(recipeDB);
+        finish();
+        Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -277,7 +279,9 @@ public class AddRecipe extends AppCompatActivity {
                 }).show();
     }
 
-    // handles results from intents launched - gallery & camera
+    /**
+     * handles results from intents launched - gallery & camera
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -296,7 +300,13 @@ public class AddRecipe extends AppCompatActivity {
         }
     }
 
-    // check if Camera permission is granted, if so, open the camera
+    /**
+     * check if Camera or gallery access permission is granted, if so, open the camera/gallery
+     * @param requestCode   request code passed when launching intent
+     * @param permissions   permissions to check
+     * @param grantResults  checked permissions
+     */
+    //
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
