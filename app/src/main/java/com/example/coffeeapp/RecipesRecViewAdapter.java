@@ -63,7 +63,7 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         holder.txtName.setText(recipes.get(position).getName());
         DateFormat df = new DateFormat();
         holder.txtDateAdded.setText(df.format("yyyy-MM-dd", recipes.get(position).getDateAdded()));
-        //holder.txtBeansUsed.setText("Beans: " + recipes.get(position).getBeansUsed().getName() + ", " + recipes.get(position).getBeansUsed().getRoaster());
+        holder.txtBeansUsed.setText("Beans: " + recipes.get(position).getBeansUsed().getName() + ", " + recipes.get(position).getBeansUsed().getRoaster());
         holder.txtMethod.setText("Method: " + recipes.get(position).getMethodOfBrewing());
         if(recipes.get(position).getRating() != 0) {
             holder.txtRating.setText("Rating: " + recipes.get(position).getRating());
@@ -103,6 +103,7 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
                                 for (RecipeDB recipe : recipesFromDB) {
                                     if (recipes.get(holder.getAdapterPosition()).getId() == recipe.recipeId) {
                                         db.recipeDao().deleteRecipe(recipe);
+                                        Toast.makeText(context, "Recipe " + recipe.name + " deleted.", Toast.LENGTH_SHORT).show();
                                         break;
                                     }
                                 }

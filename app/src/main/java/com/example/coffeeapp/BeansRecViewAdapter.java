@@ -1,16 +1,30 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.BeansList.beansFromDB;
+import static com.example.coffeeapp.BeansList.beansList;
+import static com.example.coffeeapp.RecipesList.recipesFromDB;
+import static com.example.coffeeapp.RecipesList.recipesList;
+
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.coffeeapp.db.BeanDB;
+import com.example.coffeeapp.db.CoffeeDatabase;
+import com.example.coffeeapp.db.RecipeDB;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -45,6 +59,61 @@ public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtName.setText(beans.get(position).getName());
         holder.txtRoaster.setText("Roaster: " + beans.get(position).getRoaster());
+        DateFormat df = new DateFormat();
+        holder.txtDate.setText(df.format("yyyy-MM-dd", beans.get(position).getDateAdded()));
+        if(beans.get(position).getRating() != 0) {
+            holder.txtRating.setText("Rating: " + beans.get(position).getRating());
+        }
+        if(beans.get(position).getPhoto() != null) {
+            holder.photo.setImageBitmap(beans.get(position).getPhoto());
+        }
+        // create an onClickListener for the delete recipe button
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(context);
+                AlertDialog deleteDialog = dialogBuilder.create();
+                dialogBuilder
+                        .setTitle(R.string.dialog_delete_beans_title)
+                        .setMessage(R.string.dialog_delete_beans_mess)
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteDialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                CoffeeDatabase db = CoffeeDatabase.getDatabase(context.getApplicationContext());
+                                // remove all recipes using these beans
+                                for(Recipe recipe : recipesList) {
+                                    if(recipe.getBeansUsed().getId() == beans.get(holder.getAdapterPosition()).getId()) {
+                                        recipesList.remove(recipe);
+                                        Toast.makeText(context, "Recipe " + recipe.getName() + " deleted.", Toast.LENGTH_SHORT).show();                                    }
+                                }
+                                for(RecipeDB recDB : recipesFromDB) {
+                                    if(recDB.beansUsedId == beans.get(holder.getAdapterPosition()).getId()) {
+                                        recipesFromDB.remove(recDB);
+                                        db.recipeDao().deleteRecipe(recDB);
+                                    }
+                                }
+                                // delete the beans from the db and local copy of the bean list
+                                for (BeanDB bean : beansFromDB) {
+                                    if (beans.get(holder.getAdapterPosition()).getId() == bean.beansId) {
+                                        db.beanDao().deleteBean(bean);
+                                        Toast.makeText(context, "Beans " + bean.name + " deleted.", Toast.LENGTH_SHORT).show();
+                                        break;
+
+                                    }
+                                }
+                                beansList.remove(beans.get(holder.getAdapterPosition()));
+                                beansFromDB.remove(beansFromDB.get(holder.getAdapterPosition()));
+                                notifyDataSetChanged();
+                            }
+                        }).show();
+            }
+        });
     }
 
     @Override

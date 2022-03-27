@@ -1,5 +1,8 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.BeansList.beansList;
+import static com.example.coffeeapp.BeansList.loadBeans;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -39,6 +42,7 @@ public class RecipesList extends AppCompatActivity {
 
         CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
         // initialise recipes RecView + load recipes from DB
+        loadBeans(db);
         loadRecipes(db);
         initRecView();
     }
@@ -83,8 +87,12 @@ public class RecipesList extends AppCompatActivity {
         recipe.setId(rDB.recipeId);
         recipe.setName(rDB.name);
         recipe.setDateAdded(rDB.dateAdded);
-        // TODO: fix beans - will need to query beansList for ID
-        // recipe.setBeansUsed();
+        for (Bean b : beansList) {
+            if(b.getId() == rDB.recipeId) {
+                recipe.setBeansUsed(b);
+                break;
+            }
+        }
         recipe.setAmountOfCoffee(rDB.amountOfCoffee);
         recipe.setMethodOfBrewing(rDB.methodOfBrewing);
         recipe.setBrewingTime(rDB.brewingTime);
@@ -167,7 +175,6 @@ public class RecipesList extends AppCompatActivity {
             for (RecipeDB rDB : recipesFromDB) {
                 boolean found = false;
                 for (Recipe r : recipesList) {
-                    // TODO: check if the id is not already in the list, if not add to list for display
                     if(rDB.recipeId == r.getId()) {
                         found = true;
                         break;

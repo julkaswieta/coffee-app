@@ -368,8 +368,7 @@ public class AddRecipe extends AppCompatActivity {
         recipe.setId(Recipe.nextId());
         recipe.setName(recipeName.getText().toString());
         recipe.setDateAdded(new Date());
-        // TODO: fix set beans to work properly
-        recipe.setBeansUsed(new Bean(beansSpinner.getSelectedItem().toString().split(",")[0], beansSpinner.getSelectedItem().toString().split(",")[1]));
+        recipe.setBeansUsed((Bean)beansSpinner.getSelectedItem());
         String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
         float amount = Float.parseFloat(tempAmount);
         recipe.setAmountOfCoffee(amount);
@@ -405,8 +404,7 @@ public class AddRecipe extends AppCompatActivity {
         recipeDB.recipeId = recipe.getId();
         recipeDB.name = recipe.getName();
         recipeDB.dateAdded = recipe.getDateAdded();
-        // TODO: fix set beans to work properly
-        recipeDB.beansUsedId = 1;   // just a placeholder now
+        recipeDB.beansUsedId = recipe.getBeansUsed().getId();
         recipeDB.amountOfCoffee = recipe.getAmountOfCoffee();
         recipeDB.methodOfBrewing = recipe.getMethodOfBrewing();
         recipeDB.brewingTime = recipe.getBrewingTime();
@@ -423,5 +421,12 @@ public class AddRecipe extends AppCompatActivity {
         db.recipeDao().insertRecipe(recipeDB);
         Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    protected void onRestart() {
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
+        loadBeans(db);
+        super.onRestart();
     }
 }

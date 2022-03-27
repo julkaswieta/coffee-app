@@ -41,7 +41,9 @@
     <string name="dialog_check_mandatory_beans">Beans name and Roaster must be specified to save Beans.</string>
     <string name="dialog_camera_gallery">Take a new photo or choose an image from gallery?</string>
     <string name="dialog_delete_recipe_title">Delete this recipe?</string>
+    <string name="dialog_delete_beans_title">Delete these beans?</string>
     <string name="dialog_delete_recipe_mess">This operation cannot be reversed.</string>
+    <string name="dialog_delete_beans_mess">All recipes that use these beans will be deleted as well. This operation cannot be reversed.</string>
 
     <!-- Recipe Card View -->
     <string name="rec_cv_name">Recipe Name</string>

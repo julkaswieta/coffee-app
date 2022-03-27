@@ -72,8 +72,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
-                android:src="@drawable/ic_delete"
-                android:contentDescription="delete beans"/>
+                android:contentDescription="delete beans"
+                android:src="@drawable/ic_delete" />
 
         </RelativeLayout>
     </LinearLayout>

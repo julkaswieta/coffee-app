@@ -1,5 +1,7 @@
 package com.example.coffeeapp;
 
+import android.graphics.Bitmap;
+
 import java.util.Date;
 
 public class Bean {
@@ -14,7 +16,7 @@ public class Bean {
     private boolean isBlend;    // true for blend, false for single origin
     private int degreeOfRoast;  // on a scale to 1-5
     private boolean isDecaf;
-    private String photo;
+    private Bitmap photo;
     private String urlToShop;
     private float costPerKg;
     private String currency;
@@ -104,11 +106,11 @@ public class Bean {
         isDecaf = decaf;
     }
 
-    public String getPhoto() {
+    public Bitmap getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(Bitmap photo) {
         this.photo = photo;
     }
 

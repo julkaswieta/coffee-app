@@ -50,10 +50,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtDateAdded"
                 android:layout_marginTop="7dp"
+                android:maxLines="2"
                 android:text="@string/rec_cv_beans"
-                android:textStyle="bold"
                 android:textSize="16sp"
-                android:maxLines="1"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtMethod"
