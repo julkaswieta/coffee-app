@@ -141,4 +141,10 @@ public class BeanDetails extends AppCompatActivity {
         }
         return false;
     }
+
+    @Override
+    protected void onResume() {
+        loadBeansData();
+        super.onResume();
+    }
 }

@@ -23,8 +23,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,6 +51,9 @@ public class AddBeans extends AppCompatActivity {
     private static final int GALLERY_PERMISSION_CODE = 8;
     private static final int FROM_GALLERY = 100;
     private static final int FROM_CAMERA = 101;
+    private static final String BLEND = "Beans of blended origin";
+    private static final String SINGLE_ORIGIN = "Single origin beans";
+    private static final String UNKNOWN_ORIGIN = "Beans origin unknown";
 
     // toolbar
     private Toolbar toolbar;
@@ -82,13 +83,17 @@ public class AddBeans extends AppCompatActivity {
     private CheckBox checkIsFlavoured;
     private EditText txtFlavour;
     private RadioGroup blendOriginGroup;
-    private RadioButton blendOriginButton;
+    private RadioButton chosenOriginOption;
+    private RadioButton blendOption;
+    private RadioButton singleOriginOption;
+    private RadioButton unknownOriginOption;
     private EditText txtShopUrl;
     private EditText txtPrice;
     private Spinner currencySpinner;
     private RatingBar ratingBar;
     private EditText txtNotes;
     private Bean incomingBean;
+    ArrayList<String> currencies = new ArrayList<>();
 
 
 
@@ -117,7 +122,44 @@ public class AddBeans extends AppCompatActivity {
             }
         }
         if(incomingBean != null) {
-
+            // TODO: display the stuff in appropriate boxes
+            txtBeansName.setText(incomingBean.getName());
+            txtRoasterName.setText(incomingBean.getRoaster());
+            if(incomingBean.getDegreeOfRoast() != 0) {
+                sliderDegreeOfRoast.setValue(incomingBean.getDegreeOfRoast());
+            }
+            checkIsDecaf.setChecked(incomingBean.isDecaf());
+            checkIsFlavoured.setChecked(incomingBean.isFlavoured());
+            if(!incomingBean.getFlavour().isEmpty()) {
+                txtFlavour.setText(incomingBean.getFlavour());
+            }
+            if(incomingBean.isBlend().equals(BLEND)) {
+                blendOption.setChecked(true);
+            }
+            else if(incomingBean.isBlend().equals(SINGLE_ORIGIN)) {
+                singleOriginOption.setChecked(true);
+            }
+            else if(incomingBean.isBlend().equals(UNKNOWN_ORIGIN)) {
+                unknownOriginOption.setChecked(true);
+            }
+            if(!incomingBean.getUrlToShop().isEmpty()) {
+                txtShopUrl.setText(incomingBean.getUrlToShop());
+            }
+            if(incomingBean.getCostPerKg() != 0) {
+                txtPrice.setText(String.valueOf(incomingBean.getCostPerKg()));
+                // set currency
+                for(int i = 0; i < currencies.size(); i++) {
+                    if (currencies.get(i).equals(incomingBean.getCurrency())) {
+                        currencySpinner.setSelection(i);
+                    }
+                }
+            }
+            if(incomingBean.getRating() != 0) {
+                ratingBar.setRating(incomingBean.getRating());
+            }
+            if(!incomingBean.getNotes().isEmpty()) {
+                txtNotes.setText(incomingBean.getNotes());
+            }
         }
     }
 
@@ -145,6 +187,9 @@ public class AddBeans extends AppCompatActivity {
         currencySpinner = findViewById(R.id.ab_currency_spinner);
         ratingBar = findViewById(R.id.ab_rating_bar);
         txtNotes = findViewById(R.id.ab_notes);
+        blendOption = findViewById(R.id.ab_blend_button);
+        singleOriginOption = findViewById(R.id.ab_single_origin_button);
+        unknownOriginOption = findViewById(R.id.ab_blend_origin_unknown);
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -155,7 +200,6 @@ public class AddBeans extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // fill the spinner with currencies
-        ArrayList<String> currencies = new ArrayList<>();
         currencies.add("£");
         currencies.add("€");
         currencies.add("zł");
@@ -260,62 +304,98 @@ public class AddBeans extends AppCompatActivity {
      * Creates a Beans object and persists it in the DB
      */
     private void createBeans() {
-        // TODO: gather data and create bean object + store in a db
-        Bean bean = new Bean();
-        // get the biggest latest bean id
-        CoffeeDatabase db = CoffeeDatabase.getDatabase(AddBeans.this.getApplicationContext());
-        if (db.beanDao().getAllBeans().size() > 0) {
-            idCounter = db.beanDao().getBiggestBeansId();
-        } else {
-            idCounter = 0;
-        }
-        bean.setId(Bean.nextId());
-        bean.setName(txtBeansName.getText().toString());
-        bean.setRoaster(txtRoasterName.getText().toString());
-        bean.setDateAdded(new Date());
-        bean.setDegreeOfRoast((int)sliderDegreeOfRoast.getValue());
-        bean.setDecaf(checkIsDecaf.isChecked());
-        bean.setFlavoured(checkIsFlavoured.isChecked());
-        bean.setFlavour(txtFlavour.getText().toString());
-        int blendOrSingle = blendOriginGroup.getCheckedRadioButtonId();
-        blendOriginButton = findViewById(blendOrSingle);
-        if(blendOriginButton.getId() == R.id.ab_blend_button) {
-            bean.setBlend("Beans of blended origin");
-        }
-        else if(blendOriginButton.getId() == R.id.ab_single_origin_button) {
-            bean.setBlend("Single origin beans");
+        // update if it's update, else create a new one
+        if(incomingBean != null) {
+            incomingBean.setName(txtBeansName.getText().toString());
+            incomingBean.setRoaster(txtRoasterName.getText().toString());
+            incomingBean.setDegreeOfRoast((int)sliderDegreeOfRoast.getValue());
+            incomingBean.setDecaf(checkIsDecaf.isChecked());
+            incomingBean.setFlavoured(checkIsFlavoured.isChecked());
+            incomingBean.setFlavour(txtFlavour.getText().toString());
+            int blendOrSingle = blendOriginGroup.getCheckedRadioButtonId();
+            chosenOriginOption = findViewById(blendOrSingle);
+            if(chosenOriginOption.getId() == R.id.ab_blend_button) {
+                incomingBean.setBlend(BLEND);
+            }
+            else if(chosenOriginOption.getId() == R.id.ab_single_origin_button) {
+                incomingBean.setBlend(SINGLE_ORIGIN);
+            }
+            else {
+                incomingBean.setBlend(UNKNOWN_ORIGIN);
+            }
+            incomingBean.setUrlToShop(txtShopUrl.getText().toString());
+            if (!txtPrice.getText().toString().isEmpty()) {
+                incomingBean.setCostPerKg(Float.parseFloat(txtPrice.getText().toString()));
+            }
+            incomingBean.setCurrency(currencySpinner.getSelectedItem().toString());
+            incomingBean.setRating(ratingBar.getRating());
+            incomingBean.setNotes(txtNotes.getText().toString());
+
+            CoffeeDatabase db = CoffeeDatabase.getDatabase(AddBeans.this.getApplicationContext());
+            // update beans in the DB
+            for(BeanDB b : beansFromDB) {
+                if(b.beansId == incomingBean.getId()) {
+                    db.beanDao().updateBean(b);
+                    break;
+                }
+            }
         }
         else {
-            bean.setBlend("Beans origin unknown");
-        }
-        bean.setUrlToShop(txtShopUrl.getText().toString());
-        if (!txtPrice.getText().toString().isEmpty()) {
-            bean.setCostPerKg(Float.parseFloat(txtPrice.getText().toString()));
-        }
-        bean.setCurrency(currencySpinner.getSelectedItem().toString());
-        bean.setRating(ratingBar.getRating());
-        bean.setNotes(txtNotes.getText().toString());
-        beansList.add(bean);
+            Bean bean = new Bean();
+            // get the biggest latest bean id
+            CoffeeDatabase db = CoffeeDatabase.getDatabase(AddBeans.this.getApplicationContext());
+            if (db.beanDao().getAllBeans().size() > 0) {
+                idCounter = db.beanDao().getBiggestBeansId();
+            } else {
+                idCounter = 0;
+            }
+            bean.setId(Bean.nextId());
+            bean.setName(txtBeansName.getText().toString());
+            bean.setRoaster(txtRoasterName.getText().toString());
+            bean.setDateAdded(new Date());
+            bean.setDegreeOfRoast((int)sliderDegreeOfRoast.getValue());
+            bean.setDecaf(checkIsDecaf.isChecked());
+            bean.setFlavoured(checkIsFlavoured.isChecked());
+            bean.setFlavour(txtFlavour.getText().toString());
+            int blendOrSingle = blendOriginGroup.getCheckedRadioButtonId();
+            if(blendOrSingle == R.id.ab_blend_button) {
+                bean.setBlend(BLEND);
+            }
+            else if(blendOrSingle == R.id.ab_single_origin_button) {
+                bean.setBlend(SINGLE_ORIGIN);
+            }
+            else {
+                bean.setBlend(UNKNOWN_ORIGIN);
+            }
+            bean.setUrlToShop(txtShopUrl.getText().toString());
+            if (!txtPrice.getText().toString().isEmpty()) {
+                bean.setCostPerKg(Float.parseFloat(txtPrice.getText().toString()));
+            }
+            bean.setCurrency(currencySpinner.getSelectedItem().toString());
+            bean.setRating(ratingBar.getRating());
+            bean.setNotes(txtNotes.getText().toString());
+            beansList.add(bean);
 
-        // persist the beans
-        BeanDB beanDB = new BeanDB();
-        beanDB.beansId = bean.getId();
-        beanDB.name = bean.getName();
-        beanDB.dateAdded = bean.getDateAdded();
-        beanDB.roaster = bean.getRoaster();
-        beanDB.degreeOfRoast = bean.getDegreeOfRoast();
-        beanDB.isDecaf = bean.isDecaf();
-        beanDB.isFlavoured = bean.isFlavoured();
-        beanDB.flavour = bean.getFlavour();
-        beanDB.isBlend = bean.isBlend();
-        beanDB.urlToShop = bean.getUrlToShop();
-        beanDB.costPerKg = bean.getCostPerKg();
-        beanDB.currency = bean.getCurrency();
-        beanDB.rating = bean.getRating();
-        beanDB.notes = bean.getNotes();
-        beansFromDB.add(beanDB);
-        db.beanDao().insertBean(beanDB);
-        Toast.makeText(this, "Beans " + bean.getName() + " saved.", Toast.LENGTH_SHORT).show();
+            // persist the beans
+            BeanDB beanDB = new BeanDB();
+            beanDB.beansId = bean.getId();
+            beanDB.name = bean.getName();
+            beanDB.dateAdded = bean.getDateAdded();
+            beanDB.roaster = bean.getRoaster();
+            beanDB.degreeOfRoast = bean.getDegreeOfRoast();
+            beanDB.isDecaf = bean.isDecaf();
+            beanDB.isFlavoured = bean.isFlavoured();
+            beanDB.flavour = bean.getFlavour();
+            beanDB.isBlend = bean.isBlend();
+            beanDB.urlToShop = bean.getUrlToShop();
+            beanDB.costPerKg = bean.getCostPerKg();
+            beanDB.currency = bean.getCurrency();
+            beanDB.rating = bean.getRating();
+            beanDB.notes = bean.getNotes();
+            beansFromDB.add(beanDB);
+            db.beanDao().insertBean(beanDB);
+            Toast.makeText(this, "Beans " + bean.getName() + " saved.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

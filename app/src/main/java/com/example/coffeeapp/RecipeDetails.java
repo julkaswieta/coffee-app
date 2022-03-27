@@ -186,4 +186,10 @@ public class RecipeDetails extends AppCompatActivity {
         }
         return false;
     }
+
+    @Override
+    protected void onResume() {
+        loadRecipeData();
+        super.onResume();
+    }
 }

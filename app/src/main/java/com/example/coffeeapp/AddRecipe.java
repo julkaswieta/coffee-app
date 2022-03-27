@@ -2,9 +2,11 @@ package com.example.coffeeapp;
 
 import static com.example.coffeeapp.BeansList.beansList;
 import static com.example.coffeeapp.BeansList.loadBeans;
+import static com.example.coffeeapp.BeansRecViewAdapter.BEANS_ID_KEY;
 import static com.example.coffeeapp.Recipe.idCounter;
 import static com.example.coffeeapp.RecipesList.recipesFromDB;
 import static com.example.coffeeapp.RecipesList.recipesList;
+import static com.example.coffeeapp.RecipesRecViewAdapter.RECIPE_ID_KEY;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -97,13 +99,16 @@ public class AddRecipe extends AppCompatActivity {
     private Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     private Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
     ArrayAdapter<Bean> beansAdapter;
+    private Recipe incomingRecipe;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
 
         initViews();
+        checkAndLoadEditData();
     }
 
     /**
@@ -206,6 +211,7 @@ public class AddRecipe extends AppCompatActivity {
                 }
                 else {
                     createRecipe();
+                    finish();
                 }
             }
         });
@@ -255,6 +261,64 @@ public class AddRecipe extends AppCompatActivity {
                 startActivityForResult(openAddBeans, 90);
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void checkAndLoadEditData() {
+        // check if the activity is open to add or edit
+        Intent incomingRecipeIntent = getIntent();
+        if(incomingRecipeIntent != null) {
+            int recipeId = incomingRecipeIntent.getIntExtra(RECIPE_ID_KEY, -1);
+            if(recipeId != -1) {
+                for(Recipe r : recipesList) {
+                    if(r.getId() == recipeId) {
+                        incomingRecipe = r;
+                        toolbarTitle.setText("Edit recipe");
+                        break;
+                    }
+                }
+            }
+        }
+        if(incomingRecipe != null) {
+            // TODO: display the stuff in appropriate boxes
+            recipeName.setText(incomingRecipe.getName());
+            for(int i = 0; i < beansList.size(); i++) {
+                if(beansList.get(i).getId() == incomingRecipe.getBeansUsed().getId()) {
+                    beansSpinner.setSelection(i);
+                    break;
+                }
+            }
+            if(incomingRecipe.getAmountOfCoffee() != 0) {
+                String temp = String.valueOf(incomingRecipe.getAmountOfCoffee());
+                String[] tempArray = temp.split(".");
+                gramPicker1.setValue(Integer.valueOf(tempArray[0]));
+                gramPicker2.setValue(Integer.valueOf(tempArray[1]));
+            }
+            prepMethod.setText(incomingRecipe.getMethodOfBrewing());
+            if(incomingRecipe.getBrewingTime().equals(LocalTime.of(0, 0))) {
+                String temp = incomingRecipe.getBrewingTime().toString();
+                String[] tempArray = temp.split(":");
+                hourPicker.setValue(Integer.valueOf(tempArray[0]));
+                minutesPicker.setValue(Integer.valueOf(tempArray[1]));
+                if(tempArray.length > 2) {
+                    secondsPicker.setValue(Integer.valueOf(tempArray[2]));
+                }
+            }
+            boughtGround.setChecked(incomingRecipe.isBoughtGround());
+            if(incomingRecipe.getGrindScale() != 0) {
+                grindScale.setValue(incomingRecipe.getGrindScale());
+            }
+            if(!incomingRecipe.getGrindNotes().isEmpty()) {
+                grindNotes.setText(incomingRecipe.getGrindNotes());
+            }
+            // TODO: deal with extras
+            if(incomingRecipe.getRating() != 0) {
+                rating.setRating(incomingRecipe.getRating());
+            }
+            if(!incomingRecipe.getNotes().isEmpty()) {
+                notes.setText(incomingRecipe.getNotes());
+            }
+        }
     }
 
     /*
@@ -358,70 +422,107 @@ public class AddRecipe extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createRecipe() {
-        Recipe recipe = new Recipe();
-        // get the biggest available recipeId so that the new ones are not replicated
-        CoffeeDatabase db = CoffeeDatabase.getDatabase(AddRecipe.this.getApplicationContext());
-        if (db.recipeDao().getAllRecipes().size() > 0) {
-            idCounter = db.recipeDao().getBiggestRecipeId();
-        } else {
-            idCounter = 0;
-        }
-        recipe.setId(Recipe.nextId());
-        recipe.setName(recipeName.getText().toString());
-        recipe.setDateAdded(new Date());
-        recipe.setBeansUsed((Bean)beansSpinner.getSelectedItem());
-        String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
-        float amount = Float.parseFloat(tempAmount);
-        recipe.setAmountOfCoffee(amount);
-        recipe.setMethodOfBrewing(prepMethod.getText().toString());
-        recipe.setBrewingTime(LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue()));
-        recipe.setBoughtGround(boughtGround.isChecked());
-        recipe.setGrindScale((int) grindScale.getValue());
-        recipe.setGrindNotes(grindNotes.getText().toString());
-        if (milk.isChecked()) {
-            recipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString());
-        }
-        if (syrup.isChecked()) {
-            recipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString());
-        }
-        if (sugar.isChecked()) {
-            recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString());
-        }
-        recipe.setRating(rating.getRating());
-        recipe.setNotes(notes.getText().toString());
-        try {
-            if (photoSource == FROM_GALLERY) {
-                recipe.setPhoto(getBitmapFromUri(imageUri));
-            } else if (photoSource == FROM_CAMERA) {
-                recipe.setPhoto(photo);
+        if(incomingRecipe != null) {
+            incomingRecipe.setName(recipeName.getText().toString());
+            incomingRecipe.setBeansUsed((Bean)beansSpinner.getSelectedItem());
+            String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
+            float amount = Float.parseFloat(tempAmount);
+            incomingRecipe.setAmountOfCoffee(amount);
+            incomingRecipe.setMethodOfBrewing(prepMethod.getText().toString());
+            incomingRecipe.setBrewingTime(LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue()));
+            incomingRecipe.setBoughtGround(boughtGround.isChecked());
+            incomingRecipe.setGrindScale((int) grindScale.getValue());
+            incomingRecipe.setGrindNotes(grindNotes.getText().toString());
+            /*if (milk.isChecked()) {
+                incomingRecipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString());
             }
-        } catch (IOException ex) {
-            Log.e(this.getClass().toString(), "Couldn't save image");
+            if (syrup.isChecked()) {
+                incomingRecipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString());
+            }
+            if (sugar.isChecked()) {
+                incomingRecipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString());
+            }
+            */
+            incomingRecipe.setRating(rating.getRating());
+            incomingRecipe.setNotes(notes.getText().toString());
+            /*try {
+                if (photoSource == FROM_GALLERY) {
+                    incomingRecipe.setPhoto(getBitmapFromUri(imageUri));
+                } else if (photoSource == FROM_CAMERA) {
+                    recipe.setPhoto(photo);
+                }
+            } catch (IOException ex) {
+                Log.e(this.getClass().toString(), "Couldn't save image");
+            }
+             */
         }
-        recipesList.add(recipe);
+        else {
+            Recipe recipe = new Recipe();
+            // get the biggest available recipeId so that the new ones are not replicated
+            CoffeeDatabase db = CoffeeDatabase.getDatabase(AddRecipe.this.getApplicationContext());
+            if (db.recipeDao().getAllRecipes().size() > 0) {
+                idCounter = db.recipeDao().getBiggestRecipeId();
+            } else {
+                idCounter = 0;
+            }
+            recipe.setId(Recipe.nextId());
+            recipe.setName(recipeName.getText().toString());
+            recipe.setDateAdded(new Date());
+            recipe.setBeansUsed((Bean)beansSpinner.getSelectedItem());
+            String tempAmount = Integer.toString(gramPicker1.getValue()) + "." + Integer.toString(gramPicker2.getValue());
+            float amount = Float.parseFloat(tempAmount);
+            recipe.setAmountOfCoffee(amount);
+            recipe.setMethodOfBrewing(prepMethod.getText().toString());
+            recipe.setBrewingTime(LocalTime.of(hourPicker.getValue(), minutesPicker.getValue(), secondsPicker.getValue()));
+            recipe.setBoughtGround(boughtGround.isChecked());
+            recipe.setGrindScale((int) grindScale.getValue());
+            recipe.setGrindNotes(grindNotes.getText().toString());
+            if (milk.isChecked()) {
+                recipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString());
+            }
+            if (syrup.isChecked()) {
+                recipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString());
+            }
+            if (sugar.isChecked()) {
+                recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString());
+            }
+            recipe.setRating(rating.getRating());
+            recipe.setNotes(notes.getText().toString());
+            try {
+                if (photoSource == FROM_GALLERY) {
+                    recipe.setPhoto(getBitmapFromUri(imageUri));
+                } else if (photoSource == FROM_CAMERA) {
+                    recipe.setPhoto(photo);
+                }
+            } catch (IOException ex) {
+                Log.e(this.getClass().toString(), "Couldn't save image");
+            }
+            recipesList.add(recipe);
 
-        // persist the recipe
-        RecipeDB recipeDB = new RecipeDB();
-        recipeDB.recipeId = recipe.getId();
-        recipeDB.name = recipe.getName();
-        recipeDB.dateAdded = recipe.getDateAdded();
-        recipeDB.beansUsedId = recipe.getBeansUsed().getId();
-        recipeDB.amountOfCoffee = recipe.getAmountOfCoffee();
-        recipeDB.methodOfBrewing = recipe.getMethodOfBrewing();
-        recipeDB.brewingTime = recipe.getBrewingTime();
-        recipeDB.boughtGround = recipe.isBoughtGround();
-        recipeDB.grindScale = recipe.getGrindScale();
-        recipeDB.grindNotes = recipe.getGrindNotes();
-        recipeDB.milk = recipe.getMilk();
-        recipeDB.syrup = recipe.getSyrup();
-        recipeDB.sugar = recipe.getSugar();
-        recipeDB.rating = recipe.getRating();
-        recipeDB.notes = recipe.getNotes();
+            // persist the recipe
+            RecipeDB recipeDB = new RecipeDB();
+            recipeDB.recipeId = recipe.getId();
+            recipeDB.name = recipe.getName();
+            recipeDB.dateAdded = recipe.getDateAdded();
+            recipeDB.beansUsedId = recipe.getBeansUsed().getId();
+            recipeDB.amountOfCoffee = recipe.getAmountOfCoffee();
+            recipeDB.methodOfBrewing = recipe.getMethodOfBrewing();
+            recipeDB.brewingTime = recipe.getBrewingTime();
+            recipeDB.boughtGround = recipe.isBoughtGround();
+            recipeDB.grindScale = recipe.getGrindScale();
+            recipeDB.grindNotes = recipe.getGrindNotes();
+            recipeDB.milk = recipe.getMilk();
+            recipeDB.syrup = recipe.getSyrup();
+            recipeDB.sugar = recipe.getSugar();
+            recipeDB.rating = recipe.getRating();
+            recipeDB.notes = recipe.getNotes();
 
-        recipesFromDB.add(recipeDB);
-        db.recipeDao().insertRecipe(recipeDB);
-        Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
-        finish();
+            recipesFromDB.add(recipeDB);
+            db.recipeDao().insertRecipe(recipeDB);
+            Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     @Override

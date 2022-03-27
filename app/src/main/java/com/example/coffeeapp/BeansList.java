@@ -28,6 +28,7 @@ public class BeansList extends AppCompatActivity {
     static ArrayList<Bean> beansList = new ArrayList<>();
     static List<BeanDB> beansFromDB;
 
+    BeansRecViewAdapter adapter;
     private BottomNavigationView bottomBar;
     private RecyclerView beansRecView;
     private Toolbar toolbar;
@@ -73,7 +74,6 @@ public class BeansList extends AppCompatActivity {
         }
         return false;
     }
-
 
     /**
      * Initialises the whole layout
@@ -162,7 +162,7 @@ public class BeansList extends AppCompatActivity {
 
     private void initRecView() {
         // create a recipe RecView adapter and pass it to the RecView
-        BeansRecViewAdapter adapter = new BeansRecViewAdapter(this);
+        adapter = new BeansRecViewAdapter(this);
         adapter.setBeans(beansList);
         beansRecView.setAdapter(adapter);
         // set layout manager for the RecView - display the items linearly
@@ -191,5 +191,14 @@ public class BeansList extends AppCompatActivity {
         b.setRating(bDB.rating);
         b.setNotes(bDB.notes);
         return b;
+    }
+
+    /**
+     * refresh beans list every time activity is resumed
+     */
+    @Override
+    protected void onResume() {
+        adapter.notifyDataSetChanged();
+        super.onResume();
     }
 }
