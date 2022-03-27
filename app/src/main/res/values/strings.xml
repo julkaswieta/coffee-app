@@ -80,12 +80,14 @@
     <string name="ab_flavour_check_label">flavoured</string>
     <string name="ab_blend_label">blend</string>
     <string name="ab_single_origin_label">single origin</string>
+    <string name="ab_blend_unknown">unknown</string>
     <string name="ab_decaf_label">decaf</string>
     <string name="ab_shopping_label">Shopping info</string>
     <string name="ab_link_label">Link to store</string>
     <string name="ab_cost_label">Cost per kilogram</string>
     <string name="ab_rating_label">Rating</string>
     <string name="ab_notes_label">Notes</string>
+    <string name="ab_origin_label">Beans origin</string>
 
 
     <!-- Add beans hints -->
@@ -95,6 +97,25 @@
     <string name="ab_hint_url">URL to store</string>
     <string name="ab_hint_price">price</string>
     <string name="ab_hint_notes">Add your Beans notes here.</string>
+
+    <!-- Bean details -->
+    <string name="bd_name_label">Name</string>
+    <string name="bd_image_label">Beans image</string>
+    <string name="bd_name">Bean name</string>
+    <string name="bd_date_label">Date added</string>
+    <string name="bd_date_added">Date not provided</string>
+    <string name="bd_roaster_label">Roaster</string>
+    <string name="bd_roaster_name">Roaster name not provided</string>
+    <string name="bd_degree_label">Degree of roast</string>
+    <string name="bd_degree_of_roast">Degree of roast not provided</string>
+    <string name="bd_beans_specs_label">Beans specs</string>
+    <string name="bd_beans_specs">No beans specs provided</string>
+    <string name="bd_shopping_label">Shopping info</string>
+    <string name="bd_url">No store URL provided</string>
+    <string name="bd_price">No price provided</string>
+    <string name="bd_rating_label">Rating</string>
+    <string name="bd_notes_label">Notes</string>
+    <string name="bd_notes">No notes provided</string>
 
 
 

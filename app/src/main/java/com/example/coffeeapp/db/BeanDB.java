@@ -14,7 +14,7 @@ public class BeanDB {
     public String roaster;
     public boolean isFlavoured;
     public String flavour;
-    public boolean isBlend;
+    public String isBlend;
     public int degreeOfRoast;
     public boolean isDecaf;
     public String urlToShop;

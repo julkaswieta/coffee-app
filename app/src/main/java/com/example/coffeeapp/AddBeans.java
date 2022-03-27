@@ -255,11 +255,15 @@ public class AddBeans extends AppCompatActivity {
         bean.setFlavoured(checkIsFlavoured.isChecked());
         bean.setFlavour(txtFlavour.getText().toString());
         int blendOrSingle = blendOriginGroup.getCheckedRadioButtonId();
-        if(blendOrSingle == R.id.ab_blend_button) {
-            bean.setBlend(true);
+        blendOriginButton = findViewById(blendOrSingle);
+        if(blendOriginButton.getId() == R.id.ab_blend_button) {
+            bean.setBlend("Beans of blended origin");
         }
-        else if(blendOrSingle == R.id.ab_single_origin_button) {
-            bean.setBlend(false);
+        else if(blendOriginButton.getId() == R.id.ab_single_origin_button) {
+            bean.setBlend("Single origin beans");
+        }
+        else {
+            bean.setBlend("Beans origin unknown");
         }
         bean.setUrlToShop(txtShopUrl.getText().toString());
         if (!txtPrice.getText().toString().isEmpty()) {

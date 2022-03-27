@@ -45,6 +45,8 @@ public class RecipeDetails extends AppCompatActivity {
 
         // initialise all views in the layout
         initViews();
+        // load the recipe to display
+        loadRecipeData();
     }
 
     /**
@@ -76,6 +78,12 @@ public class RecipeDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+    }
+
+    /**
+     * Loads the recipe data into appropriate views
+     */
+    private void loadRecipeData() {
         // get the recipe from the incoming intent
         Intent incomingRecipe = getIntent();
         if(incomingRecipe != null) {

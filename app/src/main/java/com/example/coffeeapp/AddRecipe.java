@@ -96,6 +96,7 @@ public class AddRecipe extends AppCompatActivity {
     private int photoSource;
     private Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     private Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+    ArrayAdapter<Bean> beansAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +156,7 @@ public class AddRecipe extends AppCompatActivity {
 
         CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
         loadBeans(db);
-        ArrayAdapter<Bean> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
+        beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
         beansSpinner.setAdapter(beansAdapter);
 
         // setup the number pickers for selecting number of grams and brewing time
@@ -251,7 +252,7 @@ public class AddRecipe extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent openAddBeans = new Intent(AddRecipe.this, AddBeans.class);
-                startActivity(openAddBeans);
+                startActivityForResult(openAddBeans, 90);
             }
         });
     }
@@ -424,9 +425,8 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
-        loadBeans(db);
-        super.onRestart();
+    protected void onResume() {
+        beansAdapter.notifyDataSetChanged();
+        super.onResume();
     }
 }

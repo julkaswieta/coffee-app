@@ -1,5 +1,7 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.RecipesList.loadRecipes;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -93,6 +95,7 @@ public class BeansList extends AppCompatActivity {
         CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
         loadBeans(db);
         initRecView();
+        loadRecipes(db);
     }
 
     /**

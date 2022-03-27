@@ -7,6 +7,7 @@ import static com.example.coffeeapp.RecipesList.recipesList;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapter.ViewHolder>{
     private ArrayList<Bean> beans = new ArrayList<>();
     private Context context;
+    public static final String BEANS_ID_KEY = "beansId";
 
     public BeansRecViewAdapter(Context context) {
         this.context = context;
@@ -67,6 +69,18 @@ public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapte
         if(beans.get(position).getPhoto() != null) {
             holder.photo.setImageBitmap(beans.get(position).getPhoto());
         }
+
+        // create an onClickListener for when the item is clicked
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, beans.get(holder.getAdapterPosition()).getName() + " Selected", Toast.LENGTH_SHORT).show();
+                Intent displayBeans = new Intent(context, BeanDetails.class);
+                displayBeans.putExtra(BEANS_ID_KEY, beans.get(holder.getAdapterPosition()).getId());
+                context.startActivity(displayBeans);
+            }
+        });
+
         // create an onClickListener for the delete recipe button
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override

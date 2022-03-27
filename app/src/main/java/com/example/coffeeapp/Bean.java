@@ -13,7 +13,7 @@ public class Bean {
     private String roaster;
     private boolean isFlavoured;
     private String flavour;
-    private boolean isBlend;    // true for blend, false for single origin
+    private String isBlend;
     private int degreeOfRoast;  // on a scale to 1-5
     private boolean isDecaf;
     private Bitmap photo;
@@ -82,11 +82,11 @@ public class Bean {
         this.flavour = flavour;
     }
 
-    public boolean isBlend() {
+    public String isBlend() {
         return isBlend;
     }
 
-    public void setBlend(boolean blend) {
+    public void setBlend(String blend) {
         isBlend = blend;
     }
 

@@ -164,7 +164,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ab_beans_specs_label"
                         android:text="@string/ab_decaf_label"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp"/>
 
                     <CheckBox
                         android:id="@+id/ab_check_flavour"
@@ -172,7 +173,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ab_check_decaf"
                         android:text="@string/ab_flavour_check_label"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp"/>
 
                     <EditText
                         android:id="@+id/ab_flavour"
@@ -185,27 +187,45 @@
                         android:padding="4dp"
                         android:textSize="20sp" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ab_origin_label"
+                        android:layout_below="@id/ab_flavour"
+                        android:id="@+id/ab_origin_label"
+                        android:textSize="24sp"
+                        android:layout_marginStart="7dp"/>
+
                     <RadioGroup
                         android:id="@+id/ab_blend_origin_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/ab_flavour"
-                        android:orientation="horizontal">
+                        android:layout_below="@id/ab_origin_label"
+                        android:orientation="vertical">
 
                         <RadioButton
                             android:id="@+id/ab_blend_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/ab_blend_label"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:layout_marginStart="10dp"/>
 
                         <RadioButton
                             android:id="@+id/ab_single_origin_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="10dp"
                             android:text="@string/ab_single_origin_label"
                             android:textSize="20sp" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:id="@+id/ab_blend_origin_unknown"
+                            android:text="@string/ab_blend_unknown"
+                            android:textSize="20sp"/>
                     </RadioGroup>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
