@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeeapp.db.BeanDB;
+import com.example.coffeeapp.db.CoffeeDatabase;
 import com.example.coffeeapp.db.RecipeDB;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -57,7 +58,7 @@ public class BeansList extends AppCompatActivity {
 
 
     /**
-     * Gets the user to the add recipe activity to add a new recipe
+     * Gets the user to the add beans activity to add a new beans
      * @param item menu item selected
      * @return if successful
      */
@@ -89,7 +90,9 @@ public class BeansList extends AppCompatActivity {
         toolbarTitle.setText("Beans");
 
         initBottomBar();
-        loadBeans();
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
+        loadBeans(db);
+        initRecView();
     }
 
     /**
@@ -126,16 +129,64 @@ public class BeansList extends AppCompatActivity {
         bottomBar.setSelectedItemId(R.id.beans_menu);
     }
 
+    /**
+     * Creates the Recycler View for beans and loads beans from the Database
+     */
+    public static void loadBeans(CoffeeDatabase db) {
+        // get persisted bean
+        beansFromDB = db.beanDao().getAllBeans();
+        if(beansList.size() < 1) {
+            for(BeanDB bDB : beansFromDB) {
+                beansList.add(createBeanFromDB(bDB));
+            }
+        }
+        else {
+            for (BeanDB bDB : beansFromDB) {
+                boolean found = false;
+                for (Bean b : beansList) {
+                    // TODO: check if the id is not already in the list, if not add to list for display
+                    if(bDB.beansId == b.getId()) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    beansList.add(createBeanFromDB(bDB));
+                }
+            }
+        }
+    }
 
-    private void loadBeans() {
-        beansList.add(new Bean("Vanilla & Hazelnut", "Agifa"));
-        beansList.add(new Bean("Brazylia Santos", "Agifa"));
-
+    private void initRecView() {
         // create a recipe RecView adapter and pass it to the RecView
         BeansRecViewAdapter adapter = new BeansRecViewAdapter(this);
         adapter.setBeans(beansList);
         beansRecView.setAdapter(adapter);
         // set layout manager for the RecView - display the items linearly
         beansRecView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    /**
+     * Creates a new Bean object from the supplied BeanDB object
+     * @param bDB   Bean from the DB
+     * @return      local Bean object
+     */
+    private static Bean createBeanFromDB(BeanDB bDB) {
+        Bean b = new Bean();
+        b.setName(bDB.name);
+        b.setId(bDB.beansId);
+        b.setDateAdded(bDB.dateAdded);
+        b.setRoaster(bDB.roaster);
+        b.setDegreeOfRoast(bDB.degreeOfRoast);
+        b.setDecaf(bDB.isDecaf);
+        b.setFlavoured(bDB.isFlavoured);
+        b.setFlavour(bDB.flavour);
+        b.setBlend(bDB.isBlend);
+        b.setUrlToShop(bDB.urlToShop);
+        b.setCostPerKg(bDB.costPerKg);
+        b.setCurrency(bDB.currency);
+        b.setRating(bDB.rating);
+        b.setNotes(bDB.notes);
+        return b;
     }
 }

@@ -25,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initViews();
+
+    }
+
+    /**
+     * Initialises the whole layout
+     */
+    private void initViews() {
         //initialise attributes
         bottomBar = findViewById(R.id.bottom_bar_main);
         toolbar = findViewById(R.id.toolbar);
@@ -35,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText("Home");
 
+        initBottomBar();
+    }
+
+    /**
+     * Initialises the bottom bar
+     */
+    private void initBottomBar() {
         // set a listener for the bottom bar and signify that we're in the home screen
         bottomBar.setOnNavigationItemSelectedListener(item -> {
             switch(item.getItemId()) {
@@ -60,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
         bottomBar.setSelectedItemId(R.id.home_menu);
-
     }
 
     @Override

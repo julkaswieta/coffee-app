@@ -1,6 +1,7 @@
 package com.example.coffeeapp;
 
 import static com.example.coffeeapp.BeansList.beansList;
+import static com.example.coffeeapp.BeansList.loadBeans;
 import static com.example.coffeeapp.Recipe.idCounter;
 import static com.example.coffeeapp.RecipesList.recipesFromDB;
 import static com.example.coffeeapp.RecipesList.recipesList;
@@ -102,7 +103,81 @@ public class AddRecipe extends AppCompatActivity {
         setContentView(R.layout.activity_add_recipe);
 
         initViews();
+    }
 
+    /**
+     * Initialises the whole layout
+     */
+    private void initViews() {
+        // initialise attributes
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        recipeName = findViewById(R.id.inputRecipeName);
+        prepMethod = findViewById(R.id.inputPrepMethod);
+        beansSpinner = findViewById(R.id.beansSpinner);
+        btnAddBeans = findViewById(R.id.btnAddBeans);
+        cancelButton = findViewById(R.id.cancel_button);
+        saveButton = findViewById(R.id.save_button);
+        backDialogBuilder = new MaterialAlertDialogBuilder(this);
+        saveDialogBuilder = new MaterialAlertDialogBuilder(this);
+        photoDialogBuilder = new MaterialAlertDialogBuilder(this);
+        gramPicker1 = findViewById(R.id.gram_picker1);
+        gramPicker2 = findViewById(R.id.gram_picker2);
+        hourPicker = findViewById(R.id.hour_picker);
+        minutesPicker = findViewById(R.id.minutes_picker);
+        secondsPicker = findViewById(R.id.seconds_picker);
+        boughtGround = findViewById(R.id.chckGround);
+        grindScale = findViewById(R.id.grindSlider);
+        grindNotes = findViewById(R.id.inputGrindNotes);
+        milk = findViewById(R.id.chckMilk);
+        syrup = findViewById(R.id.chckSyrup);
+        sugar = findViewById(R.id.chckSugar);
+        milkKind = findViewById(R.id.txtMilkKind);
+        milkAmount = findViewById(R.id.txtMilkAmount);
+        syrupFlavour = findViewById(R.id.txtSyrupFlavour);
+        syrupAmount = findViewById(R.id.txtSyrupAmount);
+        sugarKind = findViewById(R.id.txtSugarKind);
+        sugarAmount = findViewById(R.id.txtSugarAmount);
+        rating = findViewById(R.id.ratingBarAR);
+        notes = findViewById(R.id.inputNotes);
+        btnAddPhoto = findViewById(R.id.add_photo_btn);
+
+        // set the toolbar as the action bar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle.setText("Add new recipe");
+        // add the back button to it
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // add options to the Beans Spinner
+        // create the adapter for the spinner
+
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
+        loadBeans(db);
+        ArrayAdapter<Bean> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
+        beansSpinner.setAdapter(beansAdapter);
+        // TODO: add a hint to the spinner instead of displaying the first item
+
+        // setup the number pickers for selecting number of grams and brewing time
+        gramPicker1.setMinValue(0);
+        gramPicker1.setMaxValue(99);
+        gramPicker2.setMinValue(0);
+        gramPicker2.setMaxValue(9);
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(23);
+        minutesPicker.setMinValue(0);
+        minutesPicker.setMaxValue(59);
+        secondsPicker.setMinValue(0);
+        secondsPicker.setMaxValue(59);
+
+        initListeners();
+    }
+
+    /**
+     * Defines all buttons' behaviours
+     */
+    private void initListeners() {
         // onClickListener for the Cancel button - check if the user is sure to go back
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,8 +235,8 @@ public class AddRecipe extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // launches the gallery
                                 if(ContextCompat.checkSelfPermission(AddRecipe.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
-                                photoSource = FROM_GALLERY;
+                                    startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
+                                    photoSource = FROM_GALLERY;
                                 }
                                 else {
                                     ActivityCompat.requestPermissions(AddRecipe.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSION_CODE);
@@ -180,6 +255,93 @@ public class AddRecipe extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    /**
+     * Handles back button presses - asks to confirm to leave
+     */
+    @Override
+    public void onBackPressed() {
+        dialogBack = backDialogBuilder.create();
+        backDialogBuilder
+                .setTitle(R.string.dialog_discard_draft)
+                .setMessage(R.string.dialog_discard_message)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogBack.dismiss();
+                    }
+                })
+                .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                }).show();
+    }
+
+    /**
+     * handles results from intents launched - gallery & camera
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && data != null) {
+            if(requestCode == GALLERY_REQUEST_CODE) {
+                Uri imageChosen = data.getData();
+                btnAddPhoto.setImageURI(imageChosen);
+                imageUri = imageChosen;
+            }
+            else if(requestCode == CAMERA_REQUEST_CODE) {
+                if(!data.getExtras().isEmpty()) {
+                    photo = (Bitmap) data.getExtras().get("data");
+                    btnAddPhoto.setImageBitmap(photo);
+                }
+            }
+        }
+    }
+
+    /**
+     * check if Camera or gallery access permission is granted, if so, open the camera/gallery
+     * @param requestCode   request code passed when launching intent
+     * @param permissions   permissions to check
+     * @param grantResults  checked permissions
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == CAMERA_REQUEST_CODE) {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+                photoSource = FROM_CAMERA;
+            }
+            else{
+                Toast.makeText(this, "Access to camera denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(requestCode == GALLERY_REQUEST_CODE) {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
+                photoSource =FROM_GALLERY;
+            }
+            else{
+                Toast.makeText(this, "Access to gallery denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * Create a Bitmap from the supplied URI
+     * @param uri   URI of an image
+     * @return      Bitmap for an image
+     * @throws IOException
+     */
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
     }
 
     /**
@@ -252,152 +414,7 @@ public class AddRecipe extends AppCompatActivity {
 
         recipesFromDB.add(recipeDB);
         db.recipeDao().insertRecipe(recipeDB);
-        finish();
         Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Handles back button presses - asks to confirm to leave
-     */
-    @Override
-    public void onBackPressed() {
-        dialogBack = backDialogBuilder.create();
-        backDialogBuilder
-                .setTitle(R.string.dialog_discard_draft)
-                .setMessage(R.string.dialog_discard_message)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogBack.dismiss();
-                    }
-                })
-                .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                }).show();
-    }
-
-    /**
-     * handles results from intents launched - gallery & camera
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && data != null) {
-            if(requestCode == GALLERY_REQUEST_CODE) {
-                Uri imageChosen = data.getData();
-                btnAddPhoto.setImageURI(imageChosen);
-                imageUri = imageChosen;
-            }
-            else if(requestCode == CAMERA_REQUEST_CODE) {
-                if(!data.getExtras().isEmpty()) {
-                    photo = (Bitmap) data.getExtras().get("data");
-                    btnAddPhoto.setImageBitmap(photo);
-                }
-            }
-        }
-    }
-
-    /**
-     * check if Camera or gallery access permission is granted, if so, open the camera/gallery
-     * @param requestCode   request code passed when launching intent
-     * @param permissions   permissions to check
-     * @param grantResults  checked permissions
-     */
-    //
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == CAMERA_REQUEST_CODE) {
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
-                photoSource = FROM_CAMERA;
-            }
-            else{
-                Toast.makeText(this, "Access to camera denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if(requestCode == GALLERY_REQUEST_CODE) {
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivityForResult(openGallery, GALLERY_REQUEST_CODE);
-                photoSource =FROM_GALLERY;
-            }
-            else{
-                Toast.makeText(this, "Access to gallery denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }
-
-    private void initViews() {
-        // initialise attributes
-        toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title);
-        recipeName = findViewById(R.id.inputRecipeName);
-        prepMethod = findViewById(R.id.inputPrepMethod);
-        beansSpinner = findViewById(R.id.beansSpinner);
-        btnAddBeans = findViewById(R.id.btnAddBeans);
-        cancelButton = findViewById(R.id.cancel_button);
-        saveButton = findViewById(R.id.save_button);
-        backDialogBuilder = new MaterialAlertDialogBuilder(this);
-        saveDialogBuilder = new MaterialAlertDialogBuilder(this);
-        photoDialogBuilder = new MaterialAlertDialogBuilder(this);
-        gramPicker1 = findViewById(R.id.gram_picker1);
-        gramPicker2 = findViewById(R.id.gram_picker2);
-        hourPicker = findViewById(R.id.hour_picker);
-        minutesPicker = findViewById(R.id.minutes_picker);
-        secondsPicker = findViewById(R.id.seconds_picker);
-        boughtGround = findViewById(R.id.chckGround);
-        grindScale = findViewById(R.id.grindSlider);
-        grindNotes = findViewById(R.id.inputGrindNotes);
-        milk = findViewById(R.id.chckMilk);
-        syrup = findViewById(R.id.chckSyrup);
-        sugar = findViewById(R.id.chckSugar);
-        milkKind = findViewById(R.id.txtMilkKind);
-        milkAmount = findViewById(R.id.txtMilkAmount);
-        syrupFlavour = findViewById(R.id.txtSyrupFlavour);
-        syrupAmount = findViewById(R.id.txtSyrupAmount);
-        sugarKind = findViewById(R.id.txtSugarKind);
-        sugarAmount = findViewById(R.id.txtSugarAmount);
-        rating = findViewById(R.id.ratingBarAR);
-        notes = findViewById(R.id.inputNotes);
-        btnAddPhoto = findViewById(R.id.add_photo_btn);
-
-        // set the toolbar as the action bar
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Add new recipe");
-        // add the back button to it
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        // add options to the Beans Spinner
-        beansList.add(new Bean("Brazylia Santos","Agifa"));
-        beansList.add(new Bean("Vanilla&Hazelnut", "Agifa"));
-        // create the adapter for the spinner
-        ArrayAdapter<Bean> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
-        beansSpinner.setAdapter(beansAdapter);
-        // TODO: add a hint to the spinner instead of displaying the first item
-
-        // setup the number pickers for selecting number of grams and brewing time
-        gramPicker1.setMinValue(0);
-        gramPicker1.setMaxValue(99);
-        gramPicker2.setMinValue(0);
-        gramPicker2.setMaxValue(9);
-        hourPicker.setMinValue(0);
-        hourPicker.setMaxValue(23);
-        minutesPicker.setMinValue(0);
-        minutesPicker.setMaxValue(59);
-        secondsPicker.setMinValue(0);
-        secondsPicker.setMaxValue(59);
+        finish();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.coffeeapp;
 
 import static com.example.coffeeapp.Bean.idCounter;
+import static com.example.coffeeapp.BeansList.beansFromDB;
+import static com.example.coffeeapp.BeansList.beansList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coffeeapp.db.BeanDB;
 import com.example.coffeeapp.db.CoffeeDatabase;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
@@ -258,7 +261,34 @@ public class AddBeans extends AppCompatActivity {
         else if(blendOrSingle == R.id.ab_single_origin_button) {
             bean.setBlend(false);
         }
+        bean.setUrlToShop(txtShopUrl.getText().toString());
+        if (!txtPrice.getText().toString().isEmpty()) {
+            bean.setCostPerKg(Float.parseFloat(txtPrice.getText().toString()));
+        }
+        bean.setCurrency(currencySpinner.getSelectedItem().toString());
+        bean.setRating(ratingBar.getRating());
+        bean.setNotes(txtNotes.getText().toString());
+        beansList.add(bean);
 
+        // persist the beans
+        BeanDB beanDB = new BeanDB();
+        beanDB.beansId = bean.getId();
+        beanDB.name = bean.getName();
+        beanDB.dateAdded = bean.getDateAdded();
+        beanDB.roaster = bean.getRoaster();
+        beanDB.degreeOfRoast = bean.getDegreeOfRoast();
+        beanDB.isDecaf = bean.isDecaf();
+        beanDB.isFlavoured = bean.isFlavoured();
+        beanDB.flavour = bean.getFlavour();
+        beanDB.isBlend = bean.isBlend();
+        beanDB.urlToShop = bean.getUrlToShop();
+        beanDB.costPerKg = bean.getCostPerKg();
+        beanDB.currency = bean.getCurrency();
+        beanDB.rating = bean.getRating();
+        beanDB.notes = bean.getNotes();
+        beansFromDB.add(beanDB);
+        db.beanDao().insertBean(beanDB);
+        Toast.makeText(this, "Beans " + bean.getName() + " saved.", Toast.LENGTH_SHORT).show();
     }
 
     /**

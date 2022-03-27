@@ -36,6 +36,11 @@ public class RecipesList extends AppCompatActivity {
         setContentView(R.layout.activity_recipes_list);
 
         initViews();
+
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
+        // initialise recipes RecView + load recipes from DB
+        loadRecipes(db);
+        initRecView();
     }
 
     @Override
@@ -55,8 +60,9 @@ public class RecipesList extends AppCompatActivity {
         return true;
     }
 
-
-    // Gets the user to the add recipe activity to add a new recipe
+    /**
+     * Gets the user to the add recipe activity to add a new recipe
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.add_option) {
@@ -67,7 +73,12 @@ public class RecipesList extends AppCompatActivity {
         return false;
     }
 
-    private Recipe createRecipeFromDatabase(RecipeDB rDB) {
+    /**
+     * Creates a local Recipe objecy from the cupplied RecipeDB object frm the DB
+     * @param rDB   recipe object from the db
+     * @return      local Recipe object
+     */
+    private static Recipe createRecipeFromDatabase(RecipeDB rDB) {
         Recipe recipe = new Recipe();
         recipe.setId(rDB.recipeId);
         recipe.setName(rDB.name);
@@ -139,17 +150,13 @@ public class RecipesList extends AppCompatActivity {
 
         // initialise the bottom bar
         initBottomBar();
-
-        // initialise recipes RecView + load recipes from DB
-        loadRecipes();
     }
 
     /**
      * Creates the Recycler View for recipes and loads recipes from the Database
      */
-    private void loadRecipes() {
+    public static void loadRecipes(CoffeeDatabase db) {
         // get persisted recipes
-        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
         recipesFromDB = db.recipeDao().getAllRecipes();
         if(recipesList.size() < 1) {
             for(RecipeDB rDB : recipesFromDB) {
@@ -171,7 +178,9 @@ public class RecipesList extends AppCompatActivity {
                 }
             }
         }
+    }
 
+    private void initRecView() {
         // create a recipe RecView adapter and pass it to the RecView
         RecipesRecViewAdapter adapter = new RecipesRecViewAdapter(this);
         adapter.setRecipes(recipesList);

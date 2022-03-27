@@ -19,5 +19,7 @@ public class BeanDB {
     public boolean isDecaf;
     public String urlToShop;
     public float costPerKg;
+    public String currency;
     public float rating;
+    public String notes;
 }

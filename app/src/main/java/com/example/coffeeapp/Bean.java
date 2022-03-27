@@ -17,7 +17,9 @@ public class Bean {
     private String photo;
     private String urlToShop;
     private float costPerKg;
+    private String currency;
     private float rating;
+    private String notes;
 
     public Bean() {}
 
@@ -132,6 +134,22 @@ public class Bean {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     @Override
