@@ -3,6 +3,7 @@ package com.example.coffeeapp;
 import static com.example.coffeeapp.Bean.idCounter;
 import static com.example.coffeeapp.BeansList.beansFromDB;
 import static com.example.coffeeapp.BeansList.beansList;
+import static com.example.coffeeapp.BeansRecViewAdapter.BEANS_ID_KEY;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -87,6 +88,7 @@ public class AddBeans extends AppCompatActivity {
     private Spinner currencySpinner;
     private RatingBar ratingBar;
     private EditText txtNotes;
+    private Bean incomingBean;
 
 
 
@@ -96,6 +98,27 @@ public class AddBeans extends AppCompatActivity {
         setContentView(R.layout.activity_add_beans);
 
         initViews();
+        checkAndLoadEditData();
+    }
+
+    private void checkAndLoadEditData() {
+        // check if the activity is open to add or edit
+        Intent incomingBeans = getIntent();
+        if(incomingBeans != null) {
+            int beanId = incomingBeans.getIntExtra(BEANS_ID_KEY, -1);
+            if(beanId != -1) {
+                for(Bean b : beansList) {
+                    if(b.getId() == beanId) {
+                        incomingBean = b;
+                        toolbarTitle.setText("Edit beans");
+                        break;
+                    }
+                }
+            }
+        }
+        if(incomingBean != null) {
+
+        }
     }
 
     /**
