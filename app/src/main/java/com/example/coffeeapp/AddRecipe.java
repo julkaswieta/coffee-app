@@ -157,7 +157,6 @@ public class AddRecipe extends AppCompatActivity {
         loadBeans(db);
         ArrayAdapter<Bean> beansAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, beansList);
         beansSpinner.setAdapter(beansAdapter);
-        // TODO: add a hint to the spinner instead of displaying the first item
 
         // setup the number pickers for selecting number of grams and brewing time
         gramPicker1.setMinValue(0);
@@ -245,6 +244,14 @@ public class AddRecipe extends AppCompatActivity {
 
                             }
                         }).show();
+            }
+        });
+
+        btnAddBeans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent openAddBeans = new Intent(AddRecipe.this, AddBeans.class);
+                startActivity(openAddBeans);
             }
         });
     }

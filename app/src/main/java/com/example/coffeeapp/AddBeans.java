@@ -242,7 +242,7 @@ public class AddBeans extends AppCompatActivity {
         // get the biggest latest bean id
         CoffeeDatabase db = CoffeeDatabase.getDatabase(AddBeans.this.getApplicationContext());
         if (db.beanDao().getAllBeans().size() > 0) {
-            idCounter = db.recipeDao().getBiggestRecipeId();
+            idCounter = db.beanDao().getBiggestBeansId();
         } else {
             idCounter = 0;
         }
