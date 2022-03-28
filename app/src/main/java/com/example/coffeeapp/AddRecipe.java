@@ -46,6 +46,7 @@ import com.example.coffeeapp.db.RecipeDB;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -454,6 +455,16 @@ public class AddRecipe extends AppCompatActivity {
         return image;
     }
 
+    private byte[] convertBitmapToByteArray(Bitmap photo) throws IOException {
+        Bitmap bmp = photo;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 50, stream);
+        byte[] byteArray = stream.toByteArray();
+        bmp.recycle();
+        stream.close();
+        return byteArray;
+    }
+
     /**
      * Gathers all data from the views and assigns it to the recipe object. If name, beans and method not specified, displays a dialog.
      * @return Recipe object created
@@ -554,7 +565,12 @@ public class AddRecipe extends AppCompatActivity {
             recipeDB.sugar = recipe.getSugar();
             recipeDB.rating = recipe.getRating();
             recipeDB.notes = recipe.getNotes();
-
+            if(recipe.getPhoto() != null) {
+                recipeDB.image = recipe.getPhoto();
+            }
+            else{
+                recipeDB.image = null;
+            }
             recipesFromDB.add(recipeDB);
             db.recipeDao().insertRecipe(recipeDB);
             Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();

@@ -88,7 +88,7 @@ public class RecipesList extends AppCompatActivity {
         recipe.setName(rDB.name);
         recipe.setDateAdded(rDB.dateAdded);
         for (Bean b : beansList) {
-            if(b.getId() == rDB.recipeId) {
+            if(b.getId() == rDB.beansUsedId) {
                 recipe.setBeansUsed(b);
                 break;
             }
@@ -104,6 +104,7 @@ public class RecipesList extends AppCompatActivity {
         recipe.setSugar(rDB.sugar);
         recipe.setRating(rDB.rating);
         recipe.setNotes(rDB.notes);
+        recipe.setPhoto(rDB.image);
         return recipe;
     }
 
