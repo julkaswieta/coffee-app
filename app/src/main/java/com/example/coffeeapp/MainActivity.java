@@ -1,8 +1,12 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.BeansList.loadBeans;
+import static com.example.coffeeapp.RecipesList.loadRecipes;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,12 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.coffeeapp.db.CoffeeDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomBar;
-    private Toolbar toolbar;
-    private TextView toolbarTitle;
+    private TextView recipeCount;
+    private TextView beansCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-
+        loadStats();
     }
 
     /**
@@ -35,15 +40,24 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         //initialise attributes
         bottomBar = findViewById(R.id.bottom_bar_main);
-        toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title);
-
-        // set the toolbar as the action bar
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Home");
+        recipeCount = findViewById(R.id.home_recipe_count);
+        beansCount = findViewById(R.id.home_beans_count);
 
         initBottomBar();
+    }
+
+    private void loadStats() {
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this);
+        int recCount = db.recipeDao().getRecipeCount();
+        if(recCount > 0) {
+            recipeCount.setText(String.valueOf(recCount));
+            recipeCount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        }
+        int bnCount = db.beanDao().getBeansCount();
+        if(bnCount > 0) {
+            beansCount.setText(String.valueOf(bnCount));
+            beansCount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        }
     }
 
     /**

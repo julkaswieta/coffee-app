@@ -4,11 +4,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="7dp">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_add" />
+    <TextView
+        android:id="@+id/home_overview_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        android:padding="7dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/home_overview_label"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_overview_label">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="8dp"
+            android:layout_columnWeight="2">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="7dp">
+
+                <TextView
+                    android:id="@+id/home_recipes_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_recipes_added_label"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_centerHorizontal="true"/>
+                <ImageView
+                    android:layout_below="@id/home_recipes_label"
+                    android:id="@+id/home_recipe_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/coffee_recipe"
+                    android:contentDescription="@string/coffee_recipe_image"/>
+
+                <TextView
+                    android:layout_below="@id/home_recipe_image"
+                    android:id="@+id/home_recipe_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/home_no_recipes_added"
+                    android:textSize="26sp"
+                    android:textStyle="bold"/>
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="8dp"
+            android:layout_columnWeight="2">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="7dp">
+
+                <TextView
+                    android:id="@+id/home_beans_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_beans_added_label"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_centerHorizontal="true"/>
+                <ImageView
+                    android:layout_below="@id/home_beans_label"
+                    android:id="@+id/home_beans_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/coffee_beans"
+                    android:contentDescription="@string/coffee_beans_image"/>
+                <TextView
+                    android:layout_below="@id/home_beans_image"
+                    android:id="@+id/home_beans_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_no_beans_added"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </GridLayout>
+    
+
 
     <include
         android:id="@+id/bottom_bar_main"

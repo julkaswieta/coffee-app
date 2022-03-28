@@ -117,4 +117,13 @@
     <string name="bd_notes_label">Notes</string>
     <string name="bd_notes">No notes provided</string>
 
+    <!-- Home Screen -->
+    <string name="home_recipes_added_label">Recipes Added</string>
+    <string name="home_no_recipes_added">No recipes</string>
+    <string name="home_overview_label">Overview</string>
+    <string name="home_beans_added_label">Beans Added</string>
+    <string name="home_no_beans_added">No beans</string>
+    <string name="coffee_recipe_image">Recipe image</string>
+    <string name="coffee_beans_image">Beans image</string>
+
 </resources>

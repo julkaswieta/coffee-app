@@ -19,6 +19,9 @@ public interface BeanDao {
     @Update
     void updateBean(BeanDB... beans);
 
+    @Query("SELECT COUNT(*) FROM beans")
+    int getBeansCount();
+
     @Query("SELECT * FROM beans")
     List<BeanDB> getAllBeans();
 

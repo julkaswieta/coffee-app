@@ -20,6 +20,9 @@ public interface RecipeDao {
     @Update
     void updateRecipe(RecipeDB... recipes);
 
+    @Query("SELECT COUNT(*) FROM recipes")
+    int getRecipeCount();
+
     @Query("SELECT * FROM recipes")
     List<RecipeDB> getAllRecipes();
 
