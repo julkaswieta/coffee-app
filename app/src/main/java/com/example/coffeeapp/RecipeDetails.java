@@ -19,6 +19,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class RecipeDetails extends AppCompatActivity {
     private Toolbar toolbar;
@@ -83,6 +84,7 @@ public class RecipeDetails extends AppCompatActivity {
     /**
      * Loads the recipe data into appropriate views
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadRecipeData() {
         // get the recipe from the incoming intent
         Intent incomingRecipe = getIntent();
@@ -110,10 +112,14 @@ public class RecipeDetails extends AppCompatActivity {
             txtAmountCoffee.setText(String.valueOf(recipe.getAmountOfCoffee()));
         }
         if(!recipe.getBrewingTime().equals(LocalTime.of(0, 0))) {
-            txtBrewTime.setText(recipe.getBrewingTime().toString());
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            txtBrewTime.setText(timeFormatter.format(recipe.getBrewingTime()));
         }
         if(recipe.isBoughtGround()) {
             chckBoughtGround.setChecked(true);
+        }
+        else {
+            chckBoughtGround.setChecked(false);
         }
         if(recipe.getGrindScale() != 0) {
             txtGrindScale.setText("Grind scale: " + String.valueOf(recipe.getGrindScale()));
@@ -125,18 +131,18 @@ public class RecipeDetails extends AppCompatActivity {
         boolean extrasExist = false;
         if(recipe.getMilk() != null) {
             extrasExist = true;
-            extras += "Milk ";
+            extras += "Milk: ";
             extras += recipe.getMilk();
             extras += "\n";
         }
         if(recipe.getSyrup() != null) {
-            extras += "Syrup ";
+            extras += "Syrup: ";
             extrasExist = true;
             extras += recipe.getSyrup();
             extras += "\n";
         }
         if(recipe.getSugar() != null) {
-            extras += "Sugar ";
+            extras += "Sugar: ";
             extrasExist = true;
             extras += recipe.getSugar();
         }
@@ -179,7 +185,7 @@ public class RecipeDetails extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.edit_option) {
-            Intent editRecipeIntent = new Intent(this, AddRecipe.class);
+            Intent editRecipeIntent = new Intent(RecipeDetails.this, AddRecipe.class);
             editRecipeIntent.putExtra(RECIPE_ID_KEY, recipe.getId());
             startActivity(editRecipeIntent);
             return true;
@@ -187,6 +193,7 @@ public class RecipeDetails extends AppCompatActivity {
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
         loadRecipeData();

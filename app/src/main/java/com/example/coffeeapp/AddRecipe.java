@@ -290,12 +290,12 @@ public class AddRecipe extends AppCompatActivity {
             }
             if(incomingRecipe.getAmountOfCoffee() != 0) {
                 String temp = String.valueOf(incomingRecipe.getAmountOfCoffee());
-                String[] tempArray = temp.split(".");
+                String[] tempArray = temp.split("[.]");
                 gramPicker1.setValue(Integer.valueOf(tempArray[0]));
                 gramPicker2.setValue(Integer.valueOf(tempArray[1]));
             }
             prepMethod.setText(incomingRecipe.getMethodOfBrewing());
-            if(incomingRecipe.getBrewingTime().equals(LocalTime.of(0, 0))) {
+            if(!incomingRecipe.getBrewingTime().equals(LocalTime.of(0, 0))) {
                 String temp = incomingRecipe.getBrewingTime().toString();
                 String[] tempArray = temp.split(":");
                 hourPicker.setValue(Integer.valueOf(tempArray[0]));
@@ -311,7 +311,45 @@ public class AddRecipe extends AppCompatActivity {
             if(!incomingRecipe.getGrindNotes().isEmpty()) {
                 grindNotes.setText(incomingRecipe.getGrindNotes());
             }
-            // TODO: deal with extras
+            if(incomingRecipe.getMilk() != null) {
+                if(!incomingRecipe.getMilk().isEmpty()) {
+                    milk.setChecked(true);
+                    try {
+                        String[] tempArray = incomingRecipe.getMilk().split(",");
+                        milkKind.setText(tempArray[0]);
+                        milkAmount.setText(tempArray[1]);
+                    }
+                    catch (Exception ex) {
+                        Log.e(this.getClass().toString(), "Couldn't load milk data properly.");
+                    }
+                }
+            }
+            if(incomingRecipe.getSyrup() != null) {
+                if(!incomingRecipe.getSyrup().isEmpty()) {
+                    syrup.setChecked(true);
+                    try {
+                        String[] tempArray = incomingRecipe.getSyrup().split(",");
+                        syrupFlavour.setText(tempArray[0]);
+                        syrupAmount.setText(tempArray[1]);
+                    }
+                    catch (Exception ex) {
+                        Log.e(this.getClass().toString(), "Couldn't load syrup data properly.");
+                    }
+                }
+            }
+            if(incomingRecipe.getSugar() != null) {
+                if(!incomingRecipe.getSugar().isEmpty()) {
+                    sugar.setChecked(true);
+                    try {
+                        String[] tempArray = incomingRecipe.getSugar().split(",");
+                        sugarKind.setText(tempArray[0]);
+                        sugarAmount.setText(tempArray[1]);
+                    }
+                    catch (Exception ex) {
+                        Log.e(this.getClass().toString(), "Couldn't load sugar data properly.");
+                    }
+                }
+            }
             if(incomingRecipe.getRating() != 0) {
                 rating.setRating(incomingRecipe.getRating());
             }
@@ -433,16 +471,16 @@ public class AddRecipe extends AppCompatActivity {
             incomingRecipe.setBoughtGround(boughtGround.isChecked());
             incomingRecipe.setGrindScale((int) grindScale.getValue());
             incomingRecipe.setGrindNotes(grindNotes.getText().toString());
-            /*if (milk.isChecked()) {
-                incomingRecipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString());
+            if (milk.isChecked()) {
+                incomingRecipe.setMilk(milkKind.getText().toString() + ", " + milkAmount.getText().toString());
             }
             if (syrup.isChecked()) {
-                incomingRecipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString());
+                incomingRecipe.setSyrup(syrupFlavour.getText().toString() + ", " + syrupAmount.getText().toString());
             }
             if (sugar.isChecked()) {
-                incomingRecipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString());
+                incomingRecipe.setSugar(sugarKind.getText().toString() + ", " + sugarAmount.getText().toString());
             }
-            */
+
             incomingRecipe.setRating(rating.getRating());
             incomingRecipe.setNotes(notes.getText().toString());
             /*try {
@@ -478,13 +516,13 @@ public class AddRecipe extends AppCompatActivity {
             recipe.setGrindScale((int) grindScale.getValue());
             recipe.setGrindNotes(grindNotes.getText().toString());
             if (milk.isChecked()) {
-                recipe.setMilk(milkKind.getText().toString() + "," + milkAmount.getText().toString());
+                recipe.setMilk(milkKind.getText().toString() + ", " + milkAmount.getText().toString());
             }
             if (syrup.isChecked()) {
-                recipe.setSyrup(syrupFlavour.getText().toString() + "," + syrupAmount.getText().toString());
+                recipe.setSyrup(syrupFlavour.getText().toString() + ", " + syrupAmount.getText().toString());
             }
             if (sugar.isChecked()) {
-                recipe.setSugar(sugarKind.getText().toString() + "," + sugarAmount.getText().toString());
+                recipe.setSugar(sugarKind.getText().toString() + ", " + sugarAmount.getText().toString());
             }
             recipe.setRating(rating.getRating());
             recipe.setNotes(notes.getText().toString());

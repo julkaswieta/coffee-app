@@ -28,9 +28,4 @@ public interface RecipeDao {
 
     @Query("SELECT MAX(recipeId) FROM recipes")
     int getBiggestRecipeId();
-
-    /*@Transaction
-    @Query("SELECT * FROM beans")
-    ArrayList<BeanWithRecipes> getBeansWithRecipes();
-     */
 }
