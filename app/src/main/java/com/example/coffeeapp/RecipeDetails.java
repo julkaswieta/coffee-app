@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class RecipeDetails extends AppCompatActivity {
     private TextView txtExtras;
     private TextView txtNotes;
     private RatingBar ratingBar;
+    private ImageView photo;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -70,6 +72,7 @@ public class RecipeDetails extends AppCompatActivity {
         txtExtras = findViewById(R.id.rec_details_extras);
         txtNotes = findViewById(R.id.rec_details_notes);
         ratingBar = findViewById(R.id.rec_details_rating_bar);
+        photo = findViewById(R.id.rec_details_photo);
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -78,7 +81,6 @@ public class RecipeDetails extends AppCompatActivity {
         // add the back button to it
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
     }
 
     /**
@@ -156,6 +158,9 @@ public class RecipeDetails extends AppCompatActivity {
             if(!recipe.getNotes().isEmpty()) {
                 txtNotes.setText(recipe.getNotes());
             }
+        }
+        if(recipe.getPhoto() != null) {
+            photo.setImageBitmap(recipe.getPhoto());
         }
     }
 

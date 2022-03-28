@@ -190,6 +190,7 @@ public class BeansList extends AppCompatActivity {
         b.setCurrency(bDB.currency);
         b.setRating(bDB.rating);
         b.setNotes(bDB.notes);
+        b.setPhoto(bDB.image);
         return b;
     }
 

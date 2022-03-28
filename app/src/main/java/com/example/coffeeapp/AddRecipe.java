@@ -264,6 +264,9 @@ public class AddRecipe extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads recipe data if it's for editing
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkAndLoadEditData() {
         // check if the activity is open to add or edit
@@ -281,7 +284,6 @@ public class AddRecipe extends AppCompatActivity {
             }
         }
         if(incomingRecipe != null) {
-            // TODO: display the stuff in appropriate boxes
             recipeName.setText(incomingRecipe.getName());
             for(int i = 0; i < beansList.size(); i++) {
                 if(beansList.get(i).getId() == incomingRecipe.getBeansUsed().getId()) {
@@ -356,6 +358,9 @@ public class AddRecipe extends AppCompatActivity {
             }
             if(!incomingRecipe.getNotes().isEmpty()) {
                 notes.setText(incomingRecipe.getNotes());
+            }
+            if(incomingRecipe.getPhoto() != null) {
+                btnAddPhoto.setImageBitmap(incomingRecipe.getPhoto());
             }
         }
     }
@@ -447,22 +452,12 @@ public class AddRecipe extends AppCompatActivity {
      * @return      Bitmap for an image
      * @throws IOException
      */
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+    public Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
         FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
         parcelFileDescriptor.close();
         return image;
-    }
-
-    private byte[] convertBitmapToByteArray(Bitmap photo) throws IOException {
-        Bitmap bmp = photo;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 50, stream);
-        byte[] byteArray = stream.toByteArray();
-        bmp.recycle();
-        stream.close();
-        return byteArray;
     }
 
     /**
@@ -494,16 +489,39 @@ public class AddRecipe extends AppCompatActivity {
 
             incomingRecipe.setRating(rating.getRating());
             incomingRecipe.setNotes(notes.getText().toString());
-            /*try {
+            try{
                 if (photoSource == FROM_GALLERY) {
                     incomingRecipe.setPhoto(getBitmapFromUri(imageUri));
                 } else if (photoSource == FROM_CAMERA) {
-                    recipe.setPhoto(photo);
+                    incomingRecipe.setPhoto(photo);
                 }
             } catch (IOException ex) {
                 Log.e(this.getClass().toString(), "Couldn't save image");
             }
-             */
+
+            CoffeeDatabase db = CoffeeDatabase.getDatabase(AddRecipe.this.getApplicationContext());
+            RecipeDB rDB = db.recipeDao().getRecipeById(incomingRecipe.getId());
+            rDB.name = incomingRecipe.getName();
+            rDB.dateAdded = incomingRecipe.getDateAdded();
+            rDB.beansUsedId = incomingRecipe.getBeansUsed().getId();
+            rDB.amountOfCoffee = incomingRecipe.getAmountOfCoffee();
+            rDB.methodOfBrewing = incomingRecipe.getMethodOfBrewing();
+            rDB.brewingTime = incomingRecipe.getBrewingTime();
+            rDB.boughtGround = incomingRecipe.isBoughtGround();
+            rDB.grindScale = incomingRecipe.getGrindScale();
+            rDB.grindNotes = incomingRecipe.getGrindNotes();
+            rDB.milk = incomingRecipe.getMilk();
+            rDB.syrup = incomingRecipe.getSyrup();
+            rDB.sugar = incomingRecipe.getSugar();
+            rDB.rating = incomingRecipe.getRating();
+            rDB.notes = incomingRecipe.getNotes();
+            if(incomingRecipe.getPhoto() != null) {
+                rDB.image = incomingRecipe.getPhoto();
+            }
+            else{
+                rDB.image = null;
+            }
+            db.recipeDao().updateRecipe(rDB);
         }
         else {
             Recipe recipe = new Recipe();
@@ -575,8 +593,6 @@ public class AddRecipe extends AppCompatActivity {
             db.recipeDao().insertRecipe(recipeDB);
             Toast.makeText(this, "Recipe " + recipe.getName() + " saved", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     @Override

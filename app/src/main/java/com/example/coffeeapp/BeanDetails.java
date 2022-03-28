@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class BeanDetails extends AppCompatActivity {
     private TextView txtPrice;
     private TextView txtNotes;
     private RatingBar ratingBar;
+    private ImageView beansPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +56,11 @@ public class BeanDetails extends AppCompatActivity {
         txtPrice = findViewById(R.id.bd_price);
         txtNotes = findViewById(R.id.bd_notes);
         ratingBar = findViewById(R.id.bd_rating_bar);
+        beansPhoto = findViewById(R.id.bd_beans_image);
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Recipe details");
+        toolbarTitle.setText("Beans details");
         // add the back button to it
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -105,6 +108,9 @@ public class BeanDetails extends AppCompatActivity {
         }
         if(!beans.getNotes().isEmpty()) {
             txtNotes.setText(beans.getNotes());
+        }
+        if(beans.getPhoto() != null) {
+            beansPhoto.setImageBitmap(beans.getPhoto());
         }
     }
 

@@ -28,6 +28,7 @@ public class RecipesList extends AppCompatActivity {
     static ArrayList<Recipe> recipesList = new ArrayList<>();
     static List<RecipeDB> recipesFromDB;
 
+    RecipesRecViewAdapter adapter;
     private BottomNavigationView bottomBar;
     private RecyclerView recipesRecView;
     private Toolbar toolbar;
@@ -190,10 +191,16 @@ public class RecipesList extends AppCompatActivity {
 
     private void initRecView() {
         // create a recipe RecView adapter and pass it to the RecView
-        RecipesRecViewAdapter adapter = new RecipesRecViewAdapter(this);
+        adapter = new RecipesRecViewAdapter(this);
         adapter.setRecipes(recipesList);
         recipesRecView.setAdapter(adapter);
         // set layout manager for the RecView - display the items linearly
         recipesRecView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    protected void onResume() {
+        adapter.notifyDataSetChanged();
+        super.onResume();
     }
 }

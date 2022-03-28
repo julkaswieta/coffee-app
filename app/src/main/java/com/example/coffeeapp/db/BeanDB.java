@@ -1,5 +1,7 @@
 package com.example.coffeeapp.db;
 
+import android.graphics.Bitmap;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -22,4 +24,5 @@ public class BeanDB {
     public String currency;
     public float rating;
     public String notes;
+    public Bitmap image;
 }
