@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeeapp.db.RecipeDB;
 import com.example.coffeeapp.db.CoffeeDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class RecipesList extends AppCompatActivity {
     private RecyclerView recipesRecView;
     private Toolbar toolbar;
     private TextView toolbarTitle;
+    private MaterialCardView noRecipesCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,13 @@ public class RecipesList extends AppCompatActivity {
         loadBeans(db);
         loadRecipes(db);
         initRecView();
+        adapter.notifyDataSetChanged();
+        if(recipesList.size() < 1) {
+            noRecipesCard.setVisibility(View.VISIBLE);
+        }
+        else {
+            noRecipesCard.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -152,6 +162,7 @@ public class RecipesList extends AppCompatActivity {
         recipesRecView = findViewById(R.id.recipes_rec_view);
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
+        noRecipesCard = findViewById(R.id.no_recipes_info);
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -201,6 +212,12 @@ public class RecipesList extends AppCompatActivity {
     @Override
     protected void onResume() {
         adapter.notifyDataSetChanged();
+        if(recipesList.size() < 1) {
+            noRecipesCard.setVisibility(View.VISIBLE);
+        }
+        else {
+            noRecipesCard.setVisibility(View.GONE);
+        }
         super.onResume();
     }
 }

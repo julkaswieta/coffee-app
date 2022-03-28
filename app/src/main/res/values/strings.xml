@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Coffee App</string>
+    <string name="app_name">Coffee Cup</string>
     <string name="beans_menu">Beans</string>
     <string name="recipes_menu">Recipes</string>
     <string name="home_menu">Home</string>
-    <string name="coffee_log_menu">Coffee Log</string>
+    <string name="coffee_log_menu">Coffee Cups</string>
     <string name="map_menu">Cafe Finder</string>
     <string name="add_photo">Add photo</string>
     <string name="cancel">Cancel</string>
@@ -125,5 +125,8 @@
     <string name="home_no_beans_added">No beans</string>
     <string name="coffee_recipe_image">Recipe image</string>
     <string name="coffee_beans_image">Beans image</string>
+
+    <string name="no_beans">No beans added so far! Tap the + icon in the top right corner to add new beans.</string>
+    <string name="no_recipes">No recipes added so far! Tap the + icon in the top right corner to add a new recipe.</string>
 
 </resources>

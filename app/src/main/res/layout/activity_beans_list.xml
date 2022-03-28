@@ -21,6 +21,29 @@
         app:layout_constraintTop_toBottomOf="@+id/bl_toolbar"
         app:layout_constraintVertical_bias="0.0" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/no_beans_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bl_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="7dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        android:visibility="gone">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="7dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_beans"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <include
         android:id="@+id/bottom_bar_beans"
         layout="@layout/bottom_navigation_bar"

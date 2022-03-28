@@ -101,15 +101,15 @@ public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapte
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 CoffeeDatabase db = CoffeeDatabase.getDatabase(context.getApplicationContext());
                                 // remove all recipes using these beans
-                                for(Recipe recipe : recipesList) {
-                                    if(recipe.getBeansUsed().getId() == beans.get(holder.getAdapterPosition()).getId()) {
-                                        recipesList.remove(recipe);
-                                        Toast.makeText(context, "Recipe " + recipe.getName() + " deleted.", Toast.LENGTH_SHORT).show();                                    }
+                                for(int x = recipesList.size() - 1; x >= 0; --x) {
+                                    if(recipesList.get(x).getBeansUsed().getId() == beans.get(holder.getAdapterPosition()).getId()) {
+                                        recipesList.remove(x);
+                                    }
                                 }
-                                for(RecipeDB recDB : recipesFromDB) {
-                                    if(recDB.beansUsedId == beans.get(holder.getAdapterPosition()).getId()) {
-                                        recipesFromDB.remove(recDB);
-                                        db.recipeDao().deleteRecipe(recDB);
+                                for(int x = recipesFromDB.size() - 1; x >= 0; --x) {
+                                    if(recipesFromDB.get(x).beansUsedId == beans.get(holder.getAdapterPosition()).getId()) {
+                                        db.recipeDao().deleteRecipe(recipesFromDB.get(x));
+                                        recipesFromDB.remove(x);
                                     }
                                 }
                                 // delete the beans from the db and local copy of the bean list

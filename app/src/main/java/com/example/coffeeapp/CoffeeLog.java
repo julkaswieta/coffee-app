@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,13 @@ public class CoffeeLog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_log);
 
+        initViews();
+    }
+
+    /**
+     * Initialises the whole layout
+     */
+    private void initViews() {
         //initialise attributes
         bottomBar = findViewById(R.id.bottom_bar_beans);
         toolbar = findViewById(R.id.toolbar);
@@ -30,8 +39,15 @@ public class CoffeeLog extends AppCompatActivity {
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Coffee Journal");
+        toolbarTitle.setText("Your Coffee Cups");
 
+        initBottomBar();
+    }
+
+    /**
+     * Initialises the bottom bar
+     */
+    private void initBottomBar() {
         // create the bottom bar, set a listener and signify that we're in the coffee log screen
         bottomBar = findViewById(R.id.bottom_bar_log);
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -61,6 +77,30 @@ public class CoffeeLog extends AppCompatActivity {
             }
         });
         bottomBar.setSelectedItemId(R.id.coffee_log_menu);
+    }
+
+    /**
+     * Adds the menu options to the toolbar
+     * @param menu layout file
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_menu, menu);
+        return true;
+    }
+
+    /**
+     * Gets the user to the add drink activity to add a new drink
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add_option) {
+            Intent newDrinkIntent = new Intent(this, AddDrink.class);
+            startActivity(newDrinkIntent);
+            return true;
+        }
+        return false;
     }
 
     @Override

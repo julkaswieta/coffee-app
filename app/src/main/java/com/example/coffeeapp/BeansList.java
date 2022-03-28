@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.example.coffeeapp.db.BeanDB;
 import com.example.coffeeapp.db.CoffeeDatabase;
 import com.example.coffeeapp.db.RecipeDB;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class BeansList extends AppCompatActivity {
     private RecyclerView beansRecView;
     private Toolbar toolbar;
     private TextView toolbarTitle;
+    private MaterialCardView noBeansCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,17 @@ public class BeansList extends AppCompatActivity {
         setContentView(R.layout.activity_beans_list);
 
         initViews();
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
+        loadBeans(db);
+        initRecView();
+        adapter.notifyDataSetChanged();
+        if(beansList.size() < 1) {
+            noBeansCard.setVisibility(View.VISIBLE);
+        }
+        else {
+            noBeansCard.setVisibility(View.GONE);
+        }
+        loadRecipes(db);
     }
 
     @Override
@@ -84,6 +98,7 @@ public class BeansList extends AppCompatActivity {
         toolbar = findViewById(R.id.bl_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
         beansRecView = findViewById(R.id.beans_rec_view);
+        noBeansCard = findViewById(R.id.no_beans_info);
 
 
         // set the toolbar as the action bar
@@ -92,10 +107,6 @@ public class BeansList extends AppCompatActivity {
         toolbarTitle.setText("Beans");
 
         initBottomBar();
-        CoffeeDatabase db = CoffeeDatabase.getDatabase(this.getApplicationContext());
-        loadBeans(db);
-        initRecView();
-        loadRecipes(db);
     }
 
     /**
@@ -200,6 +211,12 @@ public class BeansList extends AppCompatActivity {
     @Override
     protected void onResume() {
         adapter.notifyDataSetChanged();
+        if(beansList.size() < 1) {
+            noBeansCard.setVisibility(View.VISIBLE);
+        }
+        else {
+            noBeansCard.setVisibility(View.GONE);
+        }
         super.onResume();
     }
 }
