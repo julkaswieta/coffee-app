@@ -96,4 +96,10 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         bottomBar.setSelectedItemId(R.id.home_menu);
     }
+
+    @Override
+    protected void onResume() {
+        loadStats();
+        super.onResume();
+    }
 }
