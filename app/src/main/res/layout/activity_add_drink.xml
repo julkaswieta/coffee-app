@@ -21,7 +21,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="7dp">
+            android:padding="7dp"
+            android:id="@+id/ad_source_layout">
 
             <TextView
                 android:id="@+id/drink_source_label"
@@ -36,21 +37,32 @@
                 android:id="@+id/drink_source_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_below="@id/drink_source_label">
+                android:layout_below="@id/drink_source_label"
+                android:layout_marginLeft="7dp">
 
                 <RadioButton
                     android:id="@+id/ad_shop_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ad_from_store_tab"/>
+                    android:text="@string/ad_from_store_tab" />
 
                 <RadioButton
+                    android:id="@+id/ad_recipe_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ad_from_recipe_tab"
-                    android:id="@+id/ad_recipe_rb"/>
+                    android:text="@string/ad_from_recipe_tab" />
             </RadioGroup>
+
+            <ImageButton
+                android:id="@+id/ad_add_photo_btn"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@id/drink_source_group"
+                android:contentDescription="@string/add_photo"
+                android:src="@drawable/ic_add_photo" />
 
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -121,7 +133,7 @@
                             android:orientation="horizontal">
 
                             <EditText
-                                android:id="@+id/ad_cost"
+                                android:id="@+id/ad_price"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/ab_hint_price"
@@ -160,7 +172,7 @@
                             android:layout_below="@id/ad_size_spinner"/>
 
                         <RatingBar
-                            android:id="@+id/ab_rating_bar"
+                            android:id="@+id/ad_rating_bar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ad_rating_label"
@@ -418,7 +430,7 @@
                             android:hint="@string/ar_extras"
                             android:layout_below="@id/ad_rec_prep_method"
                             android:layout_marginStart="7dp"
-                            android:maxLines="3"/>
+                            android:maxLines="4"/>
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
 

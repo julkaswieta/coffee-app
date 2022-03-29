@@ -41,6 +41,8 @@
     <string name="dialog_check_title">Specify mandatory fields</string>
     <string name="dialog_check_mandatory">Recipe name, beans and preparation method have to be specified to save a recipe.</string>
     <string name="dialog_check_mandatory_beans">Beans name and Roaster must be specified to save Beans.</string>
+    <string name="dialog_check_mandatory_drink">Drink name must be specified to save a drink.</string>
+    <string name="dialog_check_mandatory_drink_rec">Drink name and recipe must be specified to save a drink.</string>
     <string name="dialog_camera_gallery">Take a new photo or choose an image from gallery?</string>
     <string name="dialog_delete_recipe_title">Delete this recipe?</string>
     <string name="dialog_delete_beans_title">Delete these beans?</string>

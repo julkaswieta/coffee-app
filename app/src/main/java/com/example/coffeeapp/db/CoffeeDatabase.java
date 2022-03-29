@@ -12,6 +12,8 @@ import androidx.room.TypeConverters;
 public abstract class CoffeeDatabase extends RoomDatabase {
     public abstract RecipeDao recipeDao();
     public abstract BeanDao beanDao();
+    public abstract ShopDrinkDao shopDrinkDao();
+    public abstract RecipeDrinkDao recipeDrinkDao();
 
     private static CoffeeDatabase INSTANCE;
 

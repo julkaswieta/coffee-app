@@ -12,9 +12,18 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coffeeapp.db.RecipeDrinkDB;
+import com.example.coffeeapp.db.ShopDrinkDB;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CoffeeLog extends AppCompatActivity {
+    static ArrayList<Drink> drinksList = new ArrayList<>();
+    static List<RecipeDrinkDB> recipeDrinksDB = new ArrayList<>();
+    static List<ShopDrinkDB> shopDrinksDB = new ArrayList<>();
+
     private BottomNavigationView bottomBar;
     private Toolbar toolbar;
     private TextView toolbarTitle;
@@ -25,6 +34,7 @@ public class CoffeeLog extends AppCompatActivity {
         setContentView(R.layout.activity_coffee_log);
 
         initViews();
+
     }
 
     /**

@@ -185,22 +185,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "Recipe{" +
-                "dateAdded=" + dateAdded +
-                ", name='" + name + '\'' +
-                ", beansUsed=" + beansUsed +
-                ", amountOfCoffee=" + amountOfCoffee +
-                ", methodOfBrewing='" + methodOfBrewing + '\'' +
-                ", boughtGround=" + boughtGround +
-                ", grindScale=" + grindScale +
-                ", grindNotes='" + grindNotes + '\'' +
-                ", brewingTime=" + brewingTime +
-                ", milk='" + milk + '\'' +
-                ", syrup='" + syrup + '\'' +
-                ", sugar='" + sugar + '\'' +
-                ", rating=" + rating +
-                ", photo='" + photoUri + '\'' +
-                ", notes='" + notes + '\'' +
-                '}';
+        return name + " with " + beansUsed.getName();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.coffeeapp;
 
 public class DrinkFromShop extends Drink {
+    public static int idCounterS = 0;
+
     private float price;
     private String currency;
     private String size;
@@ -8,6 +10,10 @@ public class DrinkFromShop extends Drink {
     private String drinkNotes;
     private String shopName;
     private String shopAddress;
+
+    public static int nextId() {
+        return ++idCounterS;
+    }
 
     public float getPrice() {
         return price;

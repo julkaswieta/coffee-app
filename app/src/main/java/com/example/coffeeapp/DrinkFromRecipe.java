@@ -1,6 +1,10 @@
 package com.example.coffeeapp;
 
+import android.graphics.Bitmap;
+
 public class DrinkFromRecipe extends Drink {
+    public static int idCounterR = 0;
+
     private Recipe recipeUsed;
     private String recipeName;
     private String beansUsed;
@@ -8,6 +12,10 @@ public class DrinkFromRecipe extends Drink {
     private String prepMethodUsed;
     private String extrasUsed;
     private String drinkNotes;
+
+    public static int nextId() {
+        return ++idCounterR;
+    }
 
     public Recipe getRecipeUsed() {
         return recipeUsed;

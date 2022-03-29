@@ -1,5 +1,7 @@
 package com.example.coffeeapp.db;
 
+import android.graphics.Bitmap;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -18,4 +20,5 @@ public class ShopDrinkDB {
     public String drinkNotes;
     public String shopName;
     public String shopAddress;
+    public Bitmap drinkPhoto;
 }
