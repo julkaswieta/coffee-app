@@ -126,7 +126,7 @@
     <!-- Home Screen -->
     <string name="home_recipes_added_label">Recipes Added</string>
     <string name="home_no_recipes_added">No recipes</string>
-    <string name="home_overview_label">Overview</string>
+    <string name="home_welcome_label">Hello, coffee lover!</string>
     <string name="home_beans_added_label">Beans Added</string>
     <string name="home_no_beans_added">No beans</string>
     <string name="coffee_recipe_image">Recipe image</string>

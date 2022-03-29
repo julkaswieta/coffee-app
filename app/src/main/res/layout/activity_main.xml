@@ -15,7 +15,7 @@
         android:textSize="26sp"
         android:padding="7dp"
         android:layout_marginTop="10dp"
-        android:text="@string/home_overview_label"
+        android:text="@string/home_welcome_label"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <GridLayout
