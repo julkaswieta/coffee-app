@@ -47,13 +47,14 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:layout_centerHorizontal="true"/>
+
                 <ImageView
-                    android:layout_below="@id/home_recipes_label"
                     android:id="@+id/home_recipe_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/coffee_recipe"
-                    android:contentDescription="@string/coffee_recipe_image"/>
+                    android:layout_height="120dp"
+                    android:layout_below="@id/home_recipes_label"
+                    android:contentDescription="@string/coffee_recipe_image"
+                    android:src="@mipmap/coffee_recipe" />
 
                 <TextView
                     android:layout_below="@id/home_recipe_image"
@@ -88,13 +89,14 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:layout_centerHorizontal="true"/>
+
                 <ImageView
-                    android:layout_below="@id/home_beans_label"
                     android:id="@+id/home_beans_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/coffee_beans"
-                    android:contentDescription="@string/coffee_beans_image"/>
+                    android:layout_height="120dp"
+                    android:layout_below="@id/home_beans_label"
+                    android:contentDescription="@string/coffee_beans_image"
+                    android:src="@mipmap/coffee_beans" />
                 <TextView
                     android:layout_below="@id/home_beans_image"
                     android:id="@+id/home_beans_count"
