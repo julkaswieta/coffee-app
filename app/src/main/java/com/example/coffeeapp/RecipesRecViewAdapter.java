@@ -25,6 +25,8 @@ import com.example.coffeeapp.db.CoffeeDatabase;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Adapter for the recycler view in the RecipesList Activity
@@ -34,6 +36,10 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
     private ArrayList<Recipe> recipes = new ArrayList<>();
     private Context context;
 
+    /**
+     * Constructor for the recyclerview adater
+     * @param context context of the parent activity
+     */
     public RecipesRecViewAdapter(Context context) {
         this.context = context;
     }
@@ -70,6 +76,11 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         }
         if(recipes.get(position).getPhoto() != null) {
             holder.recipePhoto.setImageBitmap(recipes.get(position).getPhoto());
+            holder.recipePhoto.setBackgroundResource(R.color.white);
+        }
+        else {
+            holder.recipePhoto.setBackgroundResource(R.mipmap.coffee_cup);
+            holder.recipePhoto.setImageBitmap(null);
         }
         // create an onClickListener for when the item is clicked
         holder.recipeParent.setOnClickListener(new View.OnClickListener() {
@@ -116,18 +127,42 @@ public class RecipesRecViewAdapter extends RecyclerView.Adapter<RecipesRecViewAd
         });
     }
 
+    /**
+     * Gets the number of elements in the recycler view
+     * @return  number of items
+     */
     @Override
     public int getItemCount() {
         return recipes.size();
     }
 
+    /**
+     * changes the data set for the adapter to a new set
+     * @param recipes   new data set
+     */
     public void setRecipes(ArrayList<Recipe> recipes) {
+        Collections.sort(recipes, new Comparator<Recipe>() {
+            @Override
+            public int compare(Recipe lhs, Recipe rhs) {
+                if(lhs.getDateAdded().before(rhs.getDateAdded())) {
+                    return 1;
+                }
+                else if(lhs.getDateAdded().after(rhs.getDateAdded())) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
         this.recipes = recipes;
         // check if the list of recipes has changed at all
         notifyDataSetChanged();
     }
 
-    // inner class for holding a view for every item in the recycler view
+    /**
+     * inner class for holding a view for every item in the recycler view
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         // elements inside each list item
         private TextView txtName, txtDateAdded, txtBeansUsed, txtMethod, txtRating;

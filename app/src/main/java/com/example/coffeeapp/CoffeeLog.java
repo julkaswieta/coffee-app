@@ -1,20 +1,28 @@
 package com.example.coffeeapp;
 
+import static com.example.coffeeapp.BeansList.loadBeans;
+import static com.example.coffeeapp.RecipesList.loadRecipes;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coffeeapp.db.CoffeeDatabase;
 import com.example.coffeeapp.db.RecipeDrinkDB;
 import com.example.coffeeapp.db.ShopDrinkDB;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +35,113 @@ public class CoffeeLog extends AppCompatActivity {
     private BottomNavigationView bottomBar;
     private Toolbar toolbar;
     private TextView toolbarTitle;
+    private MaterialCardView noDrinksCard;
+    private DrinksRecViewAdapter adapter;
+    private RecyclerView drinksRecView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_log);
-
         initViews();
 
+        CoffeeDatabase db = CoffeeDatabase.getDatabase(this);
+        loadBeans(db);
+        loadRecipes(db);
+        loadDrinks(db);
+        initRecView();
+        adapter.notifyDataSetChanged();
+        if(drinksList.size() < 1) {
+            noDrinksCard.setVisibility(View.VISIBLE);
+        }
+        else {
+            noDrinksCard.setVisibility(View.GONE);
+        }
+    }
+
+    private static void loadDrinks(CoffeeDatabase db) {
+        recipeDrinksDB = db.recipeDrinkDao().getAllRecipeDrinks();
+        if(drinksList.size() < 1) {
+            for (RecipeDrinkDB drinkDB : recipeDrinksDB) {
+                drinksList.add(createRecipeDrinkFromDatabase(drinkDB));
+            }
+        }
+        else{
+            for (RecipeDrinkDB drinkDB : recipeDrinksDB) {
+                boolean found = false;
+                for(Drink drink : drinksList) {
+                    if(drinkDB.drinkId == drink.getId()) {
+                        if(drink.getClass() == DrinkFromRecipe.class) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if(!found) {
+                    drinksList.add(createRecipeDrinkFromDatabase(drinkDB));
+                }
+            }
+        }
+
+        shopDrinksDB = db.shopDrinkDao().getAllShopDrinks();
+        if(drinksList.size() < 1) {
+            for(ShopDrinkDB drinkDB : shopDrinksDB) {
+                drinksList.add(createShopDrinkFromDatabase(drinkDB));
+            }
+        }
+        else {
+            for(ShopDrinkDB drinkDB : shopDrinksDB) {
+                boolean found = false;
+                for(Drink drink : drinksList) {
+                    if(drinkDB.drinkId == drink.getId()) {
+                        if (drink.getClass() == DrinkFromShop.class) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if(!found) {
+                    drinksList.add(createShopDrinkFromDatabase(drinkDB));
+                }
+            }
+        }
+    }
+
+    private void initRecView() {
+        adapter = new DrinksRecViewAdapter(this);
+        adapter.setDrinks(drinksList);
+        drinksRecView.setAdapter(adapter);
+        drinksRecView.setLayoutManager(new GridLayoutManager(this, 2));
+    }
+
+    private static Drink createRecipeDrinkFromDatabase(RecipeDrinkDB drinkDB) {
+        DrinkFromRecipe drink = new DrinkFromRecipe();
+        drink.setId(drinkDB.drinkId);
+        drink.setDateAdded(drinkDB.dateAdded);
+        drink.setDrinkName(drinkDB.drinkName);
+        drink.setRecipeName(drinkDB.recipeName);
+        drink.setBeansUsed(drinkDB.beansUsed);
+        drink.setAmountOfCoffeeUsed(drinkDB.amountOfCoffeeUsed);
+        drink.setPrepMethodUsed(drinkDB.prepMethodUsed);
+        drink.setExtrasUsed(drinkDB.extrasUsed);
+        drink.setDrinkPhoto(drinkDB.drinkPhoto);
+        return drink;
+    }
+
+    private static Drink createShopDrinkFromDatabase(ShopDrinkDB drinkDB) {
+        DrinkFromShop drink = new DrinkFromShop();
+        drink.setId(drinkDB.drinkId);
+        drink.setDateAdded(drinkDB.dateAdded);
+        drink.setDrinkName(drinkDB.drinkName);
+        drink.setPrice(drinkDB.price);
+        drink.setCurrency(drinkDB.currency);
+        drink.setSize(drinkDB.size);
+        drink.setRating(drinkDB.rating);
+        drink.setDrinkNotes(drinkDB.drinkNotes);
+        drink.setShopName(drinkDB.shopName);
+        drink.setShopAddress(drinkDB.shopAddress);
+        drink.setDrinkPhoto(drinkDB.drinkPhoto);
+        return drink;
     }
 
     /**
@@ -45,6 +152,8 @@ public class CoffeeLog extends AppCompatActivity {
         bottomBar = findViewById(R.id.bottom_bar_beans);
         toolbar = findViewById(R.id.cc_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
+        noDrinksCard = findViewById(R.id.no_drinks_info);
+        drinksRecView = findViewById(R.id.drinks_rec_view);
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -117,5 +226,18 @@ public class CoffeeLog extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         bottomBar.setSelectedItemId(R.id.coffee_log_menu);
+    }
+
+    @Override
+    protected void onResume() {
+        adapter.setDrinks(drinksList);
+        adapter.notifyDataSetChanged();
+        if(drinksList.size() < 1) {
+           noDrinksCard.setVisibility(View.VISIBLE);
+        }
+        else {
+            noDrinksCard.setVisibility(View.GONE);
+        }
+        super.onResume();
     }
 }

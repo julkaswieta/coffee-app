@@ -211,6 +211,7 @@ public class RecipesList extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        adapter.setRecipes(recipesList);
         adapter.notifyDataSetChanged();
         if(recipesList.size() < 1) {
             noRecipesCard.setVisibility(View.VISIBLE);

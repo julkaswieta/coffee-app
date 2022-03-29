@@ -242,7 +242,7 @@ public class AddDrink extends AppCompatActivity {
                 // check which option is chosen
                 if(recipeSourceGroup.getCheckedRadioButtonId() == R.id.ad_shop_rb) {
                     // check if name is specified
-                    if(txtDrinkNameS.getText().toString().isEmpty()) {
+                    if(txtDrinkNameS.getText().toString().isEmpty() || txtShopNameS.getText().toString().isEmpty()) {
                         saveDialog = saveDialogBuilder.create();
                         saveDialogBuilder
                                 .setTitle(R.string.dialog_check_title)

@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="7dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="7dp">
+
+        <TextView
+            android:id="@+id/type_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Type"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="true"/>
+
+        <ImageView
+            android:id="@+id/drink_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="3dp"
+            android:layout_below="@id/type_label"
+            android:src="@mipmap/coffee_drink"
+            android:contentDescription="Drink Image"/>
+
+        <TextView
+            android:id="@+id/drink_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Drink name"
+            android:layout_below="@id/drink_image"
+            android:layout_centerHorizontal="true"
+            android:maxLines="2"/>
+
+        <TextView
+            android:id="@+id/drink_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Store/Recipe name"
+            android:layout_below="@id/drink_name"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/date_added_drink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Date added"
+            android:layout_below="@id/drink_source"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:id="@+id/drink_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignEnd="@id/drink_image"
+            android:contentDescription="delete drink"
+            android:src="@drawable/ic_delete" />
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

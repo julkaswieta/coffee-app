@@ -28,12 +28,18 @@ import com.example.coffeeapp.db.RecipeDB;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapter.ViewHolder>{
     private ArrayList<Bean> beans = new ArrayList<>();
     private Context context;
     public static final String BEANS_ID_KEY = "beansId";
 
+    /**
+     * Constructor for the recyclerview adater
+     * @param context context of the parent activity
+     */
     public BeansRecViewAdapter(Context context) {
         this.context = context;
     }
@@ -68,6 +74,11 @@ public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapte
         }
         if(beans.get(position).getPhoto() != null) {
             holder.photo.setImageBitmap(beans.get(position).getPhoto());
+            holder.photo.setBackgroundResource(R.color.white);
+        }
+        else {
+            holder.photo.setBackgroundResource(R.mipmap.beans);
+            holder.photo.setImageBitmap(null);
         }
 
         // create an onClickListener for when the item is clicked
@@ -130,6 +141,10 @@ public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapte
         });
     }
 
+    /**
+     * Gets the number of elements in the recycler view
+     * @return  number of items
+     */
     @Override
     public int getItemCount() {
         return beans.size();
@@ -140,10 +155,27 @@ public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapte
      * @param beans arrayList with Bean objects
      */
     public void setBeans(ArrayList<Bean> beans) {
+        Collections.sort(beans, new Comparator<Bean>() {
+            @Override
+            public int compare(Bean lhs, Bean rhs) {
+                if(lhs.getDateAdded().before(rhs.getDateAdded())) {
+                    return 1;
+                }
+                else if(lhs.getDateAdded().after(rhs.getDateAdded())) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
         this.beans = beans;
         notifyDataSetChanged();
     }
 
+    /**
+     * inner class for holding a view for every item in the recycler view
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtName, txtRoaster, txtRating, txtDate;
         private ImageButton deleteBtn;

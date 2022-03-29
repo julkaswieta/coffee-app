@@ -10,6 +10,40 @@
         android:id="@+id/cc_toolbar"
         layout="@layout/toolbar_add" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/no_drinks_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cc_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="7dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        android:visibility="gone">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="7dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_drinks"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/drinks_rec_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar_log"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cc_toolbar"
+        app:layout_constraintVertical_bias="0.0" />
+
     <include
         android:id="@+id/bottom_bar_log"
         layout="@layout/bottom_navigation_bar"

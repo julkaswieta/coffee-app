@@ -210,6 +210,7 @@ public class BeansList extends AppCompatActivity {
      */
     @Override
     protected void onResume() {
+        adapter.setBeans(beansList);
         adapter.notifyDataSetChanged();
         if(beansList.size() < 1) {
             noBeansCard.setVisibility(View.VISIBLE);
