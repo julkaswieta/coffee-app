@@ -33,13 +33,14 @@
                 android:layout_margin="7dp"/>
 
             <RadioGroup
+                android:id="@+id/drink_source_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_below="@id/drink_source_label">
 
                 <RadioButton
-                    android:id="@+id/shop_rb"
+                    android:id="@+id/ad_shop_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ad_from_store_tab"/>
@@ -48,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ad_from_recipe_tab"
-                    android:id="@+id/recipe_rb"/>
+                    android:id="@+id/ad_recipe_rb"/>
             </RadioGroup>
 
         </RelativeLayout>
@@ -278,7 +279,8 @@
         app:layout_constraintBottom_toTopOf="@id/ad_bottom_buttons"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/from_recipe_tab">
+        android:id="@+id/from_recipe_tab"
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
