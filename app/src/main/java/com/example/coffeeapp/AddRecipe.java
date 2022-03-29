@@ -2,7 +2,6 @@ package com.example.coffeeapp;
 
 import static com.example.coffeeapp.BeansList.beansList;
 import static com.example.coffeeapp.BeansList.loadBeans;
-import static com.example.coffeeapp.BeansRecViewAdapter.BEANS_ID_KEY;
 import static com.example.coffeeapp.Recipe.idCounter;
 import static com.example.coffeeapp.RecipesList.recipesFromDB;
 import static com.example.coffeeapp.RecipesList.recipesList;
@@ -46,7 +45,6 @@ import com.example.coffeeapp.db.RecipeDB;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -381,7 +379,7 @@ public class AddRecipe extends AppCompatActivity {
         dialogBack = backDialogBuilder.create();
         backDialogBuilder
                 .setTitle(R.string.dialog_discard_draft)
-                .setMessage(R.string.dialog_discard_message)
+                .setMessage(R.string.dialog_discard_recipe_message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

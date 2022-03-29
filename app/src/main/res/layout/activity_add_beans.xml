@@ -207,9 +207,9 @@
                             android:id="@+id/ab_blend_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
                             android:text="@string/ab_blend_label"
-                            android:textSize="20sp"
-                            android:layout_marginStart="10dp"/>
+                            android:textSize="20sp" />
 
                         <RadioButton
                             android:id="@+id/ab_single_origin_button"
@@ -220,12 +220,12 @@
                             android:textSize="20sp" />
 
                         <RadioButton
+                            android:id="@+id/ab_blend_origin_unknown"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:id="@+id/ab_blend_origin_unknown"
                             android:text="@string/ab_blend_unknown"
-                            android:textSize="20sp"/>
+                            android:textSize="20sp" />
                     </RadioGroup>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

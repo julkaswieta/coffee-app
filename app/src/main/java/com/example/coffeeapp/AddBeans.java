@@ -464,7 +464,7 @@ public class AddBeans extends AppCompatActivity {
         backDialog = backDialogBuilder.create();
         backDialogBuilder
                 .setTitle(R.string.dialog_discard_draft)
-                .setMessage(R.string.dialog_discard_message)
+                .setMessage(R.string.dialog_discard_beans_message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

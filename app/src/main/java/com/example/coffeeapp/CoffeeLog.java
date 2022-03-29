@@ -33,7 +33,7 @@ public class CoffeeLog extends AppCompatActivity {
     private void initViews() {
         //initialise attributes
         bottomBar = findViewById(R.id.bottom_bar_beans);
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.cc_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
 
         // set the toolbar as the action bar

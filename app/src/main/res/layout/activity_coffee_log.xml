@@ -7,7 +7,7 @@
     tools:context=".CoffeeLog">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/cc_toolbar"
         layout="@layout/toolbar_add" />
 
     <include

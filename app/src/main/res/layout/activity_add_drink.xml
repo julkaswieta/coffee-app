@@ -6,4 +6,452 @@
     android:layout_height="match_parent"
     tools:context=".AddDrink">
 
+    <include android:id="@+id/ad_toolbar"
+        layout="@layout/toolbar_add"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/ad_toolbar"
+        android:id="@+id/ad_source_card_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/drink_source_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ad_drink_source"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_margin="7dp"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_below="@id/drink_source_label">
+
+                <RadioButton
+                    android:id="@+id/shop_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_from_store_tab"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_from_recipe_tab"
+                    android:id="@+id/recipe_rb"/>
+            </RadioGroup>
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/ad_source_card_view"
+        app:layout_constraintBottom_toTopOf="@id/ad_bottom_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        android:id="@+id/from_shop_tab">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Drink data -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp" >
+
+                        <TextView
+                            android:id="@+id/ad_drink_name_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_drink_name_label"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_drink_name_label"
+                            android:hint="@string/ad_drink_name"
+                            android:inputType="textPersonName"
+                            android:textSize="22sp"
+                            android:id="@+id/ad_drink_name"/>
+
+                        <TextView
+                            android:id="@+id/ad_price_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_drink_name"
+                            android:text="@string/ad_price_label"
+                            android:textSize="22sp"
+                            android:layout_margin="7dp"/>
+
+                        <LinearLayout
+                            android:id="@+id/ad_price_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_price_label"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/ad_cost"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/ab_hint_price"
+                                android:inputType="numberDecimal"
+                                android:padding="4dp"
+                                android:textSize="20sp" />
+
+                            <Spinner
+                                android:id="@+id/ad_currency_spinner"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/ad_size_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_price_layout"
+                            android:text="@string/ad_size_label"
+                            android:textSize="22sp"
+                            android:layout_margin="7dp"/>
+
+                        <Spinner
+                            android:id="@+id/ad_size_spinner"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_size_label" />
+
+                        <TextView
+                            android:id="@+id/ad_rating_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="7dp"
+                            android:text="@string/ab_rating_label"
+                            android:textSize="24sp"
+                            android:layout_below="@id/ad_size_spinner"/>
+
+                        <RatingBar
+                            android:id="@+id/ab_rating_bar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ad_rating_label"
+                            android:numStars="5" />
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Shop Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp" >
+
+                        <TextView
+                            android:id="@+id/ad_shop_info_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_shop_info_label"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"/>
+
+                        <TextView
+                            android:id="@+id/ad_shop_name_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_shop_name_label"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"
+                            android:layout_below="@id/ad_shop_info_label"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_shop_name_label"
+                            android:hint="@string/ad_shop_name"
+                            android:inputType="textPersonName"
+                            android:textSize="22sp"
+                            android:id="@+id/ad_shop_name"/>
+
+                        <TextView
+                            android:id="@+id/ad_shop_address_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_shop_address_label"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"
+                            android:layout_below="@id/ad_shop_name"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_shop_address_label"
+                            android:hint="@string/ad_shop_address"
+                            android:inputType="textMultiLine"
+                            android:textSize="22sp"
+                            android:id="@+id/ad_shop_address"
+                            android:maxLines="3"/>
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Shop Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp" >
+
+                        <TextView
+                            android:id="@+id/ad_notes_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_notes_label"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"/>
+
+                        <EditText
+                            android:id="@+id/ad_notes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_notes_label"
+                            android:hint="@string/ad_notes"
+                            android:inputType="textMultiLine"
+                            android:minLines="3" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/ad_source_card_view"
+        app:layout_constraintBottom_toTopOf="@id/ad_bottom_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/from_recipe_tab">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Drink data -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp" >
+
+                        <TextView
+                            android:id="@+id/ad_rec_drink_name_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_drink_name_label"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ad_rec_drink_name_label"
+                            android:hint="@string/ad_drink_name"
+                            android:inputType="textPersonName"
+                            android:textSize="22sp"
+                            android:id="@+id/ad_rec_drink_name"/>
+
+                        <TextView
+                            android:id="@+id/ad_rec_choose_rec_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_rec_choose_recipe"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"
+                            android:layout_below="@id/ad_rec_drink_name"/>
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ad_rec_spinner"
+                            android:layout_below="@id/ad_rec_choose_rec_label"/>
+
+                        <Button
+                            android:id="@+id/ad_new_rec_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New Recipe"
+                            android:layout_marginTop="7dp"
+                            android:layout_below="@id/ad_rec_spinner"/>
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp">
+
+                        <TextView
+                            android:id="@+id/ad_recipe_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ad_recipe_info_label"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_margin="7dp"/>
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/ad_rec_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:hint="@string/rd_rec_name"
+                            android:layout_below="@id/ad_recipe_info"
+                            android:layout_marginStart="7dp"/>
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/ad_rec_beans"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:hint="@string/rd_beans_used"
+                            android:layout_below="@id/ad_rec_name"
+                            android:layout_marginStart="7dp"/>
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/ad_rec_coffee_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:hint="@string/ad_rec_amount"
+                            android:layout_below="@id/ad_rec_beans"
+                            android:layout_marginStart="7dp"/>
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/ad_rec_prep_method"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:hint="@string/ar_prep_method"
+                            android:layout_below="@id/ad_rec_coffee_amount"
+                            android:layout_marginStart="7dp"/>
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/ad_rec_extras"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:hint="@string/ar_extras"
+                            android:layout_below="@id/ad_rec_prep_method"
+                            android:layout_marginStart="7dp"
+                            android:maxLines="3"/>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <GridLayout
+        android:id="@+id/ad_bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/ad_cancel_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="50"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/ad_save_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="50"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/save" />
+    </GridLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
