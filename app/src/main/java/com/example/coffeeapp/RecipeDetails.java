@@ -198,6 +198,9 @@ public class RecipeDetails extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Reloads recipe details
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {

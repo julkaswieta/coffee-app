@@ -110,66 +110,6 @@ public class AddBeans extends AppCompatActivity {
     }
 
     /**
-     * Loads beans data if it's for editing
-     */
-    private void checkAndLoadEditData() {
-        // check if the activity is open to add or edit
-        Intent incomingBeans = getIntent();
-        if (incomingBeans != null) {
-            int beanId = incomingBeans.getIntExtra(BEANS_ID_KEY, -1);
-            if (beanId != -1) {
-                for (Bean b : beansList) {
-                    if (b.getId() == beanId) {
-                        incomingBean = b;
-                        toolbarTitle.setText("Edit beans");
-                        break;
-                    }
-                }
-            }
-        }
-        if (incomingBean != null) {
-            txtBeansName.setText(incomingBean.getName());
-            txtRoasterName.setText(incomingBean.getRoaster());
-            if (incomingBean.getDegreeOfRoast() != 0) {
-                sliderDegreeOfRoast.setValue(incomingBean.getDegreeOfRoast());
-            }
-            checkIsDecaf.setChecked(incomingBean.isDecaf());
-            checkIsFlavoured.setChecked(incomingBean.isFlavoured());
-            if (!incomingBean.getFlavour().isEmpty()) {
-                txtFlavour.setText(incomingBean.getFlavour());
-            }
-            if (incomingBean.isBlend().equals(BLEND)) {
-                blendOption.setChecked(true);
-            } else if (incomingBean.isBlend().equals(SINGLE_ORIGIN)) {
-                singleOriginOption.setChecked(true);
-            } else if (incomingBean.isBlend().equals(UNKNOWN_ORIGIN)) {
-                unknownOriginOption.setChecked(true);
-            }
-            if (!incomingBean.getUrlToShop().isEmpty()) {
-                txtShopUrl.setText(incomingBean.getUrlToShop());
-            }
-            if (incomingBean.getCostPerKg() != 0) {
-                txtPrice.setText(String.valueOf(incomingBean.getCostPerKg()));
-                // set currency
-                for (int i = 0; i < currencies.size(); i++) {
-                    if (currencies.get(i).equals(incomingBean.getCurrency())) {
-                        currencySpinner.setSelection(i);
-                    }
-                }
-            }
-            if (incomingBean.getRating() != 0) {
-                ratingBar.setRating(incomingBean.getRating());
-            }
-            if (!incomingBean.getNotes().isEmpty()) {
-                txtNotes.setText(incomingBean.getNotes());
-            }
-            if(incomingBean.getPhoto() != null) {
-                addPhotoButton.setImageBitmap(incomingBean.getPhoto());
-            }
-        }
-    }
-
-    /**
      * Initialises the whole layout
      */
     private void initViews() {
@@ -300,6 +240,67 @@ public class AddBeans extends AppCompatActivity {
                         }).show();
             }
         });
+    }
+
+    /**
+     * Loads beans data if it's for editing
+     */
+    private void checkAndLoadEditData() {
+        // check if the activity is open to add or edit
+        Intent incomingBeans = getIntent();
+        if (incomingBeans != null) {
+            int beanId = incomingBeans.getIntExtra(BEANS_ID_KEY, -1);
+            if (beanId != -1) {
+                for (Bean b : beansList) {
+                    if (b.getId() == beanId) {
+                        incomingBean = b;
+                        toolbarTitle.setText("Edit beans");
+                        break;
+                    }
+                }
+            }
+        }
+        // load the data
+        if (incomingBean != null) {
+            txtBeansName.setText(incomingBean.getName());
+            txtRoasterName.setText(incomingBean.getRoaster());
+            if (incomingBean.getDegreeOfRoast() != 0) {
+                sliderDegreeOfRoast.setValue(incomingBean.getDegreeOfRoast());
+            }
+            checkIsDecaf.setChecked(incomingBean.isDecaf());
+            checkIsFlavoured.setChecked(incomingBean.isFlavoured());
+            if (!incomingBean.getFlavour().isEmpty()) {
+                txtFlavour.setText(incomingBean.getFlavour());
+            }
+            if (incomingBean.isBlend().equals(BLEND)) {
+                blendOption.setChecked(true);
+            } else if (incomingBean.isBlend().equals(SINGLE_ORIGIN)) {
+                singleOriginOption.setChecked(true);
+            } else if (incomingBean.isBlend().equals(UNKNOWN_ORIGIN)) {
+                unknownOriginOption.setChecked(true);
+            }
+            if (!incomingBean.getUrlToShop().isEmpty()) {
+                txtShopUrl.setText(incomingBean.getUrlToShop());
+            }
+            if (incomingBean.getCostPerKg() != 0) {
+                txtPrice.setText(String.valueOf(incomingBean.getCostPerKg()));
+                // set currency
+                for (int i = 0; i < currencies.size(); i++) {
+                    if (currencies.get(i).equals(incomingBean.getCurrency())) {
+                        currencySpinner.setSelection(i);
+                    }
+                }
+            }
+            if (incomingBean.getRating() != 0) {
+                ratingBar.setRating(incomingBean.getRating());
+            }
+            if (!incomingBean.getNotes().isEmpty()) {
+                txtNotes.setText(incomingBean.getNotes());
+            }
+            if(incomingBean.getPhoto() != null) {
+                addPhotoButton.setImageBitmap(incomingBean.getPhoto());
+            }
+        }
     }
 
     /**

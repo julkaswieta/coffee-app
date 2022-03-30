@@ -44,6 +44,9 @@ public class BeanDetails extends AppCompatActivity {
         loadBeansData();
     }
 
+    /**
+     * initialises the whole layout
+     */
     private void initViews() {
         toolbar = findViewById(R.id.bd_toolbar);
         toolbarTitle = findViewById(R.id.edit_toolbar_title);
@@ -66,6 +69,9 @@ public class BeanDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    /**
+     * loads the bean's data from the received intent
+     */
     private void loadBeansData() {
         // get the recipe from the incoming intent
         Intent incomingBeans = getIntent();
@@ -78,6 +84,7 @@ public class BeanDetails extends AppCompatActivity {
                 }
             }
         }
+        // load data
         txtName.setText(beans.getName());
         DateFormat df = new DateFormat();
         txtDate.setText(df.format("yyyy-MM-dd", beans.getDateAdded()));
@@ -148,6 +155,9 @@ public class BeanDetails extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Reloads the beans data
+     */
     @Override
     protected void onResume() {
         loadBeansData();

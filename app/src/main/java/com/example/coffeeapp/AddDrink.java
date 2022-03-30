@@ -177,6 +177,9 @@ public class AddDrink extends AppCompatActivity {
         recipeSpinnerR.setAdapter(recipeArrayAdapter);
     }
 
+    /**
+     * Defines behaviour of all buttons
+     */
     private void initListeners() {
         recipeSourceGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -230,11 +233,10 @@ public class AddDrink extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
-        // onClickListener for the Save button - create a new recipe object
+        // onClickListener for the Save button - create a new drink object
         saveButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -405,6 +407,9 @@ public class AddDrink extends AppCompatActivity {
         Toast.makeText(this, "Drink " + drink.getDrinkName() + " saved.", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Creates a new DrinkFromRecipe object using data gathered from the views
+     */
     private void createRecipeDrink() {
         DrinkFromRecipe drink = new DrinkFromRecipe();
         CoffeeDatabase db = CoffeeDatabase.getDatabase(AddDrink.this.getApplicationContext());
@@ -513,6 +518,9 @@ public class AddDrink extends AppCompatActivity {
         }
     }
 
+    /**
+     * refreshes the recipe spinner
+     */
     @Override
     protected void onResume() {
         recipeArrayAdapter.notifyDataSetChanged();

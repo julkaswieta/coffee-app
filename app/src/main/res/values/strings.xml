@@ -165,6 +165,7 @@
     <string name="ad_rec_choose_recipe">Choose recipe you used:</string>
     <string name="ad_recipe_info_label">Chosen recipe info:</string>
     <string name="ad_rec_amount">amount of coffee used</string>
+    <string name="title_activity_cafe_finder">CafeFinder</string>
 
 
 </resources>

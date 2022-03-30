@@ -281,6 +281,7 @@ public class AddRecipe extends AppCompatActivity {
                 }
             }
         }
+        // load the data
         if(incomingRecipe != null) {
             recipeName.setText(incomingRecipe.getName());
             for(int i = 0; i < beansList.size(); i++) {
@@ -593,6 +594,9 @@ public class AddRecipe extends AppCompatActivity {
         }
     }
 
+    /**
+     * refreshes the beans spinner
+     */
     @Override
     protected void onResume() {
         beansAdapter.notifyDataSetChanged();

@@ -5,8 +5,10 @@ import static com.example.coffeeapp.CoffeeLog.drinksList;
 import static com.example.coffeeapp.CoffeeLog.loadDrinks;
 import static com.example.coffeeapp.RecipesList.loadRecipes;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.TypedValue;
@@ -17,16 +19,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.coffeeapp.db.CoffeeDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int LOCATION_REQUEST_CODE = 90;
     private BottomNavigationView bottomBar;
     private TextView recipeCount, beansCount;
     private TextView todayCount, weekCount, monthCount, totalCount;
@@ -56,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         initBottomBar();
     }
 
+    /**
+     * Loads all components from the database and updates statistical data displayed
+     */
     private void loadStats() {
         CoffeeDatabase db = CoffeeDatabase.getDatabase(this);
         int recCount = db.recipeDao().getRecipeCount();
@@ -125,6 +136,15 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(coffeeLogIntent);
                     return true;
                 case R.id.map_menu:
+                    // check if the user gave permission to use location
+                    if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        Intent cafeFinderIntent = new Intent(this, CafeFinder.class);
+                        startActivity(cafeFinderIntent);
+                    }
+                    else {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+                    }
+
                     return true;
                 default:
                     Toast.makeText(MainActivity.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
@@ -134,12 +154,34 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setSelectedItemId(R.id.home_menu);
     }
 
+    /**
+     * check if location permissions have been granted, and launch the map if so
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent cafeFinderIntent = new Intent(this, CafeFinder.class);
+                startActivity(cafeFinderIntent);
+            } else {
+                Toast.makeText(this, "Access to location denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * Resets the bottom bar tab selected
+     */
     @Override
     protected void onRestart() {
         super.onRestart();
         bottomBar.setSelectedItemId(R.id.home_menu);
     }
 
+    /**
+     * Reloads the statistics
+     */
     @Override
     protected void onResume() {
         loadStats();

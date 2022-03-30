@@ -5,10 +5,14 @@ import static com.example.coffeeapp.RecipesList.loadRecipes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BeansList extends AppCompatActivity {
+    private static final int LOCATION_REQUEST_CODE = 90;
     static ArrayList<Bean> beansList = new ArrayList<>();
     static List<BeanDB> beansFromDB;
 
@@ -56,39 +61,6 @@ public class BeansList extends AppCompatActivity {
         loadRecipes(db);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        bottomBar.setSelectedItemId(R.id.beans_menu);
-    }
-
-    /**
-     * Adds the menu options to the toolbar
-     * @param menu layout file
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.add_menu, menu);
-        return true;
-    }
-
-
-    /**
-     * Gets the user to the add beans activity to add a new beans
-     * @param item menu item selected
-     * @return if successful
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.add_option) {
-            Intent newBeansIntent = new Intent(this, AddBeans.class);
-            startActivity(newBeansIntent);
-            return true;
-        }
-        return false;
-    }
-
     /**
      * Initialises the whole layout
      */
@@ -99,7 +71,6 @@ public class BeansList extends AppCompatActivity {
         toolbarTitle = findViewById(R.id.toolbar_title);
         beansRecView = findViewById(R.id.beans_rec_view);
         noBeansCard = findViewById(R.id.no_beans_info);
-
 
         // set the toolbar as the action bar
         setSupportActionBar(toolbar);
@@ -133,6 +104,14 @@ public class BeansList extends AppCompatActivity {
                         startActivity(coffeeLogIntent);
                         return true;
                     case R.id.map_menu:
+                        // check if the user gave permission to use location
+                        if(ContextCompat.checkSelfPermission(BeansList.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            Intent cafeFinderIntent = new Intent(BeansList.this, CafeFinder.class);
+                            startActivity(cafeFinderIntent);
+                        }
+                        else {
+                            ActivityCompat.requestPermissions(BeansList.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+                        }
                         return true;
                     default:
                         Toast.makeText(BeansList.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
@@ -141,6 +120,18 @@ public class BeansList extends AppCompatActivity {
             }
         });
         bottomBar.setSelectedItemId(R.id.beans_menu);
+    }
+
+    /**
+     * Initialises the beans recycler view
+     */
+    private void initRecView() {
+        // create a recipe RecView adapter and pass it to the RecView
+        adapter = new BeansRecViewAdapter(this);
+        adapter.setBeans(beansList);
+        beansRecView.setAdapter(adapter);
+        // set layout manager for the RecView - display the items linearly
+        beansRecView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /**
@@ -171,15 +162,6 @@ public class BeansList extends AppCompatActivity {
         }
     }
 
-    private void initRecView() {
-        // create a recipe RecView adapter and pass it to the RecView
-        adapter = new BeansRecViewAdapter(this);
-        adapter.setBeans(beansList);
-        beansRecView.setAdapter(adapter);
-        // set layout manager for the RecView - display the items linearly
-        beansRecView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
     /**
      * Creates a new Bean object from the supplied BeanDB object
      * @param bDB   Bean from the DB
@@ -203,6 +185,57 @@ public class BeansList extends AppCompatActivity {
         b.setNotes(bDB.notes);
         b.setPhoto(bDB.image);
         return b;
+    }
+
+    /**
+     * check if location permissions have been granted, and launch the map if so
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent cafeFinderIntent = new Intent(this, CafeFinder.class);
+                startActivity(cafeFinderIntent);
+            } else {
+                Toast.makeText(this, "Access to location denied. Allow it from settings.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * Adds the menu options to the toolbar
+     * @param menu layout file
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_menu, menu);
+        return true;
+    }
+
+    /**
+     * Gets the user to the add beans activity to add a new beans
+     * @param item menu item selected
+     * @return if successful
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add_option) {
+            Intent newBeansIntent = new Intent(this, AddBeans.class);
+            startActivity(newBeansIntent);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Resets the bottom bar to the correct tab selected
+     */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        bottomBar.setSelectedItemId(R.id.beans_menu);
     }
 
     /**
