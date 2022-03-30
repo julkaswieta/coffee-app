@@ -59,7 +59,7 @@ public class CoffeeLog extends AppCompatActivity {
         }
     }
 
-    private static void loadDrinks(CoffeeDatabase db) {
+    public static void loadDrinks(CoffeeDatabase db) {
         recipeDrinksDB = db.recipeDrinkDao().getAllRecipeDrinks();
         if(drinksList.size() < 1) {
             for (RecipeDrinkDB drinkDB : recipeDrinksDB) {

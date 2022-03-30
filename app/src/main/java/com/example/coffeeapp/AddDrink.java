@@ -445,6 +445,12 @@ public class AddDrink extends AppCompatActivity {
         drinkDB.amountOfCoffeeUsed = drink.getAmountOfCoffeeUsed();
         drinkDB.prepMethodUsed = drink.getPrepMethodUsed();
         drinkDB.extrasUsed = drink.getExtrasUsed();
+        if(drink.getDrinkPhoto() != null) {
+            drinkDB.drinkPhoto = drink.getDrinkPhoto();
+        }
+        else {
+            drinkDB.drinkPhoto = null;
+        }
         recipeDrinksDB.add(drinkDB);
         db.recipeDrinkDao().insertRecipeDrink(drinkDB);
         Toast.makeText(this, "Drink " + drink.getDrinkName() + " saved.", Toast.LENGTH_SHORT).show();

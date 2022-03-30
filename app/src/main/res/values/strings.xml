@@ -131,6 +131,14 @@
     <string name="home_no_beans_added">No beans</string>
     <string name="coffee_recipe_image">Recipe image</string>
     <string name="coffee_beans_image">Beans image</string>
+    <string name="home_track_cups">Track your cups</string>
+    <string name="today">Today</string>
+    <string name="week">This week</string>
+    <string name="month">This month</string>
+    <string name="total">Total</string>
+    <string name="cups_drank">cups drank:</string>
+    <string name="enjoy">enjoy your</string>
+
 
     <string name="no_beans">No beans added so far! Tap the + icon in the top right corner to add new beans.</string>
     <string name="no_recipes">No recipes added so far! Tap the + icon in the top right corner to add a new recipe.</string>

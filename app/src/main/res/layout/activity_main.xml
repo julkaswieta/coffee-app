@@ -4,115 +4,371 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:padding="7dp">
+    android:padding="7dp"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/home_overview_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="26sp"
-        android:padding="7dp"
         android:layout_marginTop="10dp"
+        android:padding="7dp"
         android:text="@string/home_welcome_label"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <GridLayout
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar_main"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/home_overview_label">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="8dp"
-            android:layout_columnWeight="2">
-            <RelativeLayout
+            android:orientation="vertical">
+
+            <GridLayout
+                android:id="@+id/rec_bean_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="7dp">
+                android:columnCount="2"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/home_overview_label">
 
-                <TextView
-                    android:id="@+id/home_recipes_label"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/home_recipes_added_label"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_columnWeight="2"
+                    android:layout_margin="7dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
 
-                <ImageView
-                    android:id="@+id/home_recipe_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_below="@id/home_recipes_label"
-                    android:contentDescription="@string/coffee_recipe_image"
-                    android:src="@mipmap/coffee_recipe" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp">
 
-                <TextView
-                    android:layout_below="@id/home_recipe_image"
-                    android:id="@+id/home_recipe_count"
-                    android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/home_recipes_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/home_recipes_added_label"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/home_recipe_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_below="@id/home_recipes_label"
+                            android:contentDescription="@string/coffee_recipe_image"
+                            android:src="@mipmap/coffee_recipe" />
+
+                        <TextView
+                            android:id="@+id/home_recipe_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/home_recipe_image"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/home_no_recipes_added"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/home_no_recipes_added"
-                    android:textSize="26sp"
-                    android:textStyle="bold"/>
+                    android:layout_columnWeight="2"
+                    android:layout_margin="7dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="8dp">
 
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="8dp"
-            android:layout_columnWeight="2">
-            <RelativeLayout
+                        <TextView
+                            android:id="@+id/home_beans_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/home_beans_added_label"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/home_beans_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_below="@id/home_beans_label"
+                            android:contentDescription="@string/coffee_beans_image"
+                            android:src="@mipmap/coffee_beans" />
+
+                        <TextView
+                            android:id="@+id/home_beans_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/home_beans_image"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/home_no_beans_added"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </GridLayout>
+
+            <TextView
+                android:id="@+id/home_track_cups_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="7dp">
+                android:layout_marginTop="10dp"
+                android:paddingStart="7dp"
+                android:text="@string/home_track_cups"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/rec_bean_grid" />
 
-                <TextView
-                    android:id="@+id/home_beans_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_beans_added_label"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:layout_centerHorizontal="true"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="2"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
 
-                <ImageView
-                    android:id="@+id/home_beans_image"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/today_parent_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_below="@id/home_beans_label"
-                    android:contentDescription="@string/coffee_beans_image"
-                    android:src="@mipmap/coffee_beans" />
-                <TextView
-                    android:layout_below="@id/home_beans_image"
-                    android:id="@+id/home_beans_count"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/home_no_beans_added"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
-                    android:layout_centerHorizontal="true"/>
+                    android:padding="7dp">
 
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/today"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/today_count"
+                        app:layout_constraintStart_toStartOf="@id/today_parent_layout"
+                        app:layout_constraintTop_toTopOf="@+id/today_count" />
 
-    </GridLayout>
-    
+                    <TextView
+                        android:id="@+id/today_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="0"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@id/today_parent_layout"
+                        app:layout_constraintTop_toTopOf="@id/today_parent_layout" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/today_count"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/cups_drank"
+                        android:textSize="26sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/today_count"
+                        app:layout_constraintEnd_toStartOf="@id/today_count"
+                        app:layout_constraintTop_toTopOf="@+id/today_count" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="2"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/week_parent_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/week"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/week_count"
+                        app:layout_constraintStart_toStartOf="@id/week_parent_layout"
+                        app:layout_constraintTop_toTopOf="@+id/week_count" />
+
+                    <TextView
+                        android:id="@+id/week_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="0"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@id/week_parent_layout"
+                        app:layout_constraintTop_toTopOf="@id/week_parent_layout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/week_count"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/cups_drank"
+                        android:textSize="26sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/week_count"
+                        app:layout_constraintEnd_toStartOf="@id/week_count"
+                        app:layout_constraintTop_toTopOf="@+id/week_count" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="2"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/month_parent_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/month"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/month_count"
+                        app:layout_constraintStart_toStartOf="@id/month_parent_layout"
+                        app:layout_constraintTop_toTopOf="@+id/month_count" />
+
+                    <TextView
+                        android:id="@+id/month_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="0"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@id/month_parent_layout"
+                        app:layout_constraintTop_toTopOf="@id/month_parent_layout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/month_count"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/cups_drank"
+                        android:textSize="26sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/month_count"
+                        app:layout_constraintEnd_toStartOf="@id/month_count"
+                        app:layout_constraintTop_toTopOf="@+id/month_count" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="2"
+                android:layout_margin="7dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/total_parent_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/total"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/total_count"
+                        app:layout_constraintStart_toStartOf="@id/total_parent_layout"
+                        app:layout_constraintTop_toTopOf="@+id/total_count" />
+
+                    <TextView
+                        android:id="@+id/total_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="0"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@id/total_parent_layout"
+                        app:layout_constraintTop_toTopOf="@id/total_parent_layout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/total_count"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/cups_drank"
+                        android:textSize="26sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/total_count"
+                        app:layout_constraintEnd_toStartOf="@id/total_count"
+                        app:layout_constraintTop_toTopOf="@+id/total_count" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar_main"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline2">
+
+        <TextView
+            android:id="@+id/enjoy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enjoy"
+            android:textSize="18sp"
+            android:paddingEnd="20dp"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_alignEnd="@id/enjoy"
+            android:src="@mipmap/coffee_cup_logo"/>
+    </RelativeLayout>
 
     <include
         android:id="@+id/bottom_bar_main"
@@ -122,5 +378,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_begin="195dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
