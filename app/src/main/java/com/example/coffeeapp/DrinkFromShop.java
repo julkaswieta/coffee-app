@@ -1,5 +1,9 @@
 package com.example.coffeeapp;
 
+/**
+ * Represents a drink bought at a coffee shop
+ * extends from drink
+ */
 public class DrinkFromShop extends Drink {
     public static int idCounterS = 0;
 

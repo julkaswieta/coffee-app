@@ -22,6 +22,10 @@ import android.widget.TextView;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Logic for BeanDetails
+ * Displays details on a recipe object in suitableviews
+ */
 public class RecipeDetails extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView toolbarTitle;

@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 
 import java.util.Date;
 
+/**
+ * Represents a Bean object and all its details
+ */
 public class Bean {
     public static int idCounter = 0;
 

@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 /**
- * Class that deals with recipes added by the user
+ * Represents recipes added by the user
  */
 public class Recipe {
     public static int idCounter = 0;

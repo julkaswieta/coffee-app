@@ -30,6 +30,9 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Resposible for the BeansList activity and loading beans from the database
+ */
 public class BeansList extends AppCompatActivity {
     private static final int LOCATION_REQUEST_CODE = 90;
     static ArrayList<Bean> beansList = new ArrayList<>();

@@ -50,6 +50,11 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Date;
 
+/**
+ * AddRecipe activity that creates new Recipe objects and persists them in the database
+ * or edits already existing ones
+ * Logic for AddRecipe activity
+ */
 public class AddRecipe extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 5;
     private static final int CAMERA_REQUEST_CODE = 6;

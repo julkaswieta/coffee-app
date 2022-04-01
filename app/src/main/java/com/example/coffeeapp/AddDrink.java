@@ -54,6 +54,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * AddDrink activity that creates new Drink objects and persists them in the db
+ * or edits already existing ones
+ * Logic for AddDriknk activity
+ */
 public class AddDrink extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 5;
     private static final int CAMERA_REQUEST_CODE = 6;

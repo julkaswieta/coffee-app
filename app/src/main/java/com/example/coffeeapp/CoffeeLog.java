@@ -31,6 +31,10 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CoffeeLog activity that displays a list of all drinks in a chronological order and loads drinks from the database
+ * Logic for coffeelog activity
+ */
 public class CoffeeLog extends AppCompatActivity {
     private static final int LOCATION_REQUEST_CODE = 91;
     static ArrayList<Drink> drinksList = new ArrayList<>();

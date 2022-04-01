@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * A recycler view adapter for Beans objects - used in BeansList
+ */
 public class BeansRecViewAdapter extends RecyclerView.Adapter<BeansRecViewAdapter.ViewHolder>{
     private ArrayList<Bean> beans = new ArrayList<>();
     private Context context;

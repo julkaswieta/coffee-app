@@ -20,6 +20,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+/**
+ * Logic for BeanDetails activity
+ * Displays details of a bean object in suitable views
+ */
 public class BeanDetails extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView toolbarTitle;

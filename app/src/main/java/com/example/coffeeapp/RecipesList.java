@@ -30,6 +30,10 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Logic for RecipesList activity
+ * Displays a list of all recipes added and loads recipes from the database
+ */
 public class RecipesList extends AppCompatActivity {
     private static final int LOCATION_REQUEST_CODE = 90;
     static ArrayList<Recipe> recipesList = new ArrayList<>();

@@ -49,6 +49,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * AddBeans activity that creates new Bean objects and persists them in the database
+ * or edits already existing ones
+ * Logic for AddBeans activity
+ */
 public class AddBeans extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 5;
     private static final int CAMERA_REQUEST_CODE = 6;

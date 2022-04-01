@@ -34,6 +34,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+/**
+ * Recycler view adapter for drink objects - used in coffeeLog
+ */
 public class DrinksRecViewAdapter extends RecyclerView.Adapter<DrinksRecViewAdapter.ViewHolder> {
     private ArrayList<Drink> drinks = new ArrayList<>();
     private Context context;

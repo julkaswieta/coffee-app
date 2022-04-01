@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 
 import java.util.Date;
 
+/**
+ * Represents a generic drink object
+ */
 public abstract class Drink {
     private int id;
     private String drinkName;

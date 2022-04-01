@@ -19,6 +19,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.coffeeapp.databinding.ActivityCafeFinderBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+/**
+ * Cafe Finder activity - displays a map and a fixed location
+ */
 public class CafeFinder extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;

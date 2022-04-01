@@ -2,6 +2,10 @@ package com.example.coffeeapp;
 
 import android.graphics.Bitmap;
 
+/**
+ * Represents a drink made from a recipe
+ * extends from a Drink
+ */
 public class DrinkFromRecipe extends Drink {
     public static int idCounterR = 0;
 

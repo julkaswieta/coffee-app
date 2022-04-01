@@ -33,6 +33,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Home screen - main activity
+ * loads all beans, recipes and drinks to provide statistics on them
+ * Logic for mainActivity
+ */
 public class MainActivity extends AppCompatActivity {
     private static final int LOCATION_REQUEST_CODE = 90;
     private BottomNavigationView bottomBar;
